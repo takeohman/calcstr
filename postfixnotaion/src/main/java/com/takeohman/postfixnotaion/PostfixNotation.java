@@ -67,7 +67,7 @@ public class PostfixNotation {
     /**
      * 中置き記法の計算問題を計算する
      * @param problemStr 式 (ex. "1 + 2")
-     * @return 答え (ex. "3")
+     * @return 答え (ex. "3", "": 入力可能だが計算不可能な場合, null:入力不可能文字が入力された場合)
      */
     public String calcInfixStr(String problemStr){
 
@@ -76,10 +76,10 @@ public class PostfixNotation {
             return this.calcInfixProblemStrList(pbmStrObjList);
         } catch (StackUser.NoElementException ex) {
             //想定内
-            return "";
+            return null;
         } catch (StringSplitter.InvalidElementOrderException ex){
             //想定内
-            return "";
+            return null;
         } catch (Exception ex) {
             //想定外
             return "";
