@@ -1,5 +1,6 @@
 package com.takeohman.postfixnotaion;
 
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,11 +12,13 @@ import java.util.regex.Pattern;
 class StringSplitter {
 
     private final String splitPattern =
-            "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=\\()[-][0-9]+|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
-
+//            "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=\\()[-][0-9]+|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
+        "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
     StringSplitter(){}
 
     class InvalidElementOrderException extends RuntimeException{}
+    class InvalidBracketCountException extends RuntimeException{}
+    class LeftBracketOnlyException extends RuntimeException{}
     /**
      * 正規表現で分割した結果をMatcherとして返す
      * @param problemStr 計算問題の文字列
@@ -43,9 +46,19 @@ class StringSplitter {
 
         int index = 0;
         ProblemStrElement prevElement = null;
+        int bracket_count_l = 0;
+        int bracket_count_r = 0;
+
         while(mat.find()){
             String matchedString = mat.group(1);
             ProblemStrElement matchedElement = new ProblemStrElement(matchedString);
+
+            //
+            if (matchedElement.isLeftBracket()){
+                bracket_count_l++;
+            } else if (matchedElement.isRightBracket()){
+                bracket_count_r++;
+            }
 
             if (prevElement != null){
                 /*
@@ -87,12 +100,21 @@ class StringSplitter {
                 else if (prevElement.isMinusOperator() && matchedElement.isPlusOperator()){
                     throw new InvalidElementOrderException();
                 }
+                else if (prevElement.isLeftBracket() && matchedElement.isRightBracket()){
+                    throw new InvalidElementOrderException();
+                }
             }
             prevElement = matchedElement;
             matchedElement.setIndex(index);
             problemStrElementObjList.add(matchedElement);
             index++;
         }
+        if (bracket_count_l < bracket_count_r){
+            throw new InvalidBracketCountException();
+        } else if (bracket_count_l == problemStrElementObjList.size()){
+            throw new LeftBracketOnlyException();
+        }
+
         return this.postCheck(problemStrElementObjList);
     }
 

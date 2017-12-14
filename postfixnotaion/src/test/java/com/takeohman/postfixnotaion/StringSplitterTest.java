@@ -136,6 +136,18 @@ public class StringSplitterTest {
         e5.add("-3");
         assertEquals(e5, l1);
 
+        // 2 * -2
+        temp = splitter.getProblemStrObjListFromStr("2*-2");
+        l1 = new ArrayList<>();
+        for(int i = 0; i < temp.size(); i++){
+            l1.add(temp.get(i).str);
+        }
+        e5 = new ArrayList<>();
+        e5.add("2");
+        e5.add("*");
+        e5.add("-2");
+        assertEquals(e5, l1);
+
         /*
         +3は、正規表現で-3と同じように+3として取り出すこともできるが
         最終的には"+"を取り除くことを考えると別々の要素とした方がよいと判断した。

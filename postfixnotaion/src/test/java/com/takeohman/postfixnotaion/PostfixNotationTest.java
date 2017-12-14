@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by takeoh on 2017/08/15.
@@ -186,22 +187,22 @@ public class PostfixNotationTest {
         ans = pn.calcInfixStr("1---1");
         assertEquals(expected, ans);
 
-        expected = null;
-        ans = pn.calcInfixStr("1-+1");
-        assertEquals(expected, ans);
 
-        expected = "0.6";
+        ans = pn.calcInfixStr("1-+1");
+        assertNull(ans);
+
+        ans = pn.calcInfixStr("2*-2");
+        assertEquals("-4", ans);
+
         ans = pn.calcInfixStr("0.3 + 0.3");
-        assertEquals(expected, ans);
+        assertEquals("0.6", ans);
 
         // ^([-][0-9]+[.]?[0-9]+)
-        expected = "-0.6";
         ans = pn.calcInfixStr("-0.3 - 0.3");
-        assertEquals(expected, ans);
+        assertEquals("-0.6", ans);
 
-        expected = "0";
         ans = pn.calcInfixStr("+");
-        assertEquals(expected, ans);
+        assertEquals("0", ans);
 
         expected = "1";
         ans = pn.calcInfixStr("*");
@@ -374,9 +375,9 @@ public class PostfixNotationTest {
         ans = pn.calcInfixStr("((3)(4)(5))");
         assertEquals(expected, ans);
 
-        expected = "60";
+
         ans = pn.calcInfixStr("((3)(4))(5))");
-        assertEquals(expected, ans);
+        assertNull(ans);
 
         expected = "6";
         ans = pn.calcInfixStr("3((2))");
@@ -422,6 +423,19 @@ public class PostfixNotationTest {
         Assert.assertNull(ans);
 
         ans = pn.calcInfixStr("()");
+        Assert.assertNull(ans);
+
+        ans = pn.calcInfixStr("2-+");
+        Assert.assertNull(ans);
+
+
+        ans = pn.calcInfixStr("((");
+        Assert.assertEquals("", ans);
+
+        ans = pn.calcInfixStr(")");
+        Assert.assertNull(ans);
+
+        ans = pn.calcInfixStr(")(");
         Assert.assertNull(ans);
     }
 }

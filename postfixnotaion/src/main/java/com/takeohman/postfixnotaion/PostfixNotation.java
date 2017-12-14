@@ -77,9 +77,13 @@ public class PostfixNotation {
         } catch (StackUser.NoElementException ex) {
             //想定内
             return null;
-        } catch (StringSplitter.InvalidElementOrderException ex){
+        } catch (StringSplitter.InvalidElementOrderException ex) {
             //想定内
             return null;
+        } catch (StringSplitter.InvalidBracketCountException ex) {
+            return null;
+        } catch (StringSplitter.LeftBracketOnlyException ex){
+            return "";
         } catch (Exception ex) {
             //想定外
             return "";
