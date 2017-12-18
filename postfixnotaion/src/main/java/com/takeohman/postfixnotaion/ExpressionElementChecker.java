@@ -75,4 +75,16 @@ class ExpressionElementChecker {
             return false;
         }
     }
+
+    /**
+     * 与えられた文字（列）が小数点を含む数値かどうかを判定する
+     * @param num
+     * @return
+     */
+    boolean isDecimalNumber(String num){
+        if (this.isNumber(num)){
+            return num.contains(".");
+        }
+        return false;
+    }
 }

@@ -52,6 +52,9 @@ class ProblemStrElement {
         return this.ec.isNumber(this.str);
     }
 
+    boolean isDecimalNumber(){
+        return this.ec.isDecimalNumber(this.str);
+    }
     /**
      * 文字の優先順位を返す
      * @return int
@@ -143,4 +146,6 @@ class ProblemStrElement {
 
 
     boolean isFunction() { return this.ec.isFunction(this.str);}
+
+    boolean isPeriodStr(){ return this.str.equals(".");}
 }

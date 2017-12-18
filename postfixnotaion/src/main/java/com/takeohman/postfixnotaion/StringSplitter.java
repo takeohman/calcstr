@@ -13,7 +13,8 @@ class StringSplitter {
 
     private final String splitPattern =
 //            "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=\\()[-][0-9]+|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
-        "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
+//        "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
+          "(^[-][0-9]*[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|[0-9]*[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
     StringSplitter(){}
 
     class InvalidElementOrderException extends RuntimeException{}
@@ -96,6 +97,13 @@ class StringSplitter {
                 else if (prevElement.isPlusOperator() && matchedElement.isMinusOperator()){
                     prevElement.str = "-";
                     continue;
+                }
+                else if (prevElement.isPeriodStr() && matchedElement.isNumber()){
+                    // ".123"のような場合に"."と"123"に分けられ"."が単独で現れる。
+                    // この時、後者には"0."をつけて小数として扱う。
+                    if (!matchedElement.isDecimalNumber()){
+                        matchedElement.str = "0." + matchedElement.str;
+                    }
                 }
                 else if (prevElement.isMinusOperator() && matchedElement.isPlusOperator()){
                     throw new InvalidElementOrderException();
