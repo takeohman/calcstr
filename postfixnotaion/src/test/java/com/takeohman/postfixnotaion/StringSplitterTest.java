@@ -11,6 +11,18 @@ import static org.junit.Assert.assertEquals;
  */
 public class StringSplitterTest {
 
+    /**
+     *
+     * @param temp
+     * @return
+     */
+    ArrayList<String> getStrList(ArrayList<ProblemStrElement> temp) {
+        ArrayList<String> strList = new ArrayList<>();
+        for(int i = 0; i < temp.size(); i++){
+            strList.add(temp.get(i).str);
+        }
+        return strList;
+    }
     @Test
     public void getProblemStrObjListFromStr() throws Exception {
         StringSplitter splitter = new StringSplitter();
@@ -31,10 +43,8 @@ public class StringSplitterTest {
         assertEquals(e1, l1);
 
         temp = splitter.getProblemStrObjListFromStr("(1 + 2) * (2 + 3) ");
-        l1 = new ArrayList<>();
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
+
+        l1 = this.getStrList(temp);
         ArrayList<String> e2 = new ArrayList<>();
         e2.add("(");
         e2.add("1");
@@ -50,11 +60,8 @@ public class StringSplitterTest {
         assertEquals(e2, l1);
 
         temp = splitter.getProblemStrObjListFromStr("(1 + 2) * (2 + 3) + 0.789");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         ArrayList<String> e3 = new ArrayList<>();
         e3.add("(");
         e3.add("1");
@@ -72,11 +79,8 @@ public class StringSplitterTest {
         assertEquals(e3, l1);
 
         temp = splitter.getProblemStrObjListFromStr("-2(-2 - 1)-1-(-2)");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         ArrayList<String> e4 = new ArrayList<>();
 
         e4.add("-2");
@@ -99,11 +103,8 @@ public class StringSplitterTest {
         N! の表記も対応してみたいので分割できるようにしておく
          */
         temp = splitter.getProblemStrObjListFromStr("3! + 4!");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         ArrayList<String> e5 = new ArrayList<>();
 
         e5.add("3");
@@ -114,11 +115,8 @@ public class StringSplitterTest {
         assertEquals(e5, l1);
 
         temp = splitter.getProblemStrObjListFromStr("1 - - 1");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         e5 = new ArrayList<>();
         e5.add("1");
         e5.add("+");
@@ -127,25 +125,59 @@ public class StringSplitterTest {
 
 
         temp = splitter.getProblemStrObjListFromStr("-3");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         e5 = new ArrayList<>();
         e5.add("-3");
         assertEquals(e5, l1);
 
         // 2 * -2
         temp = splitter.getProblemStrObjListFromStr("2*-2");
-        l1 = new ArrayList<>();
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
+        l1 = this.getStrList(temp);
+
         e5 = new ArrayList<>();
         e5.add("2");
         e5.add("*");
         e5.add("-2");
+        assertEquals(e5, l1);
+
+        // 2 / -2
+        temp = splitter.getProblemStrObjListFromStr("2/-2");
+        l1 = this.getStrList(temp);
+
+        e5 = new ArrayList<>();
+        e5.add("2");
+        e5.add("/");
+        e5.add("-2");
+        assertEquals(e5, l1);
+
+        // 1.23.4
+        temp = splitter.getProblemStrObjListFromStr("1.23.4");
+        l1 = this.getStrList(temp);
+
+        e5 = new ArrayList<>();
+        e5.add("1.23");
+        e5.add("*");
+        e5.add(".4");
+        assertEquals(e5, l1);
+
+        // 1.23.4
+        temp = splitter.getProblemStrObjListFromStr(".123");
+        l1 = this.getStrList(temp);
+
+        e5 = new ArrayList<>();
+        e5.add(".123");
+        assertEquals(e5, l1);
+
+        // 1.23.4
+        temp = splitter.getProblemStrObjListFromStr(".1.23.4");
+        l1 = this.getStrList(temp);
+        e5 = new ArrayList<>();
+        e5.add(".1");
+        e5.add("*");
+        e5.add(".23");
+        e5.add("*");
+        e5.add(".4");
         assertEquals(e5, l1);
 
         /*
@@ -153,22 +185,16 @@ public class StringSplitterTest {
         最終的には"+"を取り除くことを考えると別々の要素とした方がよいと判断した。
          */
         temp = splitter.getProblemStrObjListFromStr("+3");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         e5 = new ArrayList<>();
         e5.add("+");
         e5.add("3");
         assertEquals(e5, l1);
 
         temp = splitter.getProblemStrObjListFromStr("tan(3)");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         e5 = new ArrayList<>();
         e5.add("tan");
         e5.add("(");
@@ -177,11 +203,8 @@ public class StringSplitterTest {
         assertEquals(e5, l1);
 
         temp = splitter.getProblemStrObjListFromStr("1 + tan(3)");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         e5 = new ArrayList<>();
         e5.add("1");
         e5.add("+");
@@ -192,11 +215,8 @@ public class StringSplitterTest {
         assertEquals(e5, l1);
 
         temp = splitter.getProblemStrObjListFromStr("1 - tan(3)");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         e5 = new ArrayList<>();
         e5.add("1");
         e5.add("-");
@@ -207,11 +227,8 @@ public class StringSplitterTest {
         assertEquals(e5, l1);
 
         temp = splitter.getProblemStrObjListFromStr("1 * tan(3)");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         e5 = new ArrayList<>();
         e5.add("1");
         e5.add("*");
@@ -222,11 +239,8 @@ public class StringSplitterTest {
         assertEquals(e5, l1);
 
         temp = splitter.getProblemStrObjListFromStr("3 / tan(3)");
-        l1 = new ArrayList<>();
+        l1 = this.getStrList(temp);
 
-        for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
-        }
         e5 = new ArrayList<>();
         e5.add("3");
         e5.add("/");

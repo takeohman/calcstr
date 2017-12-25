@@ -98,6 +98,7 @@ class StringCalculator {
                 return this.subtract(strA,strB);
             case "*":
             case "×":
+            case ".":
                 return this.multiply(strA,strB);
             case "/":
             case "÷":

@@ -19,6 +19,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+//    http://tools.android.com/tech-docs/unit-testing-support#TOC-Method-...-not-mocked.-
     testOptions {
         unitTests.returnDefaultValues = true
     }

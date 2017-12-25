@@ -13,7 +13,8 @@ class StringSplitter {
 
     private final String splitPattern =
 //            "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=\\()[-][0-9]+|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
-        "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
+//        "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
+          "(^[-][0-9]*[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|[0-9]*[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
     StringSplitter(){}
 
     class InvalidElementOrderException extends RuntimeException{}
@@ -68,13 +69,15 @@ class StringSplitter {
                 4. ...!*7...
                 5. ...!*(...
                 6. ...7*tan...
+                7. ...7*.123
                  */
                 if ((prevElement.isRightBracket() && matchedElement.isLeftBracket()) ||
                         (prevElement.isRightBracket() && matchedElement.isNumber()) ||
                         (prevElement.isNumber() && matchedElement.isLeftBracket()) ||
                         (prevElement.isExclamation() && matchedElement.isNumber()) ||
                         (prevElement.isExclamation() && matchedElement.isLeftBracket()) ||
-                        (prevElement.isNumber() && matchedElement.isFunction())
+                        (prevElement.isNumber() && matchedElement.isFunction()) ||
+                        (prevElement.isNumber() && matchedElement.isIncompleteDecimal())
                         )
                 {
                     problemStrElementObjList.add(new ProblemStrElement(index, "*"));
@@ -86,6 +89,7 @@ class StringSplitter {
                    |  +   |    -    |    -    |
                    |  +   |    +    |    +    |
                    |  -   |    +    |Exception|
+                   |  (   |    )    |Exception|
 
                  */
                 else if (prevElement.isMinusOperator() && matchedElement.isMinusOperator() ||

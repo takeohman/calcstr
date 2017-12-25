@@ -410,6 +410,14 @@ public class PostfixNotationTest {
         ans = pn.calcInfixStr("-3(-2)");
         assertEquals(expected, ans);
 
+        expected = "0.492";
+        ans = pn.calcInfixStr("1.23.4");
+        assertEquals(expected, ans);
+
+        expected = "0.0092";
+        ans = pn.calcInfixStr(".1.23.4");
+        assertEquals(expected, ans);
+
 
         // ========== ========== ========== ========== ==========
         //
