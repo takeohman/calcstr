@@ -55,6 +55,10 @@ class ProblemStrElement {
     boolean isDecimalNumber(){
         return this.ec.isDecimalNumber(this.str);
     }
+
+    boolean isIncompleteDecimal(){
+        return this.ec.isIncompleteDecimal(this.str);
+    }
     /**
      * 文字の優先順位を返す
      * @return int

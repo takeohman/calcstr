@@ -1,5 +1,8 @@
 package com.takeohman.postfixnotaion;
 
+import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
+import com.takeohman.postfixnotaion.checker.NumericChecker;
+
 import java.util.Arrays;
 
 /**
@@ -15,6 +18,13 @@ class ExpressionElementChecker {
     private static final int PRIORITY_6 = 0;
     private static final int PRIORITY_7 = -1;
     private static final int PRIORITY_8 = -2;
+
+    protected NumericChecker numericChecker;
+
+    ExpressionElementChecker(){
+        this.numericChecker = new BigDecimalNumericChecker();
+    }
+
     /**
      * 与えられた文字列の優先順位を返す。戻り値が大きい方が優先度高。
      * @param val 文字列
@@ -68,12 +78,7 @@ class ExpressionElementChecker {
      * @return boolean
      */
     boolean isNumber(String num) {
-        try {
-            Float.parseFloat(num);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+        return this.numericChecker.isNumeric(num);
     }
 
     /**
@@ -86,5 +91,9 @@ class ExpressionElementChecker {
             return num.contains(".");
         }
         return false;
+    }
+
+    boolean isIncompleteDecimal(String num){
+        return this.numericChecker.isIncompleteDecimal(num);
     }
 }

@@ -69,13 +69,15 @@ class StringSplitter {
                 4. ...!*7...
                 5. ...!*(...
                 6. ...7*tan...
+                7. ...7*.123
                  */
                 if ((prevElement.isRightBracket() && matchedElement.isLeftBracket()) ||
                         (prevElement.isRightBracket() && matchedElement.isNumber()) ||
                         (prevElement.isNumber() && matchedElement.isLeftBracket()) ||
                         (prevElement.isExclamation() && matchedElement.isNumber()) ||
                         (prevElement.isExclamation() && matchedElement.isLeftBracket()) ||
-                        (prevElement.isNumber() && matchedElement.isFunction())
+                        (prevElement.isNumber() && matchedElement.isFunction()) ||
+                        (prevElement.isNumber() && matchedElement.isIncompleteDecimal())
                         )
                 {
                     problemStrElementObjList.add(new ProblemStrElement(index, "*"));
@@ -87,6 +89,7 @@ class StringSplitter {
                    |  +   |    -    |    -    |
                    |  +   |    +    |    +    |
                    |  -   |    +    |Exception|
+                   |  (   |    )    |Exception|
 
                  */
                 else if (prevElement.isMinusOperator() && matchedElement.isMinusOperator() ||
@@ -97,13 +100,6 @@ class StringSplitter {
                 else if (prevElement.isPlusOperator() && matchedElement.isMinusOperator()){
                     prevElement.str = "-";
                     continue;
-                }
-                else if (prevElement.isPeriodStr() && matchedElement.isNumber()){
-                    // ".123"のような場合に"."と"123"に分けられ"."が単独で現れる。
-                    // この時、後者には"0."をつけて小数として扱う。
-                    if (!matchedElement.isDecimalNumber()){
-                        matchedElement.str = "0." + matchedElement.str;
-                    }
                 }
                 else if (prevElement.isMinusOperator() && matchedElement.isPlusOperator()){
                     throw new InvalidElementOrderException();

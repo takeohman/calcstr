@@ -157,6 +157,7 @@ public class StringSplitterTest {
 
         e5 = new ArrayList<>();
         e5.add("1.23");
+        e5.add("*");
         e5.add(".4");
         assertEquals(e5, l1);
 
@@ -173,7 +174,9 @@ public class StringSplitterTest {
         l1 = this.getStrList(temp);
         e5 = new ArrayList<>();
         e5.add(".1");
+        e5.add("*");
         e5.add(".23");
+        e5.add("*");
         e5.add(".4");
         assertEquals(e5, l1);
 
