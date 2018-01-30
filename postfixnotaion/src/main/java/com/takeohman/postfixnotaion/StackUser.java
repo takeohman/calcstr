@@ -9,12 +9,14 @@ import java.util.Stack;
 
 class StackUser{
     private StringCalculator sc;
+    private TokenValueChecker ec;
     private Stack<TokenElement> numericStack;
     private Stack<TokenElement> operatorStack;
     StackUser(StringCalculator sc, Stack<TokenElement> numericStack, Stack<TokenElement> operatorStack){
         this.numericStack = numericStack;
         this.operatorStack = operatorStack;
         this.sc = sc;
+        this.ec = new TokenValueChecker();
     }
     class NoElementException extends RuntimeException{}
     /**
@@ -46,7 +48,7 @@ class StackUser{
 
             if (pbm.isExclamation()){
                 BigDecimal fcAns = this.sc.factorial(numericStack.pop().str);
-                numericStack.push(new TokenElement(pbm.index, fcAns.toString()));
+                numericStack.push(new TokenElement(this.ec, pbm.index, fcAns.toString()));
                 return;
             }
             if (operatorStack.size() <= 0){
@@ -74,7 +76,7 @@ class StackUser{
                 _a = this.sc.log10(_num.str);
             }
             if (_a != null){
-                numericStack.push(new TokenElement(_num.index, _a.toString()));
+                numericStack.push(new TokenElement(this.ec, _num.index, _a.toString()));
             }
             return;
         }
@@ -100,7 +102,7 @@ class StackUser{
                  */
                 TokenElement _num = numericStack.pop();
                 BigDecimal _a = this.sc.multiply(_num.str, "-1");
-                numericStack.push(new TokenElement(0, _a.toString()));
+                numericStack.push(new TokenElement(this.ec, 0, _a.toString()));
                 return;
             } else if (_ope.isDivisionOperator()){
                 /*
@@ -108,7 +110,7 @@ class StackUser{
                  */
                 TokenElement _num = numericStack.pop();
                 BigDecimal _a = this.sc.divide("1", _num.str);
-                numericStack.push(new TokenElement(0, _a.toString()));
+                numericStack.push(new TokenElement(this.ec, 0, _a.toString()));
                 return;
             }
         }
@@ -120,6 +122,6 @@ class StackUser{
         TokenElement a = numericStack.pop();
 
         BigDecimal ans = this.sc.calculate(a.str, b.str, _ope.str);
-        numericStack.push(new TokenElement(b.index, ans.toString()));
+        numericStack.push(new TokenElement(this.ec, b.index, ans.toString()));
     }
 }

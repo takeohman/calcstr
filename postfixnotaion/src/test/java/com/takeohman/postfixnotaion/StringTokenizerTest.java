@@ -27,8 +27,8 @@ public class StringTokenizerTest {
     }
     @Test
     public void getProblemStrObjListFromStr() throws Exception {
-        StringTokenizer splitter = new StringTokenizer(new StringSplitter());
-        ArrayList<TokenElement> temp = splitter.getProblemTokenObjListFromStr("1 * (2 + 3) ");
+        StringTokenizer tokenizer = new StringTokenizer(new StringSplitter(), new TokenValueChecker());
+        ArrayList<TokenElement> temp = tokenizer.getProblemTokenObjListFromStr("1 * (2 + 3) ");
         ArrayList<String> l1 = new ArrayList<>();
 
         for(int i = 0; i < temp.size(); i++){
@@ -44,7 +44,7 @@ public class StringTokenizerTest {
         e1.add(")");
         assertEquals(e1, l1);
 
-        temp = splitter.getProblemTokenObjListFromStr("(1 + 2) * (2 + 3) ");
+        temp = tokenizer.getProblemTokenObjListFromStr("(1 + 2) * (2 + 3) ");
 
         l1 = this.getStrList(temp);
         ArrayList<String> e2 = new ArrayList<>();
@@ -61,7 +61,7 @@ public class StringTokenizerTest {
         e2.add(")");
         assertEquals(e2, l1);
 
-        temp = splitter.getProblemTokenObjListFromStr("(1 + 2) * (2 + 3) + 0.789");
+        temp = tokenizer.getProblemTokenObjListFromStr("(1 + 2) * (2 + 3) + 0.789");
         l1 = this.getStrList(temp);
 
         ArrayList<String> e3 = new ArrayList<>();
@@ -80,7 +80,7 @@ public class StringTokenizerTest {
         e3.add("0.789");
         assertEquals(e3, l1);
 
-        temp = splitter.getProblemTokenObjListFromStr("-2(-2 - 1)-1-(-2)");
+        temp = tokenizer.getProblemTokenObjListFromStr("-2(-2 - 1)-1-(-2)");
         l1 = this.getStrList(temp);
 
         ArrayList<String> e4 = new ArrayList<>();
@@ -104,7 +104,7 @@ public class StringTokenizerTest {
         /*
         N! の表記も対応してみたいので分割できるようにしておく
          */
-        temp = splitter.getProblemTokenObjListFromStr("3! + 4!");
+        temp = tokenizer.getProblemTokenObjListFromStr("3! + 4!");
         l1 = this.getStrList(temp);
 
         ArrayList<String> e5 = new ArrayList<>();
@@ -116,7 +116,7 @@ public class StringTokenizerTest {
         e5.add("!");
         assertEquals(e5, l1);
 
-        temp = splitter.getProblemTokenObjListFromStr("1 - - 1");
+        temp = tokenizer.getProblemTokenObjListFromStr("1 - - 1");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -126,7 +126,7 @@ public class StringTokenizerTest {
         assertEquals(e5, l1);
 
 
-        temp = splitter.getProblemTokenObjListFromStr("-3");
+        temp = tokenizer.getProblemTokenObjListFromStr("-3");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -134,7 +134,7 @@ public class StringTokenizerTest {
         assertEquals(e5, l1);
 
         // 2 * -2
-        temp = splitter.getProblemTokenObjListFromStr("2*-2");
+        temp = tokenizer.getProblemTokenObjListFromStr("2*-2");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -144,7 +144,7 @@ public class StringTokenizerTest {
         assertEquals(e5, l1);
 
         // 2 / -2
-        temp = splitter.getProblemTokenObjListFromStr("2/-2");
+        temp = tokenizer.getProblemTokenObjListFromStr("2/-2");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -154,7 +154,7 @@ public class StringTokenizerTest {
         assertEquals(e5, l1);
 
         // 1.23.4
-        temp = splitter.getProblemTokenObjListFromStr("1.23.4");
+        temp = tokenizer.getProblemTokenObjListFromStr("1.23.4");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -164,7 +164,7 @@ public class StringTokenizerTest {
         assertEquals(e5, l1);
 
         // 1.23.4
-        temp = splitter.getProblemTokenObjListFromStr(".123");
+        temp = tokenizer.getProblemTokenObjListFromStr(".123");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -172,7 +172,7 @@ public class StringTokenizerTest {
         assertEquals(e5, l1);
 
         // 1.23.4
-        temp = splitter.getProblemTokenObjListFromStr(".1.23.4");
+        temp = tokenizer.getProblemTokenObjListFromStr(".1.23.4");
         l1 = this.getStrList(temp);
         e5 = new ArrayList<>();
         e5.add(".1");
@@ -186,7 +186,7 @@ public class StringTokenizerTest {
         +3は、正規表現で-3と同じように+3として取り出すこともできるが
         最終的には"+"を取り除くことを考えると別々の要素とした方がよいと判断した。
          */
-        temp = splitter.getProblemTokenObjListFromStr("+3");
+        temp = tokenizer.getProblemTokenObjListFromStr("+3");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -194,7 +194,7 @@ public class StringTokenizerTest {
         e5.add("3");
         assertEquals(e5, l1);
 
-        temp = splitter.getProblemTokenObjListFromStr("tan(3)");
+        temp = tokenizer.getProblemTokenObjListFromStr("tan(3)");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -204,7 +204,7 @@ public class StringTokenizerTest {
         e5.add(")");
         assertEquals(e5, l1);
 
-        temp = splitter.getProblemTokenObjListFromStr("1 + tan(3)");
+        temp = tokenizer.getProblemTokenObjListFromStr("1 + tan(3)");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -216,7 +216,7 @@ public class StringTokenizerTest {
         e5.add(")");
         assertEquals(e5, l1);
 
-        temp = splitter.getProblemTokenObjListFromStr("1 - tan(3)");
+        temp = tokenizer.getProblemTokenObjListFromStr("1 - tan(3)");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -228,7 +228,7 @@ public class StringTokenizerTest {
         e5.add(")");
         assertEquals(e5, l1);
 
-        temp = splitter.getProblemTokenObjListFromStr("1 * tan(3)");
+        temp = tokenizer.getProblemTokenObjListFromStr("1 * tan(3)");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();
@@ -240,7 +240,7 @@ public class StringTokenizerTest {
         e5.add(")");
         assertEquals(e5, l1);
 
-        temp = splitter.getProblemTokenObjListFromStr("3 / tan(3)");
+        temp = tokenizer.getProblemTokenObjListFromStr("3 / tan(3)");
         l1 = this.getStrList(temp);
 
         e5 = new ArrayList<>();

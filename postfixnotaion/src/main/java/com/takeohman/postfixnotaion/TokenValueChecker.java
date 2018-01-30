@@ -2,6 +2,7 @@ package com.takeohman.postfixnotaion;
 
 import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
 import com.takeohman.postfixnotaion.checker.NumericChecker;
+import com.takeohman.postfixnotaion.checker.NumericCheckerInterface;
 
 import java.util.Arrays;
 
@@ -9,7 +10,12 @@ import java.util.Arrays;
  * Created by takeoh on 2017/09/02.
  */
 
-class ExpressionElementChecker {
+interface TokenCheckerInterface extends NumericCheckerInterface{
+    int getValuePriority(String val);
+    boolean isFunction(String val);
+}
+
+class TokenValueChecker implements TokenCheckerInterface {
     private static final int PRIORITY_1 = 5;
     private static final int PRIORITY_2 = 4;
     private static final int PRIORITY_3 = 3;
@@ -21,7 +27,7 @@ class ExpressionElementChecker {
 
     protected NumericChecker numericChecker;
 
-    ExpressionElementChecker(){
+    TokenValueChecker(){
         this.numericChecker = new BigDecimalNumericChecker();
     }
 
@@ -30,7 +36,7 @@ class ExpressionElementChecker {
      * @param val 文字列
      * @return int
      */
-    int getValuePriority(String val){
+    public int getValuePriority(String val){
         String[] p1 = {"("};
         String[] p3 = {"!"};
         String[] p4 = {"^", "sin", "cos", "tan", "log"};
@@ -40,7 +46,7 @@ class ExpressionElementChecker {
 
         if (Arrays.asList(p1).contains(val)) {          // "("
             return PRIORITY_1;
-        }else if (this.isNumber(val)){   // 0,1,2....
+        }else if (this.isNumeric(val)){   // 0,1,2....
             return PRIORITY_3;
         } else if (Arrays.asList(p3).contains(val)){    // !
             return PRIORITY_2;
@@ -67,9 +73,14 @@ class ExpressionElementChecker {
         return Arrays.asList(op).contains(val);
     }
 
-    boolean isFunction(String val){
+    public boolean isFunction(String val){
         String[] func = {"sin", "cos", "tan", "log"};
         return Arrays.asList(func).contains(val);
+    }
+
+
+    public boolean isIncompleteDecimal(String num){
+        return this.numericChecker.isIncompleteDecimal(num);
     }
 
     /**
@@ -77,23 +88,11 @@ class ExpressionElementChecker {
      * @param num 数値かどうかを判定する文字列
      * @return boolean
      */
-    boolean isNumber(String num) {
+    public boolean isNumeric(String num){
         return this.numericChecker.isNumeric(num);
     }
 
-    /**
-     * 与えられた文字（列）が小数点を含む数値かどうかを判定する
-     * @param num
-     * @return
-     */
-    boolean isDecimalNumber(String num){
-        if (this.isNumber(num)){
-            return num.contains(".");
-        }
-        return false;
-    }
-
-    boolean isIncompleteDecimal(String num){
-        return this.numericChecker.isIncompleteDecimal(num);
+    public String getNumericValue(String num){
+        return this.numericChecker.getNumericValue(num);
     }
 }

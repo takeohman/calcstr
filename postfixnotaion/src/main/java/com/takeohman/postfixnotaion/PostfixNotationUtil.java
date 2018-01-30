@@ -9,10 +9,10 @@ import java.util.Stack;
  */
 
 class PostfixNotationUtil {
-    private ExpressionElementChecker ec;
+    private TokenValueChecker ec;
     private StringCalculator sc;
 
-    PostfixNotationUtil(ExpressionElementChecker ec, StringCalculator sc){
+    PostfixNotationUtil(TokenValueChecker ec, StringCalculator sc){
         this.ec = ec;
         this.sc = sc;
     }

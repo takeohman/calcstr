@@ -12,27 +12,27 @@ class TokenElement {
     int index;  // 式中のインデックス
     String str; // 文字
 
-    private ExpressionElementChecker ec;
+    private TokenCheckerInterface ec;
 
     /**
      * コンストラクタ
      * @param index 式中のインデックス
      * @param str 数値や演算子の文字
      */
-    TokenElement(int index, String str){
+    TokenElement(TokenCheckerInterface ec, int index, String str){
         this.index = index;
         this.str = str;
-        this.ec = new ExpressionElementChecker();
+        this.ec = ec;
     }
 
     /**
      *
      * @param str
      */
-    TokenElement(String str){
+    TokenElement(TokenCheckerInterface ec, String str){
         this.index = -1;
         this.str = str;
-        this.ec = new ExpressionElementChecker();
+        this.ec = ec;
     }
 
     /**
@@ -48,13 +48,11 @@ class TokenElement {
      * 数値の場合にtrueを返す
      * @return boolean
      */
-    boolean isNumber(){
-        return this.ec.isNumber(this.str);
+    boolean isNumeric(){
+        return this.ec.isNumeric(this.str);
     }
 
-    boolean isDecimalNumber(){
-        return this.ec.isDecimalNumber(this.str);
-    }
+
 
     boolean isIncompleteDecimal(){
         return this.ec.isIncompleteDecimal(this.str);

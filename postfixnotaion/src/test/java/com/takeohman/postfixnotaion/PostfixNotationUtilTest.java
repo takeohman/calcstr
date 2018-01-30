@@ -13,7 +13,7 @@ public class PostfixNotationUtilTest {
     @Test
     public void convertInfixToPostfix() throws Exception {
         PostfixNotationUtil pnu = new PostfixNotationUtil(
-                new ExpressionElementChecker(),
+                new TokenValueChecker(),
                 new StringCalculator()
         );
         // 1 + 2

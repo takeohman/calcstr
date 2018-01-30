@@ -19,7 +19,7 @@ public class PostfixNotation {
      */
     public PostfixNotation(){
         this.sc = new StringCalculator();
-        this.sp = new StringTokenizer(new StringSplitter());
+        this.sp = new StringTokenizer(new StringSplitter(), new TokenValueChecker());
     }
 
 
@@ -52,7 +52,7 @@ public class PostfixNotation {
                  */
                 su.doCalc();
             }
-            if (listItem.isNumber()) {
+            if (listItem.isNumeric()) {
                 numericStack.push(listItem);
             }else if (!listItem.isRightBracket()) {
                 operatorStack.push(listItem);

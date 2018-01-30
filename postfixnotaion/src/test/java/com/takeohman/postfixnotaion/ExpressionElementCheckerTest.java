@@ -12,7 +12,7 @@ public class ExpressionElementCheckerTest {
 
     @Test
     public void isOperator() throws Exception {
-        ExpressionElementChecker ec = new ExpressionElementChecker();
+        TokenValueChecker ec = new TokenValueChecker();
         assertTrue(ec.isOperator("+"));
         assertTrue(ec.isOperator("-"));
         assertTrue(ec.isOperator("*"));
@@ -21,14 +21,14 @@ public class ExpressionElementCheckerTest {
     }
 
     @Test
-    public void isNumber() throws Exception {
-        ExpressionElementChecker ec = new ExpressionElementChecker();
-        assertFalse(ec.isNumber("+"));
-        assertFalse(ec.isNumber("-"));
-        assertFalse(ec.isNumber("*"));
-        assertFalse(ec.isNumber("/"));
-        assertTrue(ec.isNumber("77"));
-        assertTrue(ec.isNumber("0.1"));
+    public void isNumeric() throws Exception {
+        TokenValueChecker ec = new TokenValueChecker();
+        assertFalse(ec.isNumeric("+"));
+        assertFalse(ec.isNumeric("-"));
+        assertFalse(ec.isNumeric("*"));
+        assertFalse(ec.isNumeric("/"));
+        assertTrue(ec.isNumeric("77"));
+        assertTrue(ec.isNumeric("0.1"));
     }
 
 }
