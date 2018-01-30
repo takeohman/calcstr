@@ -22,6 +22,7 @@ public class FloatNumericCheckerTest {
         assertEquals(false, fc.isNumeric(NumericCheckerTest.str_103));
         assertEquals(false, fc.isNumeric(NumericCheckerTest.str_104));
         assertEquals(false, fc.isNumeric(NumericCheckerTest.str_105));
+        assertEquals(false, fc.isNumeric(NumericCheckerTest.str_106));
     }
     @Test
     public void getNumericValue() throws Exception {
@@ -37,5 +38,6 @@ public class FloatNumericCheckerTest {
         assertEquals(NumericCheckerTest.ans_103, fc.getNumericValue(NumericCheckerTest.str_103));
         assertEquals(NumericCheckerTest.ans_104, fc.getNumericValue(NumericCheckerTest.str_104));
         assertEquals(NumericCheckerTest.ans_105, fc.getNumericValue(NumericCheckerTest.str_105));
+        assertEquals(NumericCheckerTest.ans_106, fc.getNumericValue(NumericCheckerTest.str_106));
     }
 }

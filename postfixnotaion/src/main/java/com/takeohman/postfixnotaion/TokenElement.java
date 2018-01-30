@@ -7,7 +7,7 @@ package com.takeohman.postfixnotaion;
 /**
  * 四則計算の、式の文字を表すクラス
  */
-class ProblemStrElement {
+class TokenElement {
 
     int index;  // 式中のインデックス
     String str; // 文字
@@ -19,7 +19,7 @@ class ProblemStrElement {
      * @param index 式中のインデックス
      * @param str 数値や演算子の文字
      */
-    ProblemStrElement(int index, String str){
+    TokenElement(int index, String str){
         this.index = index;
         this.str = str;
         this.ec = new ExpressionElementChecker();
@@ -29,7 +29,7 @@ class ProblemStrElement {
      *
      * @param str
      */
-    ProblemStrElement(String str){
+    TokenElement(String str){
         this.index = -1;
         this.str = str;
         this.ec = new ExpressionElementChecker();

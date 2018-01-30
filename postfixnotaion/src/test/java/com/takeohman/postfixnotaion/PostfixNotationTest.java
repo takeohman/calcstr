@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNull;
 public class PostfixNotationTest {
 
     @Test
-    public void calcInfixStr_2() throws Exception {
+    public void calcInfixStr_for_sin_cos_tan() throws Exception {
         //
         // sin(N), cos(N), tan(N), log(N)等のテスト
         //
@@ -123,7 +123,7 @@ public class PostfixNotationTest {
     }
 
     @Test
-    public void calcInfixStr_1() throws Exception {
+    public void calcInfixStr_for_UI_input() throws Exception {
         // UIからの入力を想定したテスト
         //
         // UIから入力された文字を解析していく際に、数字以外の入力可能な文字のみが入力されている状態と
@@ -155,24 +155,12 @@ public class PostfixNotationTest {
         ans = pn.calcInfixStr("(1-2(3");
         assertEquals(expected, ans);
     }
-
     @Test
-    public void calcInfixStr() throws Exception {
+    public void calcInfixStr_two_or_more_operator() throws Exception {
         PostfixNotation pn = new PostfixNotation();
-        String expected = "15";
-        String ans = pn.calcInfixStr("(1 + 2) * (2 + 3) ");
-        assertEquals(expected, ans);
-
-
-        expected = "2";
-        ans = pn.calcInfixStr("1-(-1)");
-        assertEquals(expected, ans);
-
-
-
         // 演算子が2つ連続する場合
-        expected = "1";
-        ans = pn.calcInfixStr("--1");
+        String expected = "1";
+        String ans = pn.calcInfixStr("--1");
         assertEquals(expected, ans);
 
         expected = "2";
@@ -193,6 +181,29 @@ public class PostfixNotationTest {
 
         ans = pn.calcInfixStr("2*-2");
         assertEquals("-4", ans);
+
+        ans = pn.calcInfixStr("2-+");
+        Assert.assertNull(ans);
+        ans = pn.calcInfixStr("6**3");
+
+        expected = "216";
+        assertEquals(expected, ans);
+
+//        TODO: このテストはどうする？
+//        ans = pn.calcInfixStr("8*6++");
+//        Assert.assertNull(ans);
+    }
+    @Test
+    public void calcInfixStr() throws Exception {
+        PostfixNotation pn = new PostfixNotation();
+        String expected = "15";
+        String ans = pn.calcInfixStr("(1 + 2) * (2 + 3) ");
+        assertEquals(expected, ans);
+
+
+        expected = "2";
+        ans = pn.calcInfixStr("1-(-1)");
+        assertEquals(expected, ans);
 
         ans = pn.calcInfixStr("0.3 + 0.3");
         assertEquals("0.6", ans);
@@ -284,6 +295,10 @@ public class PostfixNotationTest {
 
         expected = "8";
         ans = pn.calcInfixStr("(1+1)^3");
+        assertEquals(expected, ans);
+
+        expected = "423";
+        ans = pn.calcInfixStr("6^3*2-3^2");
         assertEquals(expected, ans);
 
         expected = "64";
@@ -418,7 +433,9 @@ public class PostfixNotationTest {
         ans = pn.calcInfixStr(".1.23.4");
         assertEquals(expected, ans);
 
-
+    }
+    @Test
+    public void calcInfixStr_impossible() throws Exception {
         // ========== ========== ========== ========== ==========
         //
         // 計算不能なパターン
@@ -427,15 +444,12 @@ public class PostfixNotationTest {
 
         // doCalcの最初、stackへのアクセス箇所で例外
         //
-        ans = pn.calcInfixStr("log()");
+        PostfixNotation pn = new PostfixNotation();
+        String ans = pn.calcInfixStr("log()");
         Assert.assertNull(ans);
 
         ans = pn.calcInfixStr("()");
         Assert.assertNull(ans);
-
-        ans = pn.calcInfixStr("2-+");
-        Assert.assertNull(ans);
-
 
         ans = pn.calcInfixStr("((");
         Assert.assertEquals("", ans);

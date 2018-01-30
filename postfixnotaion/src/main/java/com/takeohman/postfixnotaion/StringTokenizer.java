@@ -1,36 +1,29 @@
 package com.takeohman.postfixnotaion;
 
 
+import com.takeohman.postfixnotaion.splitter.StringSplitter;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by takeoh on 2017/11/13.
  */
 
-class StringSplitter {
-
-    private final String splitPattern =
-//            "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=\\()[-][0-9]+|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
-//        "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
-          "(^[-][0-9]*[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|[0-9]*[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
-    StringSplitter(){}
+class StringTokenizer {
+    private StringSplitter splitter;
+//    private final String splitPattern =
+////            "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=\\()[-][0-9]+|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
+////        "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
+//          "(^[-][0-9]*[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|[0-9]*[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
+    StringTokenizer(StringSplitter sp){
+        this.splitter = sp;
+    }
 
     class InvalidElementOrderException extends RuntimeException{}
     class InvalidBracketCountException extends RuntimeException{}
     class LeftBracketOnlyException extends RuntimeException{}
-    /**
-     * 正規表現で分割した結果をMatcherとして返す
-     * @param problemStr 計算問題の文字列
-     * @return Matcher
-     */
-    private Matcher getMatcher(String problemStr){
-        String trimmedStr = problemStr.replace(" ", "");
 
-        Pattern pat = Pattern.compile(this.splitPattern);
-        return pat.matcher(trimmedStr);
-    }
     /**
      * 中置記法の計算式文字列から数字、演算子、カッコのリストにして返す
      *
@@ -38,21 +31,20 @@ class StringSplitter {
      * 2. "+", "*"のみの場合はそれぞれ"0", "1"を追加する。
      *
      * @param problemStr 中置き記法の計算式
-     * @return ArrayList<ProblemStrElement>
+     * @return ArrayList<TokenElement>
      */
-    ArrayList<ProblemStrElement> getProblemStrObjListFromStr(String problemStr){
-
-        ArrayList<ProblemStrElement> problemStrElementObjList = new ArrayList<>();
-        Matcher mat = this.getMatcher(problemStr);
+    ArrayList<TokenElement> getProblemTokenObjListFromStr(String problemStr){
+        Matcher mat = this.splitter.getMatcher(problemStr);
+        ArrayList<TokenElement> tokenElementObjList = new ArrayList<>();
 
         int index = 0;
-        ProblemStrElement prevElement = null;
+        TokenElement prevElement = null;
         int bracket_count_l = 0;
         int bracket_count_r = 0;
 
         while(mat.find()){
             String matchedString = mat.group(1);
-            ProblemStrElement matchedElement = new ProblemStrElement(matchedString);
+            TokenElement matchedElement = new TokenElement(matchedString);
 
             //
             if (matchedElement.isLeftBracket()){
@@ -80,7 +72,7 @@ class StringSplitter {
                         (prevElement.isNumber() && matchedElement.isIncompleteDecimal())
                         )
                 {
-                    problemStrElementObjList.add(new ProblemStrElement(index, "*"));
+                    tokenElementObjList.add(new TokenElement(index, "*"));
                     index++;
                 }
                 /*
@@ -101,6 +93,10 @@ class StringSplitter {
                     prevElement.str = "-";
                     continue;
                 }
+                else if (prevElement.isMultiplicationOperator() && matchedElement.isMultiplicationOperator()){
+                    prevElement.str = "^";
+                    continue;
+                }
                 else if (prevElement.isMinusOperator() && matchedElement.isPlusOperator()){
                     throw new InvalidElementOrderException();
                 }
@@ -110,16 +106,16 @@ class StringSplitter {
             }
             prevElement = matchedElement;
             matchedElement.setIndex(index);
-            problemStrElementObjList.add(matchedElement);
+            tokenElementObjList.add(matchedElement);
             index++;
         }
         if (bracket_count_l < bracket_count_r){
             throw new InvalidBracketCountException();
-        } else if (bracket_count_l == problemStrElementObjList.size()){
+        } else if (bracket_count_l == tokenElementObjList.size()){
             throw new LeftBracketOnlyException();
         }
 
-        return this.postCheck(problemStrElementObjList);
+        return this.postCheck(tokenElementObjList);
     }
 
     /**
@@ -127,16 +123,16 @@ class StringSplitter {
      * @param elementList
      * @return
      */
-    private ArrayList<ProblemStrElement> postCheck(ArrayList<ProblemStrElement> elementList){
+    private ArrayList<TokenElement> postCheck(ArrayList<TokenElement> elementList){
        /*
         演算子のみの場合
          */
         if (elementList.size() == 1){
-            ProblemStrElement tmp = elementList.get(0);
+            TokenElement tmp = elementList.get(0);
             if (tmp.isPlusOperator()){
-                elementList.add(new ProblemStrElement(tmp.index + 1, "0"));
+                elementList.add(new TokenElement(tmp.index + 1, "0"));
             } else if (tmp.isMultiplicationOperator()){
-                elementList.add(new ProblemStrElement(tmp.index + 1, "1"));
+                elementList.add(new TokenElement(tmp.index + 1, "1"));
             } else if (!tmp.isNumber()){
                 // 上記以外の演算子は計算不可能としてリストを空にする
                 elementList.remove(0);

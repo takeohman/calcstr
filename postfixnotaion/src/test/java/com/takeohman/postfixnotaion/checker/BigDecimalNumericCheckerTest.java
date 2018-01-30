@@ -22,6 +22,7 @@ public class BigDecimalNumericCheckerTest {
         assertEquals(false, bd.isNumeric(NumericCheckerTest.str_103));
         assertEquals(false, bd.isNumeric(NumericCheckerTest.str_104));
         assertEquals(false, bd.isNumeric(NumericCheckerTest.str_105));
+        assertEquals(false, bd.isNumeric(NumericCheckerTest.str_106));
     }
 
     @Test
@@ -38,6 +39,7 @@ public class BigDecimalNumericCheckerTest {
         assertEquals(NumericCheckerTest.ans_103, bd.getNumericValue(NumericCheckerTest.str_103));
         assertEquals(NumericCheckerTest.ans_104, bd.getNumericValue(NumericCheckerTest.str_104));
         assertEquals(NumericCheckerTest.ans_105, bd.getNumericValue(NumericCheckerTest.str_105));
+        assertEquals(NumericCheckerTest.ans_106, bd.getNumericValue(NumericCheckerTest.str_106));
     }
 
     @Test
@@ -48,6 +50,7 @@ public class BigDecimalNumericCheckerTest {
         assertEquals(false, bd.isIncompleteDecimal(NumericCheckerTest.str_003));
         assertEquals(true, bd.isIncompleteDecimal(NumericCheckerTest.str_004));
         assertEquals(true, bd.isIncompleteDecimal(NumericCheckerTest.str_005));
+        assertEquals(false, bd.isIncompleteDecimal(NumericCheckerTest.str_106));
     }
 
 }

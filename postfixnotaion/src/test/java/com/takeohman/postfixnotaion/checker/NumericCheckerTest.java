@@ -32,4 +32,7 @@ public class NumericCheckerTest {
 
     static String str_105 = "0xA";
     static String ans_105 = null;
+
+    static String str_106 = "1,234,567";
+    static String ans_106 = null;
 }

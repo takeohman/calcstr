@@ -9,9 +9,9 @@ import java.util.Stack;
 
 class StackUser{
     private StringCalculator sc;
-    private Stack<ProblemStrElement> numericStack;
-    private Stack<ProblemStrElement> operatorStack;
-    StackUser(StringCalculator sc, Stack<ProblemStrElement> numericStack, Stack<ProblemStrElement> operatorStack){
+    private Stack<TokenElement> numericStack;
+    private Stack<TokenElement> operatorStack;
+    StackUser(StringCalculator sc, Stack<TokenElement> numericStack, Stack<TokenElement> operatorStack){
         this.numericStack = numericStack;
         this.operatorStack = operatorStack;
         this.sc = sc;
@@ -42,18 +42,18 @@ class StackUser{
 
             追加：N!（階乗）の対応はここで行う。
              */
-            ProblemStrElement pbm = operatorStack.pop();
+            TokenElement pbm = operatorStack.pop();
 
             if (pbm.isExclamation()){
                 BigDecimal fcAns = this.sc.factorial(numericStack.pop().str);
-                numericStack.push(new ProblemStrElement(pbm.index, fcAns.toString()));
+                numericStack.push(new TokenElement(pbm.index, fcAns.toString()));
                 return;
             }
             if (operatorStack.size() <= 0){
                 return;
             }
         }
-        ProblemStrElement _ope = operatorStack.pop();
+        TokenElement _ope = operatorStack.pop();
         if (_ope.isLeftBracket()){
             return;
         }
@@ -62,7 +62,7 @@ class StackUser{
         sin, cos, tan, log
          */
         if (_ope.isFunction()){
-            ProblemStrElement _num = numericStack.pop();
+            TokenElement _num = numericStack.pop();
             BigDecimal _a = null;
             if (_ope.isSineFunc()){
                 _a = this.sc.sin(_num.str);
@@ -74,7 +74,7 @@ class StackUser{
                 _a = this.sc.log10(_num.str);
             }
             if (_a != null){
-                numericStack.push(new ProblemStrElement(_num.index, _a.toString()));
+                numericStack.push(new TokenElement(_num.index, _a.toString()));
             }
             return;
         }
@@ -98,17 +98,17 @@ class StackUser{
                 /*
                 演算子が"-"の場合は符号が変わるので-1を掛ける
                  */
-                ProblemStrElement _num = numericStack.pop();
+                TokenElement _num = numericStack.pop();
                 BigDecimal _a = this.sc.multiply(_num.str, "-1");
-                numericStack.push(new ProblemStrElement(0, _a.toString()));
+                numericStack.push(new TokenElement(0, _a.toString()));
                 return;
             } else if (_ope.isDivisionOperator()){
                 /*
                 演算子が/の場合は、1をスタックの数字で割る。
                  */
-                ProblemStrElement _num = numericStack.pop();
+                TokenElement _num = numericStack.pop();
                 BigDecimal _a = this.sc.divide("1", _num.str);
-                numericStack.push(new ProblemStrElement(0, _a.toString()));
+                numericStack.push(new TokenElement(0, _a.toString()));
                 return;
             }
         }
@@ -116,10 +116,10 @@ class StackUser{
         二項演算子の計算
          */
 
-        ProblemStrElement b = numericStack.pop();
-        ProblemStrElement a = numericStack.pop();
+        TokenElement b = numericStack.pop();
+        TokenElement a = numericStack.pop();
 
         BigDecimal ans = this.sc.calculate(a.str, b.str, _ope.str);
-        numericStack.push(new ProblemStrElement(b.index, ans.toString()));
+        numericStack.push(new TokenElement(b.index, ans.toString()));
     }
 }
