@@ -1,4 +1,4 @@
-package com.takeohman.postfixnotaion;
+package com.takeohman.postfixnotaion.tokenizer;
 
 
 import com.takeohman.postfixnotaion.splitter.StringSplitterInterface;
@@ -10,21 +10,21 @@ import java.util.regex.Matcher;
  * Created by takeoh on 2017/11/13.
  */
 
-class StringTokenizer {
+public class StringTokenizer {
     private StringSplitterInterface splitter;
     private TokenCheckerInterface ec;
 //    private final String splitPattern =
 ////            "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=\\()[-][0-9]+|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
 ////        "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
 //          "(^[-][0-9]*[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|[0-9]*[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
-    StringTokenizer(StringSplitterInterface sp, TokenCheckerInterface ec){
+    public StringTokenizer(StringSplitterInterface sp, TokenCheckerInterface ec){
         this.splitter = sp;
         this.ec = ec;
     }
 
-    class InvalidElementOrderException extends RuntimeException{}
-    class InvalidBracketCountException extends RuntimeException{}
-    class LeftBracketOnlyException extends RuntimeException{}
+    public class InvalidElementOrderException extends RuntimeException{}
+    public class InvalidBracketCountException extends RuntimeException{}
+    public class LeftBracketOnlyException extends RuntimeException{}
 
     /**
      * 中置記法の計算式文字列から数字、演算子、カッコのリストにして返す
@@ -35,7 +35,7 @@ class StringTokenizer {
      * @param problemStr 中置き記法の計算式
      * @return ArrayList<TokenElement>
      */
-    ArrayList<TokenElement> getProblemTokenObjListFromStr(String problemStr){
+    public ArrayList<TokenElement> getProblemTokenObjListFromStr(String problemStr){
         Matcher mat = this.splitter.getMatcher(problemStr);
         ArrayList<TokenElement> tokenElementObjList = new ArrayList<>();
 
@@ -88,15 +88,15 @@ class StringTokenizer {
                  */
                 else if (prevElement.isMinusOperator() && matchedElement.isMinusOperator() ||
                         prevElement.isPlusOperator() && matchedElement.isPlusOperator()) {
-                    prevElement.str = "+";
+                    prevElement.setStr("+");
                     continue;
                 }
                 else if (prevElement.isPlusOperator() && matchedElement.isMinusOperator()){
-                    prevElement.str = "-";
+                    prevElement.setStr("-");
                     continue;
                 }
                 else if (prevElement.isMultiplicationOperator() && matchedElement.isMultiplicationOperator()){
-                    prevElement.str = "^";
+                    prevElement.setStr("^");
                     continue;
                 }
                 else if (prevElement.isMinusOperator() && matchedElement.isPlusOperator()){
@@ -132,9 +132,9 @@ class StringTokenizer {
         if (elementList.size() == 1){
             TokenElement tmp = elementList.get(0);
             if (tmp.isPlusOperator()){
-                elementList.add(new TokenElement(this.ec, tmp.index + 1, "0"));
+                elementList.add(new TokenElement(this.ec, tmp.getIndex() + 1, "0"));
             } else if (tmp.isMultiplicationOperator()){
-                elementList.add(new TokenElement(this.ec, tmp.index + 1, "1"));
+                elementList.add(new TokenElement(this.ec, tmp.getIndex() + 1, "1"));
             } else if (!tmp.isNumeric()){
                 // 上記以外の演算子は計算不可能としてリストを空にする
                 elementList.remove(0);

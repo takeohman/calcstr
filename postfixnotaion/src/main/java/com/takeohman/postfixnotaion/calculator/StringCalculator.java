@@ -1,4 +1,4 @@
-package com.takeohman.postfixnotaion;
+package com.takeohman.postfixnotaion.calculator;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -9,10 +9,10 @@ import java.math.RoundingMode;
  */
 
 
-class StringCalculator {
+public class StringCalculator {
     private MathContext mc;
 
-    StringCalculator(){
+    public StringCalculator(){
         this.mc = new MathContext(10, RoundingMode.HALF_EVEN);
     }
 
@@ -22,7 +22,7 @@ class StringCalculator {
      * @param strB
      * @return
      */
-    BigDecimal add(String strA, String strB){
+    public BigDecimal add(String strA, String strB){
         BigDecimal a = new BigDecimal(strA);
         BigDecimal b = new BigDecimal(strB);
         return a.add(b);
@@ -34,7 +34,7 @@ class StringCalculator {
      * @param strB
      * @return
      */
-    BigDecimal subtract(String strA, String strB){
+    public BigDecimal subtract(String strA, String strB){
         BigDecimal a = new BigDecimal(strA);
         BigDecimal b = new BigDecimal(strB);
         return a.subtract(b);
@@ -46,7 +46,7 @@ class StringCalculator {
      * @param strB
      * @return
      */
-    BigDecimal multiply(String strA, String strB){
+    public BigDecimal multiply(String strA, String strB){
         BigDecimal a = new BigDecimal(strA);
         BigDecimal b = new BigDecimal(strB);
         return a.multiply(b);
@@ -58,7 +58,7 @@ class StringCalculator {
      * @param strB
      * @return
      */
-    BigDecimal divide(String strA, String strB){
+    public BigDecimal divide(String strA, String strB){
         BigDecimal a = new BigDecimal(strA);
         BigDecimal b = new BigDecimal(strB);
         return a.divide(b,this.mc);
@@ -70,7 +70,7 @@ class StringCalculator {
      * @param strB
      * @return
      */
-    BigDecimal involution(String strA, String strB){
+    public BigDecimal involution(String strA, String strB){
         BigDecimal a = new BigDecimal(strA);
         BigDecimal b = new BigDecimal(strB);
         return a.pow(b.intValue());
@@ -86,7 +86,7 @@ class StringCalculator {
      * 【補足】
      * operatorに未定義の演算子が渡された場合は加算する。
      */
-    BigDecimal calculate(String strA, String strB, String operator) {
+    public BigDecimal calculate(String strA, String strB, String operator) {
         /*
             逆ポーランドの計算方法は、"operatorの場合にスタックを取り出して計算"なので
             operatorの値は必ず演算子になるはず。それゆえ、switch文のデフォルトは"+"とまとめている。
@@ -117,7 +117,7 @@ class StringCalculator {
      *
      * TODO: 計算処理の負荷については入力数値の上限を決める等を検討すること
      */
-    BigDecimal factorial(String intValStr){
+    public BigDecimal factorial(String intValStr){
 
         BigDecimal decOrg = new BigDecimal(intValStr);
 
@@ -140,27 +140,27 @@ class StringCalculator {
      * @param inValStr
      * @return
      */
-    BigDecimal sin(String inValStr){
+    public BigDecimal sin(String inValStr){
         BigDecimal bc = new BigDecimal(inValStr);
         return new BigDecimal(Math.sin(bc.doubleValue()));
     }
 
-    BigDecimal cos(String inValStr){
+    public BigDecimal cos(String inValStr){
         BigDecimal bc = new BigDecimal(inValStr);
         return new BigDecimal(Math.cos(bc.doubleValue()));
     }
 
-    BigDecimal tan(String inValStr){
+    public BigDecimal tan(String inValStr){
         BigDecimal bc = new BigDecimal(inValStr);
         return new BigDecimal(Math.tan(bc.doubleValue()));
     }
 
-    BigDecimal log(String inValStr){
+    public BigDecimal log(String inValStr){
         BigDecimal bc = new BigDecimal(inValStr);
         return new BigDecimal(Math.log(bc.doubleValue()));
     }
 
-    BigDecimal log10(String inValStr){
+    public BigDecimal log10(String inValStr){
         BigDecimal bc = new BigDecimal(inValStr);
         return new BigDecimal(Math.log10(bc.doubleValue()));
     }

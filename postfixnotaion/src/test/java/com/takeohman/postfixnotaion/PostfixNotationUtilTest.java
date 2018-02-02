@@ -1,5 +1,8 @@
 package com.takeohman.postfixnotaion;
 
+import com.takeohman.postfixnotaion.calculator.StringCalculator;
+import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

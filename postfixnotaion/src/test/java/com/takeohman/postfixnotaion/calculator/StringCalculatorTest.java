@@ -1,8 +1,9 @@
-package com.takeohman.postfixnotaion;
+package com.takeohman.postfixnotaion.calculator;
 
 import org.junit.Test;
 
 import java.math.BigDecimal;
+
 import static org.junit.Assert.assertEquals;
 
 /**

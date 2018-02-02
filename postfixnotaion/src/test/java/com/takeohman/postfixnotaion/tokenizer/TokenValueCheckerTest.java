@@ -1,4 +1,4 @@
-package com.takeohman.postfixnotaion;
+package com.takeohman.postfixnotaion.tokenizer;
 
 import org.junit.Test;
 
@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by takeoh on 2017/09/02.
  */
-public class ExpressionElementCheckerTest {
+public class TokenValueCheckerTest {
 
     @Test
     public void isOperator() throws Exception {

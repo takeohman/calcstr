@@ -1,4 +1,4 @@
-package com.takeohman.postfixnotaion;
+package com.takeohman.postfixnotaion.tokenizer;
 
 import com.takeohman.postfixnotaion.splitter.StringSplitter;
 

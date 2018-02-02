@@ -1,21 +1,11 @@
-package com.takeohman.postfixnotaion;
+package com.takeohman.postfixnotaion.tokenizer;
 
 import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
 import com.takeohman.postfixnotaion.checker.NumericChecker;
-import com.takeohman.postfixnotaion.checker.NumericCheckerInterface;
 
 import java.util.Arrays;
 
-/**
- * Created by takeoh on 2017/09/02.
- */
-
-interface TokenCheckerInterface extends NumericCheckerInterface{
-    int getValuePriority(String val);
-    boolean isFunction(String val);
-}
-
-class TokenValueChecker implements TokenCheckerInterface {
+public class TokenValueChecker implements TokenCheckerInterface {
     private static final int PRIORITY_1 = 5;
     private static final int PRIORITY_2 = 4;
     private static final int PRIORITY_3 = 3;
@@ -27,7 +17,7 @@ class TokenValueChecker implements TokenCheckerInterface {
 
     protected NumericChecker numericChecker;
 
-    TokenValueChecker(){
+    public TokenValueChecker(){
         this.numericChecker = new BigDecimalNumericChecker();
     }
 
@@ -68,7 +58,7 @@ class TokenValueChecker implements TokenCheckerInterface {
      * @param val 演算子かどうかを判定する文字列
      * @return boolean
      */
-    boolean isOperator(String val){
+    public boolean isOperator(String val){
         String[] op = {"*", "/","+", "-", "×", "÷", "^"};
         return Arrays.asList(op).contains(val);
     }

@@ -1,4 +1,4 @@
-package com.takeohman.postfixnotaion;
+package com.takeohman.postfixnotaion.tokenizer;
 
 /**
  * Created by takeoh on 2017/11/09.
@@ -7,7 +7,7 @@ package com.takeohman.postfixnotaion;
 /**
  * 四則計算の、式の文字を表すクラス
  */
-class TokenElement {
+public class TokenElement {
 
     int index;  // 式中のインデックス
     String str; // 文字
@@ -19,7 +19,7 @@ class TokenElement {
      * @param index 式中のインデックス
      * @param str 数値や演算子の文字
      */
-    TokenElement(TokenCheckerInterface ec, int index, String str){
+    public TokenElement(TokenCheckerInterface ec, int index, String str){
         this.index = index;
         this.str = str;
         this.ec = ec;
@@ -29,10 +29,18 @@ class TokenElement {
      *
      * @param str
      */
-    TokenElement(TokenCheckerInterface ec, String str){
+    public TokenElement(TokenCheckerInterface ec, String str){
         this.index = -1;
         this.str = str;
         this.ec = ec;
+    }
+
+    /**
+     * インデックスの取得
+     * @return int
+     */
+    public int getIndex(){
+        return this.index;
     }
 
     /**
@@ -40,28 +48,47 @@ class TokenElement {
      * @param index
      * @return
      */
-    int setIndex(int index){
+    public int setIndex(int index){
         this.index = index;
         return this.index;
     }
+
+    /**
+     *
+     * @return String
+     */
+    public String getStr(){
+        return this.str;
+    }
+
+    /**
+     *
+     * @param str
+     * @return
+     */
+    public String setStr(String str){
+        this.str = str;
+        return this.str;
+    }
+
     /**
      * 数値の場合にtrueを返す
      * @return boolean
      */
-    boolean isNumeric(){
+    public boolean isNumeric(){
         return this.ec.isNumeric(this.str);
     }
 
 
 
-    boolean isIncompleteDecimal(){
+    public boolean isIncompleteDecimal(){
         return this.ec.isIncompleteDecimal(this.str);
     }
     /**
      * 文字の優先順位を返す
      * @return int
      */
-    int getPriority(){
+    public int getPriority(){
         return this.ec.getValuePriority(this.str);
     }
 
@@ -69,7 +96,7 @@ class TokenElement {
      * "("の場合にtrueを返す
      * @return boolean
      */
-    boolean isLeftBracket(){
+    public boolean isLeftBracket(){
         return this.str.equals("(");
     }
 
@@ -77,7 +104,7 @@ class TokenElement {
      * "!"の場合にtrueを返す
      * @return boolean
      */
-    boolean isExclamation(){
+    public boolean isExclamation(){
         return this.str.equals("!");
     }
 
@@ -85,7 +112,7 @@ class TokenElement {
      * "+"の場合にtrueを返す
      * @return boolean
      */
-    boolean isPlusOperator(){
+    public boolean isPlusOperator(){
         return this.str.equals("+");
     }
 
@@ -93,7 +120,7 @@ class TokenElement {
      * "-"の場合にtrueを返す
      * @return boolean
      */
-    boolean isMinusOperator(){
+    public boolean isMinusOperator(){
         return this.str.equals("-");
     }
 
@@ -101,7 +128,7 @@ class TokenElement {
      * "*"の場合にtrueを返す
      * @return boolean
      */
-    boolean isMultiplicationOperator(){
+    public boolean isMultiplicationOperator(){
         return this.str.equals("*");
     }
 
@@ -109,7 +136,7 @@ class TokenElement {
      * "/"の場合にtrueを返す
      * @return boolean
      */
-    boolean isDivisionOperator(){
+    public boolean isDivisionOperator(){
         return this.str.equals("/");
     }
 
@@ -117,7 +144,7 @@ class TokenElement {
      * ")"の場合にtrueを返す
      * @return boolean
      */
-    boolean isRightBracket(){
+    public boolean isRightBracket(){
         return this.str.equals(")");
     }
 
@@ -126,28 +153,28 @@ class TokenElement {
      * "sin"の場合にtrueを返す
      * @return
      */
-    boolean isSineFunc() {return this.str.equals("sin");}
+    public boolean isSineFunc() {return this.str.equals("sin");}
 
     /**
      * "cos"の場合にtrueを返す
      * @return
      */
-    boolean isCosineFunc() {return this.str.equals("cos");}
+    public boolean isCosineFunc() {return this.str.equals("cos");}
 
     /**
      * "tan"の場合にtrueを返す
      * @return
      */
-    boolean isTangentFunc() {return this.str.equals("tan");}
+    public boolean isTangentFunc() {return this.str.equals("tan");}
 
     /**
      * "log"の場合にtrueを返す
      * @return
      */
-    boolean isLogarithmFunc() {return this.str.equals("log");}
+    public boolean isLogarithmFunc() {return this.str.equals("log");}
 
 
-    boolean isFunction() { return this.ec.isFunction(this.str);}
+    public boolean isFunction() { return this.ec.isFunction(this.str);}
 
-    boolean isPeriodStr(){ return this.str.equals(".");}
+    public boolean isPeriodStr(){ return this.str.equals(".");}
 }

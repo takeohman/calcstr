@@ -1,6 +1,10 @@
 package com.takeohman.postfixnotaion;
 
+import com.takeohman.postfixnotaion.calculator.StringCalculator;
 import com.takeohman.postfixnotaion.splitter.StringSplitter;
+import com.takeohman.postfixnotaion.tokenizer.StringTokenizer;
+import com.takeohman.postfixnotaion.tokenizer.TokenElement;
+import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -63,7 +67,7 @@ public class PostfixNotation {
             su.doCalc();
         }
 
-        return numericStack.pop().str;
+        return numericStack.pop().getStr();
     }
 
     /**
