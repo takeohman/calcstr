@@ -15,17 +15,38 @@ import java.util.Stack;
 
 public class PostfixNotation {
 
-    private StringCalculator sc;
-    private StringTokenizer sp;
+    private StringCalculator stringCalculator;
+    private StringTokenizer stringTokenizer;
 
     /**
      * コンストラクタ
      */
     public PostfixNotation(){
-        this.sc = new StringCalculator();
-        this.sp = new StringTokenizer(new StringSplitter(), new TokenValueChecker());
+
+        this.init(
+            new StringCalculator(),
+            new StringTokenizer(new StringSplitter(), new TokenValueChecker())
+        );
     }
 
+    /**
+     *
+     * @param stringCalculator
+     * @param stringTokenizer
+     */
+    public PostfixNotation(StringCalculator stringCalculator, StringTokenizer stringTokenizer){
+        init(stringCalculator, stringTokenizer);
+    }
+
+    /**
+     *
+     * @param stringCalculator
+     * @param stringTokenizer
+     */
+    void init(StringCalculator stringCalculator, StringTokenizer stringTokenizer){
+        this.stringCalculator = stringCalculator;
+        this.stringTokenizer = stringTokenizer;
+    }
 
     /**
      * ProblemStrオブジェクトのリストを計算する
@@ -37,7 +58,7 @@ public class PostfixNotation {
         Stack<TokenElement> numericStack = new Stack<>();
         Stack<TokenElement> operatorStack = new Stack<>();
 
-        StackUser su = new StackUser(this.sc, numericStack, operatorStack);
+        StackUser su = new StackUser(this.stringCalculator, numericStack, operatorStack);
         int idx = 0;
         while (idx < pbmTokenObjList.size()) {
 
@@ -78,7 +99,7 @@ public class PostfixNotation {
     public String calcInfixStr(String problemStr){
 
         try {
-            ArrayList<TokenElement> pbmTokenObjList = this.sp.getProblemTokenObjListFromStr(problemStr);
+            ArrayList<TokenElement> pbmTokenObjList = this.stringTokenizer.getProblemTokenObjListFromStr(problemStr);
             return this.calcInfixProblemStrList(pbmTokenObjList);
         } catch (StackUser.NoElementException ex) {
             //想定内

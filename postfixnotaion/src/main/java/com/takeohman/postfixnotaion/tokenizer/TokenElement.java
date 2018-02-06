@@ -36,6 +36,14 @@ public class TokenElement {
     }
 
     /**
+     * toStringのオーバーライド
+     * @return String
+     */
+    public String toString(){
+        return this.str;
+    }
+
+    /**
      * インデックスの取得
      * @return int
      */
