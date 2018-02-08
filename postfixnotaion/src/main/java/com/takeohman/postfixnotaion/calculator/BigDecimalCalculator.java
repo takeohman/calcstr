@@ -9,10 +9,10 @@ import java.math.RoundingMode;
  */
 
 
-public class StringCalculator {
+public class BigDecimalCalculator implements Calculator<BigDecimal>{
     private MathContext mc;
 
-    public StringCalculator(){
+    public BigDecimalCalculator(){
         this.mc = new MathContext(10, RoundingMode.HALF_EVEN);
     }
 

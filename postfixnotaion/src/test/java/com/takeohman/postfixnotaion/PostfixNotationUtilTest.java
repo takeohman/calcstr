@@ -1,6 +1,6 @@
 package com.takeohman.postfixnotaion;
 
-import com.takeohman.postfixnotaion.calculator.StringCalculator;
+import com.takeohman.postfixnotaion.calculator.BigDecimalCalculator;
 import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
 
 import org.junit.Test;
@@ -17,7 +17,7 @@ public class PostfixNotationUtilTest {
     public void convertInfixToPostfix() throws Exception {
         PostfixNotationUtil pnu = new PostfixNotationUtil(
                 new TokenValueChecker(),
-                new StringCalculator()
+                new BigDecimalCalculator()
         );
         // 1 + 2
         ArrayList<String> pbm1 = new ArrayList<>();

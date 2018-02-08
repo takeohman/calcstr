@@ -1,6 +1,7 @@
 package com.takeohman.postfixnotaion;
 
-import com.takeohman.postfixnotaion.calculator.StringCalculator;
+import com.takeohman.postfixnotaion.calculator.BigDecimalCalculator;
+import com.takeohman.postfixnotaion.calculator.Calculator;
 import com.takeohman.postfixnotaion.splitter.StringSplitter;
 import com.takeohman.postfixnotaion.tokenizer.StringTokenizer;
 import com.takeohman.postfixnotaion.tokenizer.TokenElement;
@@ -15,7 +16,7 @@ import java.util.Stack;
 
 public class PostfixNotation {
 
-    private StringCalculator stringCalculator;
+    private Calculator calculator;
     private StringTokenizer stringTokenizer;
 
     /**
@@ -24,27 +25,27 @@ public class PostfixNotation {
     public PostfixNotation(){
 
         this.init(
-            new StringCalculator(),
+            new BigDecimalCalculator(),
             new StringTokenizer(new StringSplitter(), new TokenValueChecker())
         );
     }
 
     /**
      *
-     * @param stringCalculator
+     * @param calculator
      * @param stringTokenizer
      */
-    public PostfixNotation(StringCalculator stringCalculator, StringTokenizer stringTokenizer){
-        init(stringCalculator, stringTokenizer);
+    public PostfixNotation(Calculator calculator, StringTokenizer stringTokenizer){
+        init(calculator, stringTokenizer);
     }
 
     /**
      *
-     * @param stringCalculator
+     * @param calculator
      * @param stringTokenizer
      */
-    void init(StringCalculator stringCalculator, StringTokenizer stringTokenizer){
-        this.stringCalculator = stringCalculator;
+    void init(Calculator calculator, StringTokenizer stringTokenizer){
+        this.calculator = calculator;
         this.stringTokenizer = stringTokenizer;
     }
 
@@ -58,7 +59,7 @@ public class PostfixNotation {
         Stack<TokenElement> numericStack = new Stack<>();
         Stack<TokenElement> operatorStack = new Stack<>();
 
-        StackUser su = new StackUser(this.stringCalculator, numericStack, operatorStack);
+        StackUser su = new StackUser(this.calculator, numericStack, operatorStack);
         int idx = 0;
         while (idx < pbmTokenObjList.size()) {
 

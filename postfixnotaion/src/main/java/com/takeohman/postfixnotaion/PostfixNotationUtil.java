@@ -1,6 +1,6 @@
 package com.takeohman.postfixnotaion;
 
-import com.takeohman.postfixnotaion.calculator.StringCalculator;
+import com.takeohman.postfixnotaion.calculator.BigDecimalCalculator;
 import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
 
 import java.math.BigDecimal;
@@ -13,9 +13,9 @@ import java.util.Stack;
 
 class PostfixNotationUtil {
     private TokenValueChecker ec;
-    private StringCalculator sc;
+    private BigDecimalCalculator sc;
 
-    PostfixNotationUtil(TokenValueChecker ec, StringCalculator sc){
+    PostfixNotationUtil(TokenValueChecker ec, BigDecimalCalculator sc){
         this.ec = ec;
         this.sc = sc;
     }

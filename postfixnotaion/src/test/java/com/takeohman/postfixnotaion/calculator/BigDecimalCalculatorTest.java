@@ -9,10 +9,10 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by takeoh on 2017/08/30.
  */
-public class StringCalculatorTest {
+public class BigDecimalCalculatorTest {
     @Test
     public void involution() throws Exception {
-        StringCalculator sc = new StringCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator();
         BigDecimal actual = sc.involution("2","3");
         assertEquals(8, actual.intValue());
 
@@ -22,7 +22,7 @@ public class StringCalculatorTest {
 
     @Test
     public void factorial() throws Exception {
-        StringCalculator sc = new StringCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator();
         BigDecimal actual = sc.factorial("4");
         assertEquals(24, actual.intValue());
 
@@ -71,7 +71,7 @@ public class StringCalculatorTest {
 
     @Test
     public void add() throws Exception {
-        StringCalculator sc = new StringCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator();
 
         BigDecimal bd = sc.add("1","2");
         assertEquals(bd.intValue(), 3);
@@ -79,14 +79,14 @@ public class StringCalculatorTest {
 
     @Test
     public void subtract() throws Exception {
-        StringCalculator sc = new StringCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator();
         BigDecimal bd = sc.subtract("1","2");
         assertEquals(new BigDecimal("-1"),bd);
     }
 
     @Test
     public void multiply() throws Exception {
-        StringCalculator sc = new StringCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator();
 
         BigDecimal bd = sc.multiply("1","2");
         assertEquals(new BigDecimal("2"),bd);
@@ -94,7 +94,7 @@ public class StringCalculatorTest {
 
     @Test
     public void divide() throws Exception {
-        StringCalculator sc = new StringCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator();
 
         BigDecimal bd = sc.calculate("1","2","/");
         assertEquals(new BigDecimal("0.5"), bd.stripTrailingZeros());
@@ -102,7 +102,7 @@ public class StringCalculatorTest {
 
     @Test
     public void calculate() throws Exception {
-        StringCalculator sc = new StringCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator();
 
         BigDecimal bd = sc.calculate("1","2","+");
         assertEquals(3, bd.intValue());
