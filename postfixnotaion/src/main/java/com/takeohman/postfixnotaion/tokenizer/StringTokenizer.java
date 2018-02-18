@@ -3,7 +3,6 @@ package com.takeohman.postfixnotaion.tokenizer;
 
 import com.takeohman.postfixnotaion.splitter.StringSplitterInterface;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 /**
@@ -35,9 +34,9 @@ public class StringTokenizer {
      * @param problemStr 中置き記法の計算式
      * @return ArrayList<TokenElement>
      */
-    public ArrayList<TokenElement> getProblemTokenObjListFromStr(String problemStr){
+    public TokenElementList getProblemTokenObjListFromStr(String problemStr){
         Matcher mat = this.splitter.getMatcher(problemStr);
-        ArrayList<TokenElement> tokenElementObjList = new ArrayList<>();
+        TokenElementList tokenElementObjList = new TokenElementList();
 
         int index = 0;
         TokenElement prevElement = null;
@@ -125,7 +124,7 @@ public class StringTokenizer {
      * @param elementList
      * @return
      */
-    private ArrayList<TokenElement> postCheck(ArrayList<TokenElement> elementList){
+    private TokenElementList postCheck(TokenElementList elementList){
        /*
         演算子のみの場合
          */

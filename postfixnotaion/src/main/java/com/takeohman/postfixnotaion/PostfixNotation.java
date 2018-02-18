@@ -5,9 +5,9 @@ import com.takeohman.postfixnotaion.calculator.Calculator;
 import com.takeohman.postfixnotaion.splitter.StringSplitter;
 import com.takeohman.postfixnotaion.tokenizer.StringTokenizer;
 import com.takeohman.postfixnotaion.tokenizer.TokenElement;
+import com.takeohman.postfixnotaion.tokenizer.TokenElementList;
 import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -54,7 +54,7 @@ public class PostfixNotation {
      * @param pbmTokenObjList 問題式を分割したProblemStrオブジェクトのリスト
      * @return 答えのString
      */
-    private String calcInfixProblemStrList(ArrayList<TokenElement> pbmTokenObjList){
+    private String calcInfixProblemStrList(TokenElementList pbmTokenObjList){
 
         Stack<TokenElement> numericStack = new Stack<>();
         Stack<TokenElement> operatorStack = new Stack<>();
@@ -100,7 +100,7 @@ public class PostfixNotation {
     public String calcInfixStr(String problemStr){
 
         try {
-            ArrayList<TokenElement> pbmTokenObjList = this.stringTokenizer.getProblemTokenObjListFromStr(problemStr);
+            TokenElementList pbmTokenObjList = this.stringTokenizer.getProblemTokenObjListFromStr(problemStr);
             return this.calcInfixProblemStrList(pbmTokenObjList);
         } catch (StackUser.NoElementException ex) {
             //想定内

@@ -29,6 +29,7 @@ public class StringTokenizerTest {
     public void getProblemStrObjListFromStr() throws Exception {
         StringTokenizer tokenizer = new StringTokenizer(new StringSplitter(), new TokenValueChecker());
         ArrayList<TokenElement> temp = tokenizer.getProblemTokenObjListFromStr("1 * (2 + 3) ");
+
         ArrayList<String> l1 = new ArrayList<>();
 
         for(int i = 0; i < temp.size(); i++){
