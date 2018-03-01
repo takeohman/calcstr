@@ -1,5 +1,7 @@
 package com.takeohman.postfixnotaion.tokenizer;
 
+import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -12,7 +14,7 @@ public class TokenValueCheckerTest {
 
     @Test
     public void isOperator() throws Exception {
-        TokenValueChecker ec = new TokenValueChecker();
+        TokenValueChecker ec = new TokenValueChecker(new BigDecimalNumericChecker());
         assertTrue(ec.isOperator("+"));
         assertTrue(ec.isOperator("-"));
         assertTrue(ec.isOperator("*"));
@@ -22,7 +24,7 @@ public class TokenValueCheckerTest {
 
     @Test
     public void isNumeric() throws Exception {
-        TokenValueChecker ec = new TokenValueChecker();
+        TokenValueChecker ec = new TokenValueChecker(new BigDecimalNumericChecker());
         assertFalse(ec.isNumeric("+"));
         assertFalse(ec.isNumeric("-"));
         assertFalse(ec.isNumeric("*"));

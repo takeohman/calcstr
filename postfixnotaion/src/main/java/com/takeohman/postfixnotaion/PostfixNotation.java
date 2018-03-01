@@ -2,7 +2,9 @@ package com.takeohman.postfixnotaion;
 
 import com.takeohman.postfixnotaion.calculator.BigDecimalCalculator;
 import com.takeohman.postfixnotaion.calculator.Calculator;
+import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
 import com.takeohman.postfixnotaion.splitter.StringSplitter;
+import com.takeohman.postfixnotaion.tokenizer.StringListTokenizer;
 import com.takeohman.postfixnotaion.tokenizer.StringTokenizer;
 import com.takeohman.postfixnotaion.tokenizer.TokenElement;
 import com.takeohman.postfixnotaion.tokenizer.TokenElementList;
@@ -17,7 +19,7 @@ import java.util.Stack;
 public class PostfixNotation {
 
     private Calculator calculator;
-    private StringTokenizer stringTokenizer;
+    private StringListTokenizer stringListTokenizer;
 
     /**
      * コンストラクタ
@@ -26,27 +28,30 @@ public class PostfixNotation {
 
         this.init(
             new BigDecimalCalculator(),
-            new StringTokenizer(new StringSplitter(), new TokenValueChecker())
+            new StringListTokenizer(
+                    new StringTokenizer(new StringSplitter()),
+                    new TokenValueChecker(new BigDecimalNumericChecker())
+            )
         );
     }
 
     /**
      *
      * @param calculator
-     * @param stringTokenizer
+     * @param stringListTokenizer
      */
-    public PostfixNotation(Calculator calculator, StringTokenizer stringTokenizer){
-        init(calculator, stringTokenizer);
+    public PostfixNotation(Calculator calculator, StringListTokenizer stringListTokenizer){
+        init(calculator, stringListTokenizer);
     }
 
     /**
      *
      * @param calculator
-     * @param stringTokenizer
+     * @param stringListTokenizer
      */
-    void init(Calculator calculator, StringTokenizer stringTokenizer){
+    void init(Calculator calculator, StringListTokenizer stringListTokenizer){
         this.calculator = calculator;
-        this.stringTokenizer = stringTokenizer;
+        this.stringListTokenizer = stringListTokenizer;
     }
 
     /**
@@ -100,17 +105,17 @@ public class PostfixNotation {
     public String calcInfixStr(String problemStr){
 
         try {
-            TokenElementList pbmTokenObjList = this.stringTokenizer.getProblemTokenObjListFromStr(problemStr);
+            TokenElementList pbmTokenObjList = this.stringListTokenizer.getList(problemStr);
             return this.calcInfixProblemStrList(pbmTokenObjList);
         } catch (StackUser.NoElementException ex) {
             //想定内
             return null;
-        } catch (StringTokenizer.InvalidElementOrderException ex) {
+        } catch (StringListTokenizer.InvalidElementOrderException ex) {
             //想定内
             return null;
-        } catch (StringTokenizer.InvalidBracketCountException ex) {
+        } catch (StringListTokenizer.InvalidBracketCountException ex) {
             return null;
-        } catch (StringTokenizer.LeftBracketOnlyException ex){
+        } catch (StringListTokenizer.LeftBracketOnlyException ex){
             return "";
         } catch (Exception ex) {
             //想定外

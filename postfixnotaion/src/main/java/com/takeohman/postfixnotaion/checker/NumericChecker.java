@@ -9,6 +9,7 @@ abstract public class NumericChecker implements NumericCheckerInterface{
      * @param num string ".123", "-.456"
      * @return boolean
      */
+    @Override
     public boolean isIncompleteDecimal(String num){
         if (this.isNumeric(num)){
             // num文字列の先頭が"."かどうかをチェックする

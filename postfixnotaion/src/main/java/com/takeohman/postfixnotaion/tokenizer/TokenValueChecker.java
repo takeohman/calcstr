@@ -1,6 +1,5 @@
 package com.takeohman.postfixnotaion.tokenizer;
 
-import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
 import com.takeohman.postfixnotaion.checker.NumericChecker;
 
 import java.util.Arrays;
@@ -17,8 +16,8 @@ public class TokenValueChecker implements TokenCheckerInterface {
 
     protected NumericChecker numericChecker;
 
-    public TokenValueChecker(){
-        this.numericChecker = new BigDecimalNumericChecker();
+    public TokenValueChecker(NumericChecker numericChecker){
+        this.numericChecker = numericChecker;
     }
 
     /**
@@ -26,6 +25,7 @@ public class TokenValueChecker implements TokenCheckerInterface {
      * @param val 文字列
      * @return int
      */
+    @Override
     public int getValuePriority(String val){
         String[] p1 = {"("};
         String[] p3 = {"!"};
@@ -63,12 +63,14 @@ public class TokenValueChecker implements TokenCheckerInterface {
         return Arrays.asList(op).contains(val);
     }
 
+    @Override
     public boolean isFunction(String val){
         String[] func = {"sin", "cos", "tan", "log"};
         return Arrays.asList(func).contains(val);
     }
 
 
+    @Override
     public boolean isIncompleteDecimal(String num){
         return this.numericChecker.isIncompleteDecimal(num);
     }
@@ -78,10 +80,12 @@ public class TokenValueChecker implements TokenCheckerInterface {
      * @param num 数値かどうかを判定する文字列
      * @return boolean
      */
+    @Override
     public boolean isNumeric(String num){
         return this.numericChecker.isNumeric(num);
     }
 
+    @Override
     public String getNumericValue(String num){
         return this.numericChecker.getNumericValue(num);
     }

@@ -1,5 +1,8 @@
 package com.takeohman.postfixnotaion.splitter;
 
+import com.takeohman.postfixnotaion.core.MatcherIterator;
+
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,7 +10,7 @@ import java.util.regex.Pattern;
  * Created by takeoh on 2018/01/30.
  */
 
-public class StringSplitter implements StringSplitterInterface{
+public class StringSplitter implements Splitter {
 //    private final String splitPattern =
 ////            "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=\\()[-][0-9]+|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
 ////        "(^[-][0-9]+[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]+[.]?[0-9]+|[0-9]+)|[0-9]+[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
@@ -24,5 +27,9 @@ public class StringSplitter implements StringSplitterInterface{
 
         Pattern pat = Pattern.compile(splitPattern);
         return pat.matcher(trimmedStr);
+    }
+    @Override
+    public Iterator<String> getIterator(String problemStr){
+        return new MatcherIterator(this.getMatcher(problemStr));
     }
 }

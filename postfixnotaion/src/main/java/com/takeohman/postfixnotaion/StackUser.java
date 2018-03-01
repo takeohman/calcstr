@@ -1,6 +1,7 @@
 package com.takeohman.postfixnotaion;
 
 import com.takeohman.postfixnotaion.calculator.Calculator;
+import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
 import com.takeohman.postfixnotaion.tokenizer.TokenElement;
 import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
 
@@ -19,7 +20,7 @@ class StackUser{
         this.numericStack = numericStack;
         this.operatorStack = operatorStack;
         this.sc = sc;
-        this.ec = new TokenValueChecker();
+        this.ec = new TokenValueChecker(new BigDecimalNumericChecker());
     }
     class NoElementException extends RuntimeException{}
     /**
