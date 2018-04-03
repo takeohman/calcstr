@@ -59,7 +59,7 @@ public class TokenValueChecker implements TokenCheckerInterface {
      * @return boolean
      */
     public boolean isOperator(String val){
-        String[] op = {"*", "/","+", "-", "×", "÷", "^"};
+        String[] op = {"*", "/","+", "-", "×", "÷", "^", "!"};
         return Arrays.asList(op).contains(val);
     }
 

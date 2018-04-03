@@ -15,6 +15,7 @@ public class TestQuestions {
         String question = null;
         String ans = null;
         String desc = null;
+        Boolean isAmbiguous = false;
         ArrayList<String> expectedList = null;
 
         Question(String q, String ans, String[] expectedList, String desc){
@@ -22,6 +23,7 @@ public class TestQuestions {
             this.ans = ans;
             this.desc = desc;
             this.expectedList = new ArrayList<>();
+            this.isAmbiguous = false;
             Collections.addAll(this.expectedList, expectedList);
         }
         public String getQuestion(){
@@ -30,12 +32,15 @@ public class TestQuestions {
         public String getAns(){
             return this.ans;
         }
+        public void setIsAmbiguous(Boolean isAmbiguous){this.isAmbiguous = isAmbiguous;}
+        public boolean isAmbiguous(){return this.isAmbiguous;}
         public ArrayList<String> getExpectedList(){return this.expectedList;}
     }
     public static ArrayList<Question> getQuestionList(){
         if (questionList == null){
             questionList = _getQuestion();
             questionList.addAll(_getQuestion_TwoOrMoreOperator());
+//            questionList = _getQuestion_TwoOrMoreOperator();
         }
         return questionList;
     }
@@ -44,11 +49,15 @@ public class TestQuestions {
 
         {
             String[] tmp = {"+"};
-            ql.add(new Question("+","0", tmp, ""));
+            Question _q = new Question("+","0", tmp, "");
+            _q.setIsAmbiguous(true);
+            ql.add(_q);
         }
         {
             String[] tmp = {"*"};
-            ql.add(new Question("*", "1", tmp, ""));
+            Question _q = new Question("*", "1", tmp, "");
+            _q.setIsAmbiguous(true);
+            ql.add(_q);
         }
         {
             String[] tmp = {"+","1"};
@@ -84,7 +93,10 @@ public class TestQuestions {
         }
         {
             String[] tmp = {"2", "-"};
-            ql.add(new Question("2-","2", tmp, "不完全な式：二項演算子の右辺がない場合"));
+            Question _q = new Question("2-","2", tmp, "不完全な式：二項演算子の右辺がない場合");
+            // TODO: 2-と-2の区別がつかない
+            _q.setIsAmbiguous(true);
+            ql.add(_q);
         }
         {
             String[] tmp = {"/", "2"};
@@ -107,8 +119,17 @@ public class TestQuestions {
             ql.add(new Question("(4)!","24", tmp, "階乗演算子（ 括弧内の値１つに対して階乗 ）"));
         }
         {
+            // GoogleのWeb版計算機では以下の結果になる。
+            // "-" は
+            // -4! = -24
+            // (-4)! = ERROR
+            //
             String[] tmp = {"(", "-4", ")", "!"};
-            ql.add(new Question("(-4)!","24", tmp, "階乗演算子（ 括弧内のマイナス値１つに対して階乗 ）"));
+            ql.add(new Question("(-4)!","-24", tmp, "階乗演算子（ 括弧内のマイナス値１つに対して階乗 ）"));
+        }
+        {
+            String[] tmp = {"(", "-5", ")", "!"};
+            ql.add(new Question("(-5)!","-120", tmp, "階乗演算子（ 括弧内の値１つに対して階乗 ）"));
         }
         {
             String[] tmp = {"3", "!", "4"};
@@ -167,8 +188,11 @@ public class TestQuestions {
             ql.add(new Question("(1 + 2) * (2 + 3 * 4) ","42", tmp, ""));
         }
         {
+            // TODO:逆ポーランド記法だと答えは9になる。答えを別に用意する等が必要か。
             String[] tmp = {"(", "1", "+", "2", ")", "*", "(", "2", "+", "3", "*", "("};
-            ql.add(new Question("(1 + 2) * (2 + 3 * ( ","15", tmp, ""));
+            Question _q = new Question("(1 + 2) * (2 + 3 * ( ","15", tmp, "");
+            _q.setIsAmbiguous(true);
+            ql.add(_q);
         }
         {
             String[] tmp = {"(", "1", "+", "2", ")", "*", "(", "2", "+", "3", "*", "(", "4"};
@@ -180,7 +204,10 @@ public class TestQuestions {
         }
         {
             String[] tmp = {"(", "1", "+", "2", ")", "*", "(", "2", "+", "3", "*", "(", "4", "+"};
-            ql.add(new Question("(1 + 2) * (2 + 3 * (4 +  ","42", tmp, ""));
+            Question q = new Question("(1 + 2) * (2 + 3 * (4 +  ","42", tmp, "");
+            // 逆ポーランド記法にして普通に計算すると17になるのでambiguous=trueにする。
+            q.setIsAmbiguous(true);
+            ql.add(q);
         }
         {
             String[] tmp = {"(", "1", "+", "2", ")", "*", "(", "2", "+", "3", "*", "(", "4", "+", "1"};
@@ -196,11 +223,15 @@ public class TestQuestions {
         }
         {
             String[] tmp = {"1", "+", "2", "*", "(", "2", "+", "3", "*", "("};
-            ql.add(new Question("1 + 2 * (2 + 3 * ( ","11", tmp, ""));
+            Question q = new Question("1 + 2 * (2 + 3 * ( ","11", tmp, "");
+            q.setIsAmbiguous(true);
+            ql.add(q);
         }
         {
             String[] tmp = {"(", "1", ")", "+", "2", "*", "(", "2", "+", "3", "*", "("};
-            ql.add(new Question("(1) + 2 * (2 + 3 * ( ","11", tmp, ""));
+            Question q = new Question("(1) + 2 * (2 + 3 * ( ","11", tmp, "");
+            q.setIsAmbiguous(true);
+            ql.add(q);
         }
         {
             String[] tmp = {"2", "(", "1", "+", "2", ")"};
@@ -282,11 +313,16 @@ public class TestQuestions {
         ArrayList<Question> ql = new ArrayList<>();
         {
             String[] tmp = {"-", "-", "1"};
-            ql.add(new Question("--1", "1", tmp, "-が２つ連続する場合。（数字一つ）"));
+            Question _q = new Question("--1", "1", tmp, "-が２つ連続する場合。（数字一つ）");
+            _q.setIsAmbiguous(true);
+            ql.add(_q);
         }
         {
             String[] tmp = {"1", "-", "-", "1"};
-            ql.add(new Question("1--1", "2", tmp, "-が２つ連続する場合。（数字２つ）N+Nと判定される。"));
+            Question _q = new Question("1--1", "2", tmp, "-が２つ連続する場合。（数字２つ）N+Nと判定される。");
+            // 逆ポーランドにすると : [1, -, 1, -] = -2 となり期待している2にならない
+            _q.setIsAmbiguous(true);
+            ql.add(_q);
         }
         {
             String[] tmp = {"1", "+", "-", "1"};
@@ -298,7 +334,9 @@ public class TestQuestions {
         }
         {
             String[] tmp = {"1", "-", "+", "1"};
-            ql.add(new Question("1-+1", null, tmp, "-+の順番で演算子が並ぶ場合。計算不可。"));
+            Question q = new Question("1-+1", null, tmp, "-+の順番で演算子が並ぶ場合。計算不可。");
+            q.setIsAmbiguous(true);
+            ql.add(q);
         }
         {
             String[] tmp = {"2", "*", "-2"};
@@ -306,12 +344,17 @@ public class TestQuestions {
         }
         {
             String[] tmp = {"2", "-", "+", "2"};
-            ql.add(new Question("2-+2", null, tmp, "-+の順番で演算子が並ぶ場合。計算不可。"));
+            Question q = new Question("2-+2", null, tmp, "-+の順番で演算子が並ぶ場合。計算不可。");
+            q.setIsAmbiguous(true);
+            ql.add(q);
 
         }
         {
             String[] tmp = {"6", "*", "*", "3"};
-            ql.add(new Question("6**3", "216", tmp, "*が2つ連続する場合。=6*6*6"));
+            Question q = new Question("6**3", "216", tmp, "*が2つ連続する場合。=6*6*6");
+            // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
+            q.setIsAmbiguous(true);
+            ql.add(q);
         }
         {
             String[] tmp = {"(", "1", "+", "2", ")", "*", "(", "2", "+", "3", ")"};

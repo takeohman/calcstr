@@ -2,6 +2,8 @@ package com.takeohman.postfixnotaion;
 
 import com.takeohman.postfixnotaion.calculator.BigDecimalCalculator;
 import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
+import com.takeohman.postfixnotaion.splitter.StringSplitter;
+import com.takeohman.postfixnotaion.tokenizer.StringTokenizer;
 import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
 
 import org.junit.Test;
@@ -65,7 +67,45 @@ public class PostfixNotationUtilTest {
         ArrayList<String> result3 = pnu.convertInfixToPostfix(pbm3);
         assertEquals(result3, expected3);
     }
+    @Test
+    public void convertInfixToPostfix2() throws Exception {
+        PostfixNotationUtil pnu = new PostfixNotationUtil(
+                new TokenValueChecker(new BigDecimalNumericChecker()),
+                new BigDecimalCalculator()
+        );
+        StringTokenizer st = new StringTokenizer(new StringSplitter());
+        ArrayList<TestQuestions.Question> tq = TestQuestions.getQuestionList();
+        for (TestQuestions.Question _question: tq){
+            if (_question.isAmbiguous()){
+                System.out.println("Ignored question (" + this.getClass().getSimpleName() + ") : "  + _question.getQuestion() + " = " + _question.getAns());
+                continue;
+            }
+            String _str = _question.getQuestion();
 
+            ArrayList<String> _list = pnu.convertInfixToPostfix(st.getList(_str));
+            try {
+                String ans = pnu.calcPolishStrList(_list);
+//                System.out.println(_str + "=" + ans);
+                String _s = "null";
+                if (_list != null){
+                    _s = _list.toString();
+                }
+                assertEquals(_question.getQuestion() + ":" + _s,_question.getAns(), ans);
+            } catch(Exception e) {
+                System.out.println("Exception:" + _question.getQuestion());
+                System.out.println("         :" + e.toString());
+
+                for(StackTraceElement _s:e.getStackTrace()){
+                    System.out.println("         " + _s.toString());
+                }
+
+
+            }
+
+        }
+
+
+    }
 //    @Test
 //    public void convertInfixToPostfix2() throws Exception {
 //        PostfixNotationUtil pnu = new PostfixNotationUtil(
