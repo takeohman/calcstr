@@ -140,6 +140,9 @@ class PostfixNotationUtil {
         if (isExceptionFired){
             return null;
         }
+        if (local_stack.size() <= 0){
+            return "";
+        }
         return local_stack.pop();
     }
 }
