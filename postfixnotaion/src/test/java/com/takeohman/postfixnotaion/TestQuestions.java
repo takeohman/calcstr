@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+
 /**
  * Created by takeoh on 2018/02/22.
  */
@@ -12,7 +13,10 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
     public enum TestQuestionType{
         Basic("basic"),
         ManyOperator("many_operator"),
-        UI("ui");
+        UI("ui"),
+        Impossible("impossible"),
+        SinCosTan("sin_cos_tan"),
+        Log("log");
 
         String type;
         TestQuestionType(String type){
@@ -461,6 +465,249 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
         return _q;
     }
 
+
+    public Question get_log(int index){
+        Question _q = null;
+
+        switch (index) {
+            case 0: {
+                String[] tmp = {"log", "(","1",")"};
+                _q = new Question("log(1)",
+                        "0",
+                        tmp, ""
+                );
+                break;
+            }
+            case 1: {
+                String[] tmp = {"log", "(","10",")"};
+                _q = new Question("log(10)",
+                        "1",
+                        tmp, ""
+                );
+                break;
+            }
+            case 2: {
+                String[] tmp = {"log", "(","100",")"};
+                _q = new Question("log(100)",
+                        "2",
+                        tmp, ""
+                );
+                break;
+            }
+            case 3: {
+                // 2.301029996
+                String [] tmp = {"log","(","200",")"};
+                _q = new Question("log(200)",
+                        "2.301029995663981253528618253767490386962890625",
+                        tmp, ""
+                );
+                break;
+            }
+        }
+        return _q;
+    }
+    /**
+     * sin(N), cos(N), tan(N), log(N)等のテスト
+     * @param index
+     * @return
+     */
+    public Question get_sin_cos_tan(int index){
+        Question _q = null;
+
+        switch (index){
+            case 0:{
+                String[] tmp = {"sin","(",")"};
+                _q = new Question("sin(1)",
+                        "0.8414709848078965048756572286947630345821380615234375",
+                        tmp, ""
+                );
+                break;
+            }
+            case 1:{
+                // 0.4997701026
+                String[] tmp = {"sin","(","30","*","3.14","/","180",")"};
+                _q = new Question("sin(30*3.14/180)",
+                        "0.499770102614230438131670553048024885356426239013671875",
+                        tmp, ""
+                );
+                break;
+            }
+            case 2:{
+                // 1.8414709848
+                String[] tmp = {"1","+","sin","(","1",")"};
+                _q = new Question("1 + sin(1)",
+                        "1.8414709848078965048756572286947630345821380615234375",
+                        tmp, ""
+                );
+                break;
+            }
+            case 3:{
+                // 1.6829419696
+                String[] tmp = {"2","sin","(","1",")"};
+                _q = new Question("2sin(1)",
+                        "1.6829419696157930097513144573895260691642761230468750",
+                        tmp, ""
+                );
+                break;
+            }
+            case 4:{
+                // 4.6829419696
+                String[] tmp = {"2","sin","(","1",")","+","3"};
+                _q = new Question("2sin(1) + 3",
+                        "4.6829419696157930097513144573895260691642761230468750",
+                        tmp, ""
+                );
+                break;
+            }
+            /*
+            cos()
+            */
+            case 5:{
+                // 0.5403023059
+                String[] tmp = {"cos","(","1",")"};
+                _q = new Question("cos(1)",
+                        "0.540302305868139765010482733487151563167572021484375",
+                        tmp, ""
+                );
+                break;
+            }
+            case 6:{
+                // 0.8661580944
+                String[] tmp = {"cos","(","30","*","3.14","/","180",")"};
+                _q = new Question("cos(30*3.14/180)",
+                        "0.86615809442212199353861024064826779067516326904296875",
+                        tmp, ""
+                );
+                break;
+            }
+            case 7:{
+                // 1.5403023059
+                String[] tmp = {"1","+","cos","(","1",")"};
+                _q = new Question("1 + cos(1)",
+                        "1.540302305868139765010482733487151563167572021484375",
+                        tmp, ""
+                );
+                break;
+            }
+            case 8:{
+                // 1.0806046118
+                String[] tmp = {"2","cos","(","1",")"};
+                _q = new Question("2cos(1)",
+                        "1.080604611736279530020965466974303126335144042968750",
+                        tmp, ""
+                );
+                break;
+            }
+            case 9:{
+                // 4.0806046118
+                String[] tmp = {"2","cos","(","1",")","+","3"};
+                _q = new Question("2cos(1) + 3",
+                        "4.080604611736279530020965466974303126335144042968750",
+                        tmp, ""
+                );
+                break;
+            }
+            /*
+            tan()
+            */
+            case 10:{
+                String[] tmp = {"tan","(","1",")"};
+                _q = new Question("tan(1)",
+                        "1.557407724654902292371616567834280431270599365234375",
+                        tmp, ""
+                );
+                break;
+            }
+            case 11:{
+                String[] tmp = {"tan","(","1",")"};
+                _q = new Question("tan(1)",
+                        "1.557407724654902292371616567834280431270599365234375",
+                        tmp, ""
+                );
+                break;
+            }
+            case 12:{
+                String[] tmp = {"tan","(","30","*","3.14","/","180",")"};
+                _q = new Question("tan(30*3.14/180)",
+                        "0.57699640034844212888032188857323490083217620849609375",
+                        tmp, ""
+                );
+                break;
+            }
+            case 13:{
+                String[] tmp = {"1","+","tan","(","1",")"};
+                _q = new Question("1 + tan(1)",
+                        "2.557407724654902292371616567834280431270599365234375",
+                        tmp, ""
+                );
+                break;
+            }
+            case 14:{
+                String[] tmp = {"2","tan","(","1",")"};
+                _q = new Question("2tan(1)",
+                        "3.114815449309804584743233135668560862541198730468750",
+                        tmp, ""
+                );
+                break;
+            }
+            case 15:{
+                String[] tmp = {"2","tan","(","1",")","+","3"};
+                _q = new Question("2tan(1) + 3",
+                        "6.114815449309804584743233135668560862541198730468750",
+                        tmp, ""
+                );
+                break;
+            }
+        }
+        return _q;
+    }
+    /**
+     * 計算不能なパターン
+     * @param index
+     * @return Question
+     */
+    public Question get_impossible(int index){
+        Question _q = null;
+        switch (index) {
+            case 0: {
+                //doCalcの最初、stackへのアクセス箇所で例外
+                String[] tmp = {"log","(",")"};
+                _q = new Question("log()", null, tmp, "");
+                break;
+            }
+            case 1: {
+                String[] tmp = {"(",")"};
+                _q = new Question("()", null, tmp, "");
+                break;
+            }
+            case 2: {
+                String[] tmp = {"(","("};
+                _q = new Question("((", "", tmp, "");
+                break;
+            }
+            case 3: {
+                String[] tmp = {")"};
+                _q = new Question(")", null, tmp, "");
+                break;
+            }
+            case 4: {
+                String[] tmp = {")","("};
+                _q = new Question(")(", null, tmp, "");
+                break;
+            }
+        }
+        return _q;
+    }
+
+    /**
+     * UIからの入力を想定したテスト
+     * @param index
+     * @return
+     *
+     * UIから入力された文字を解析していく際に、数字以外の入力可能な文字のみが入力されている状態と
+     * 式として成り立たない入力不可能な文字が入力されている状態を分けて扱わないと何も入力できなくなる。
+     * ここではそういったケースをテストしたい。
+     */
     public Question get_ui(int index){
         Question _q = null;
         switch (index){
