@@ -2,6 +2,8 @@ package com.takeohman.postfixnotaion;
 
 import com.takeohman.postfixnotaion.calculator.BigDecimalCalculator;
 import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
+import com.takeohman.postfixnotaion.checker.FunctionChecker;
+import com.takeohman.postfixnotaion.checker.OperatorChecker;
 import com.takeohman.postfixnotaion.splitter.StringSplitter;
 import com.takeohman.postfixnotaion.tokenizer.StringTokenizer;
 import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
@@ -19,13 +21,15 @@ public class PostfixNotationUtilTest {
     @Test
     public void convertInfixToPostfix() throws Exception {
         PostfixNotationUtil pnu = new PostfixNotationUtil(
-            new TokenValueChecker(new BigDecimalNumericChecker()),
+            new TokenValueChecker(new BigDecimalNumericChecker(), new FunctionChecker(), new OperatorChecker()),
             new BigDecimalCalculator()
         );
         TestQuestions.TestQuestionType[] tp = {
             TestQuestions.TestQuestionType.Basic,
             TestQuestions.TestQuestionType.ManyOperator,
-            TestQuestions.TestQuestionType.UI
+            TestQuestions.TestQuestionType.UI,
+            TestQuestions.TestQuestionType.Log,
+            TestQuestions.TestQuestionType.SinCosTan,
         };
 
         for (TestQuestions.TestQuestionType type : tp) {

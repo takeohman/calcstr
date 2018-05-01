@@ -1,6 +1,8 @@
 package com.takeohman.postfixnotaion.tokenizer;
 
 import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
+import com.takeohman.postfixnotaion.checker.FunctionChecker;
+import com.takeohman.postfixnotaion.checker.OperatorChecker;
 import com.takeohman.postfixnotaion.splitter.StringSplitter;
 
 import org.junit.Test;
@@ -30,7 +32,7 @@ public class StringListTokenizerTest {
     public void getProblemStrObjListFromStr() throws Exception {
         StringListTokenizer tokenizer = new StringListTokenizer(
                 new StringTokenizer(new StringSplitter()),
-                new TokenValueChecker(new BigDecimalNumericChecker())
+                new TokenValueChecker(new BigDecimalNumericChecker(), new FunctionChecker(), new OperatorChecker())
         );
         ArrayList<TokenElement> temp = tokenizer.getList("1 * (2 + 3) ");
 

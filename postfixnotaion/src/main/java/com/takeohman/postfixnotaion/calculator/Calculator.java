@@ -10,7 +10,8 @@ public interface Calculator<T extends Number> {
     T multiply(String strA, String strB);
     T divide(String strA, String strB);
     T involution(String strA, String strB);
-    T calculate(String strA, String strB, String operator);
+    T calculate(String operator, String strA, String strB);
+    T calculate(String operator, String str);
     T factorial(String intValStr);
     T sin(String inValStr);
     T cos(String inValStr);

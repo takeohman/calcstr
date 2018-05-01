@@ -3,6 +3,8 @@ package com.takeohman.postfixnotaion;
 import com.takeohman.postfixnotaion.calculator.BigDecimalCalculator;
 import com.takeohman.postfixnotaion.calculator.Calculator;
 import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
+import com.takeohman.postfixnotaion.checker.FunctionChecker;
+import com.takeohman.postfixnotaion.checker.OperatorChecker;
 import com.takeohman.postfixnotaion.splitter.StringSplitter;
 import com.takeohman.postfixnotaion.tokenizer.StringListTokenizer;
 import com.takeohman.postfixnotaion.tokenizer.StringTokenizer;
@@ -30,7 +32,7 @@ public class PostfixNotation {
             new BigDecimalCalculator(),
             new StringListTokenizer(
                     new StringTokenizer(new StringSplitter()),
-                    new TokenValueChecker(new BigDecimalNumericChecker())
+                    new TokenValueChecker(new BigDecimalNumericChecker(), new FunctionChecker(), new OperatorChecker())
             )
         );
     }

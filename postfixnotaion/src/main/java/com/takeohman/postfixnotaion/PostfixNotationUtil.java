@@ -108,18 +108,22 @@ class PostfixNotationUtil {
                         String b = local_stack.pop();
                         String a = local_stack.pop();
 
-                        BigDecimal ans = this.sc.calculate(a, b, st);
+                        BigDecimal ans = this.sc.calculate(st, a, b);
                         local_stack.push(ans.toString());
                     } else {
                         // 単項演算子ではない（=二項演算子）のにlocal_stackに1つしか要素がない場合
                         String b = local_stack.pop();
                         String a = "0";
-                        if (st.equals("*") || st.equals("/")){
+                        if (st.equals("*") || st.equals("/")) {
                             a = "1";
                         }
-                        BigDecimal ans = this.sc.calculate(a, b, st);
+                        BigDecimal ans = this.sc.calculate(st, a, b);
                         local_stack.push(ans.toString());
                     }
+                } else if (this.ec.isFunction(st)){
+                    String a = local_stack.pop();
+                    BigDecimal ans = this.sc.calculate(st, a);
+                    local_stack.push(ans.toString());
                 } else {
                     local_stack.push(st);
                 }
@@ -134,7 +138,7 @@ class PostfixNotationUtil {
         while (local_stack.size() > 1){
             String b = local_stack.pop();
             String a = local_stack.pop();
-            BigDecimal ans = this.sc.calculate(a, b, "*");
+            BigDecimal ans = this.sc.calculate("*", a, b);
             local_stack.push(ans.toString());
         }
         if (isExceptionFired){
