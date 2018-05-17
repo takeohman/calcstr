@@ -16,7 +16,7 @@ public class MatcherIterator implements Iterator<String> {
      * @param matcher
      */
     public MatcherIterator(Matcher matcher){
-        this.init(matcher, 1);
+        this.init(matcher, this.group_index);
     }
 
     private void init(Matcher matcher, int group_index){

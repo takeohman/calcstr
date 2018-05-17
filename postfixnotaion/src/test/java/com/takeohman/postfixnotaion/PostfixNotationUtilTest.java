@@ -29,7 +29,7 @@ public class PostfixNotationUtilTest {
             TestQuestions.TestQuestionType.ManyOperator,
             TestQuestions.TestQuestionType.UI,
             TestQuestions.TestQuestionType.Log,
-            TestQuestions.TestQuestionType.SinCosTan,
+//            TestQuestions.TestQuestionType.SinCosTan,
         };
 
         for (TestQuestions.TestQuestionType type : tp) {
