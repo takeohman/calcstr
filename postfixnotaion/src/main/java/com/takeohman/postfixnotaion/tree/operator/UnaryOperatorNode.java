@@ -72,6 +72,12 @@ public class UnaryOperatorNode implements TreeUniNode {
         }
         return null;
     }
+
+    @Override
+    public String getExpression() {
+        return "";
+    }
+
     protected BigDecimal factorial(String intValStr){
 
         BigDecimal decOrg = new BigDecimal(intValStr);

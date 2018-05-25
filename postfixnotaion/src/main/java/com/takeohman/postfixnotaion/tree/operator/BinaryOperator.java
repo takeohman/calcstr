@@ -11,4 +11,27 @@ public enum BinaryOperator {
     BinaryOperator(String ope){
         this.ope = ope;
     }
+
+    @Override
+    public String toString(){return ope;}
+
+    static public BinaryOperator getOperator(String str){
+
+        switch(str){
+            case "+":
+                return BinaryOperator.Plus;
+            case "-":
+                return BinaryOperator.Minus;
+            case "*":
+            case "×":
+                return BinaryOperator.Multiplication;
+            case "/":
+            case "÷":
+                return BinaryOperator.Division;
+            case "^":
+                return BinaryOperator.Pow;
+
+        }
+        return null;
+    }
 }

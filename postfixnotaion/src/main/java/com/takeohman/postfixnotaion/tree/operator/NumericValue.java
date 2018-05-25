@@ -18,4 +18,9 @@ public class NumericValue implements TreeNode {
     public String getValue() {
         return this.value;
     }
+
+    @Override
+    public String getExpression() {
+        return value;
+    }
 }

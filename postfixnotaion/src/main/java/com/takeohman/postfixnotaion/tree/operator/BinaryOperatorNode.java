@@ -4,16 +4,21 @@ import com.takeohman.postfixnotaion.tree.node.TreeNode;
 import com.takeohman.postfixnotaion.tree.node.TreeBinNode;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class BinaryOperatorNode implements TreeBinNode {
     private BinaryOperator operator = null;
     private TreeNode leftNode = null;
     private TreeNode rightNode = null;
+    private MathContext mc = null;
+
 
 
     public BinaryOperatorNode(BinaryOperator ope){
+
         this.operator = ope;
+        this.mc = new MathContext(10, RoundingMode.HALF_EVEN);
     }
 
     @Override
@@ -67,7 +72,7 @@ public class BinaryOperatorNode implements TreeBinNode {
                     ans = bc.multiply(new BigDecimal(_right_value));
                     break;
                 case Division:
-                    ans = bc.divide(new BigDecimal(_right_value), RoundingMode.HALF_EVEN);
+                    ans = bc.divide(new BigDecimal(_right_value), this.mc);
                     break;
                 case Pow:
                     ans = bc.pow(new BigDecimal(_right_value).intValue());
@@ -78,5 +83,13 @@ public class BinaryOperatorNode implements TreeBinNode {
             }
         }
         return null;
+    }
+
+    @Override
+    public String getExpression() {
+        String lStr = leftNode.getExpression();
+        String rStr = rightNode.getExpression();
+
+        return String.format("( %s %s %s )", lStr, this.operator.toString(), rStr);
     }
 }
