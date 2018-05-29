@@ -695,6 +695,30 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q = new Question(")(", null, tmp, "");
                 break;
             }
+            case 5: {
+                // 50-*5
+                String[] tmp = {"50","-","*","5"};
+                _q = new Question("50-*5", null, tmp, "演算子の順序例外(-*)");
+                break;
+            }
+            case 6: {
+                // 50-/5
+                String[] tmp = {"50","-","/","5"};
+                _q = new Question("50-/5", null, tmp, "演算子の順序例外(-/)");
+                break;
+            }
+            case 7: {
+                // 50+*5
+                String[] tmp = {"50","+","*","5"};
+                _q = new Question("50+*5", null, tmp, "演算子の順序例外(+*)");
+                break;
+            }
+            case 8: {
+                // 50+/5
+                String[] tmp = {"50","+","/","5"};
+                _q = new Question("50+/5", null, tmp, "演算子の順序例外(+/)");
+                break;
+            }
         }
         return _q;
     }

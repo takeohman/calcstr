@@ -6,4 +6,5 @@ package com.takeohman.postfixnotaion.checker;
 
 public interface OperatorCheckerInterface {
     public boolean isOperator(String val);
+    //TODO: 単項演算子、二項演算子の判定メソッドを追加
 }

@@ -16,4 +16,5 @@ public class OperatorChecker implements OperatorCheckerInterface {
         String[] op = {"*", "/","+", "-", "×", "÷", "^", "!"};
         return Arrays.asList(op).contains(val);
     }
+    //TODO: 単項演算子、二項演算子の判定メソッドを追加
 }

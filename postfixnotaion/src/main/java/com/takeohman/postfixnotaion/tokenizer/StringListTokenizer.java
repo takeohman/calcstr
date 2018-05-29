@@ -76,6 +76,10 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                    |  +   |    -    |    -    |
                    |  +   |    +    |    +    |
                    |  -   |    +    |Exception|
+                   |  -   |    *    |Exception|
+                   |  -   |    /    |Exception|
+                   |  +   |    *    |Exception|
+                   |  +   |    /    |Exception|
                    |  (   |    )    |Exception|
 
                  */
@@ -93,6 +97,18 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                     continue;
                 }
                 else if (prevElement.isMinusOperator() && matchedElement.isPlusOperator()){
+                    throw new InvalidElementOrderException();
+                }
+                else if (prevElement.isMinusOperator() && matchedElement.isMultiplicationOperator()){
+                    throw new InvalidElementOrderException();
+                }
+                else if (prevElement.isMinusOperator() && matchedElement.isDivisionOperator()){
+                    throw new InvalidElementOrderException();
+                }
+                else if (prevElement.isPlusOperator() && matchedElement.isMultiplicationOperator()){
+                    throw new InvalidElementOrderException();
+                }
+                else if (prevElement.isPlusOperator() && matchedElement.isDivisionOperator()){
                     throw new InvalidElementOrderException();
                 }
                 else if (prevElement.isLeftBracket() && matchedElement.isRightBracket()){

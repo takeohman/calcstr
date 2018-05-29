@@ -108,6 +108,7 @@ public class PostfixNotation {
 
         try {
             TokenElementList pbmTokenObjList = this.stringListTokenizer.getList(problemStr);
+            // TODO: ここで各要素の数を取っておけばあとで使える。
             return this.calcInfixProblemStrList(pbmTokenObjList);
         } catch (StackUser.NoElementException ex) {
             //想定内
