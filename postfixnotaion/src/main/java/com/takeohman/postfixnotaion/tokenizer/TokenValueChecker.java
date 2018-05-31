@@ -37,6 +37,12 @@ public class TokenValueChecker implements TokenCheckerInterface {
     public boolean isOperator(String val){
         return this.operatorChecker.isOperator(val);
     }
+    public boolean isBinaryOperator(String val){
+        return this.operatorChecker.isBinaryOperator(val);
+    }
+    public boolean isUnaryOperator(String val){
+        return this.operatorChecker.isUnaryOperator(val);
+    }
 
     @Override
     public boolean isFunction(String val){
