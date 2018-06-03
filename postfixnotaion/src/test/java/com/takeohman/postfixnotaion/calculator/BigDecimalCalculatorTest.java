@@ -96,7 +96,7 @@ public class BigDecimalCalculatorTest {
     public void divide() throws Exception {
         BigDecimalCalculator sc = new BigDecimalCalculator();
 
-        BigDecimal bd = sc.calculate("1","2","/");
+        BigDecimal bd = sc.calculate("/","1","2");
         assertEquals(new BigDecimal("0.5"), bd.stripTrailingZeros());
     }
 
@@ -104,16 +104,16 @@ public class BigDecimalCalculatorTest {
     public void calculate() throws Exception {
         BigDecimalCalculator sc = new BigDecimalCalculator();
 
-        BigDecimal bd = sc.calculate("1","2","+");
+        BigDecimal bd = sc.calculate("+","1","2");
         assertEquals(3, bd.intValue());
 
-        bd = sc.calculate("1","2","*");
+        bd = sc.calculate("*","1","2");
         assertEquals(new BigDecimal("2"), bd);
 
-        bd = sc.calculate("1","2","-");
+        bd = sc.calculate("-","1","2");
         assertEquals(new BigDecimal("-1"), bd);
 
-        bd = sc.calculate("1","2","/");
+        bd = sc.calculate("/","1","2");
         assertEquals(new BigDecimal("0.5"), bd.stripTrailingZeros());
     }
 }

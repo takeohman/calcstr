@@ -1,23 +1,22 @@
 package com.takeohman.postfixnotaion.tokenizer;
 
+import com.takeohman.postfixnotaion.checker.FunctionCheckerInterface;
 import com.takeohman.postfixnotaion.checker.NumericChecker;
-
-import java.util.Arrays;
+import com.takeohman.postfixnotaion.checker.OperatorCheckerInterface;
+import com.takeohman.postfixnotaion.checker.PriorityChecker;
 
 public class TokenValueChecker implements TokenCheckerInterface {
-    private static final int PRIORITY_1 = 5;
-    private static final int PRIORITY_2 = 4;
-    private static final int PRIORITY_3 = 3;
-    private static final int PRIORITY_4 = 2;
-    private static final int PRIORITY_5 = 1;
-    private static final int PRIORITY_6 = 0;
-    private static final int PRIORITY_7 = -1;
-    private static final int PRIORITY_8 = -2;
 
     protected NumericChecker numericChecker;
+    private FunctionCheckerInterface functionChecker;
+    private OperatorCheckerInterface operatorChecker;
+    private PriorityChecker priorityChecker;
 
-    public TokenValueChecker(NumericChecker numericChecker){
+    public TokenValueChecker(NumericChecker numericChecker, FunctionCheckerInterface functionChecker, OperatorCheckerInterface operatorChecker){
         this.numericChecker = numericChecker;
+        this.functionChecker = functionChecker;
+        this.operatorChecker = operatorChecker;
+        this.priorityChecker = new PriorityChecker(numericChecker);
     }
 
     /**
@@ -27,30 +26,7 @@ public class TokenValueChecker implements TokenCheckerInterface {
      */
     @Override
     public int getValuePriority(String val){
-        String[] p1 = {"("};
-        String[] p3 = {"!"};
-        String[] p4 = {"^", "sin", "cos", "tan", "log"};
-        String[] p5 = {"*", "/"};
-        String[] p6 = {"+", "-"};
-        String[] p7 = {")"};
-
-        if (Arrays.asList(p1).contains(val)) {          // "("
-            return PRIORITY_1;
-        }else if (this.isNumeric(val)){   // 0,1,2....
-            return PRIORITY_3;
-        } else if (Arrays.asList(p3).contains(val)){    // !
-            return PRIORITY_2;
-        } else if (Arrays.asList(p4).contains(val)){    // ^
-            return PRIORITY_4;
-        } else if (Arrays.asList(p5).contains(val)){    // *, /
-            return PRIORITY_5;
-        } else if (Arrays.asList(p6).contains(val)){    // +, -
-            return PRIORITY_6;
-        } else if (Arrays.asList(p7).contains(val)){    // ")"
-            return PRIORITY_7;
-        } else {
-            return PRIORITY_8;
-        }
+        return this.priorityChecker.getValuePriority(val);
     }
 
     /**
@@ -59,14 +35,18 @@ public class TokenValueChecker implements TokenCheckerInterface {
      * @return boolean
      */
     public boolean isOperator(String val){
-        String[] op = {"*", "/","+", "-", "×", "÷", "^"};
-        return Arrays.asList(op).contains(val);
+        return this.operatorChecker.isOperator(val);
+    }
+    public boolean isBinaryOperator(String val){
+        return this.operatorChecker.isBinaryOperator(val);
+    }
+    public boolean isUnaryOperator(String val){
+        return this.operatorChecker.isUnaryOperator(val);
     }
 
     @Override
     public boolean isFunction(String val){
-        String[] func = {"sin", "cos", "tan", "log"};
-        return Arrays.asList(func).contains(val);
+        return this.functionChecker.isFunction(val);
     }
 
 

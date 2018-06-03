@@ -3,6 +3,8 @@ package com.takeohman.postfixnotaion;
 import com.takeohman.postfixnotaion.calculator.BigDecimalCalculator;
 import com.takeohman.postfixnotaion.calculator.Calculator;
 import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
+import com.takeohman.postfixnotaion.checker.FunctionChecker;
+import com.takeohman.postfixnotaion.checker.OperatorChecker;
 import com.takeohman.postfixnotaion.splitter.StringSplitter;
 import com.takeohman.postfixnotaion.tokenizer.StringListTokenizer;
 import com.takeohman.postfixnotaion.tokenizer.StringTokenizer;
@@ -30,7 +32,7 @@ public class PostfixNotation {
             new BigDecimalCalculator(),
             new StringListTokenizer(
                     new StringTokenizer(new StringSplitter()),
-                    new TokenValueChecker(new BigDecimalNumericChecker())
+                    new TokenValueChecker(new BigDecimalNumericChecker(), new FunctionChecker(), new OperatorChecker())
             )
         );
     }
@@ -103,23 +105,32 @@ public class PostfixNotation {
      * @return 答え (ex. "3", "": 入力可能だが計算不可能な場合, null:入力不可能文字が入力された場合)
      */
     public String calcInfixStr(String problemStr){
+        PostfixNotationResult result = this.calcInfixProblemString(problemStr);
+        return result.getAns();
+    }
 
+    public PostfixNotationResult calcInfixProblemString(String problemStr){
+
+        String ans = null;
+        TokenElementList pbmTokenObjList = null;
         try {
-            TokenElementList pbmTokenObjList = this.stringListTokenizer.getList(problemStr);
-            return this.calcInfixProblemStrList(pbmTokenObjList);
+            pbmTokenObjList = this.stringListTokenizer.getList(problemStr);
+            ans = this.calcInfixProblemStrList(pbmTokenObjList);
+
         } catch (StackUser.NoElementException ex) {
             //想定内
-            return null;
+            ans = null;
         } catch (StringListTokenizer.InvalidElementOrderException ex) {
             //想定内
-            return null;
+            ans = null;
         } catch (StringListTokenizer.InvalidBracketCountException ex) {
-            return null;
+            ans = null;
         } catch (StringListTokenizer.LeftBracketOnlyException ex){
-            return "";
+            ans =  "";
         } catch (Exception ex) {
             //想定外
-            return "";
+            ans =  "";
         }
+        return new PostfixNotationResult(problemStr, ans, pbmTokenObjList);
     }
 }

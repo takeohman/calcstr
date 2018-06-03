@@ -185,4 +185,7 @@ public class TokenElement {
     public boolean isFunction() { return this.ec.isFunction(this.str);}
 
     public boolean isPeriodStr(){ return this.str.equals(".");}
+
+    public boolean isBinaryOperator() {return this.ec.isBinaryOperator(this.str);}
+    public boolean isUnaryOperator() {return this.ec.isUnaryOperator(this.str);}
 }
