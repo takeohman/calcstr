@@ -1,5 +1,7 @@
 package com.takeohman.postfixnotaion.calculator;
 
+import com.takeohman.postfixnotaion.formatter.StringRZeroTrimmer;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -11,9 +13,11 @@ import java.math.RoundingMode;
 
 public class BigDecimalCalculator implements Calculator<BigDecimal>{
     private MathContext mc;
+    int scale;
 
     public BigDecimalCalculator(){
-        this.mc = new MathContext(10, RoundingMode.HALF_EVEN);
+        this.mc = new MathContext(12, RoundingMode.HALF_EVEN);
+        this.scale = 12;
     }
 
     /**
@@ -51,7 +55,9 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
         BigDecimal b = new BigDecimal(strB);
         return a.multiply(b);
     }
-
+//    private BigDecimal trimRightZero(BigDecimal val){
+//        return new BigDecimal(val.toString().replaceAll("[.]?0+$", ""));
+//    }
     /**
      * 割り算
      * @param strA
@@ -73,7 +79,10 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
     public BigDecimal involution(String strA, String strB){
         BigDecimal a = new BigDecimal(strA);
         BigDecimal b = new BigDecimal(strB);
-        return a.pow(b.intValue());
+        BigDecimal bdAns = new BigDecimal(
+                Math.pow(a.doubleValue(), b.doubleValue())).setScale(this.scale, RoundingMode.HALF_EVEN);
+        StringRZeroTrimmer trimmer = new StringRZeroTrimmer();
+        return new BigDecimal(trimmer.format(bdAns.toString()));
     }
 
     /**

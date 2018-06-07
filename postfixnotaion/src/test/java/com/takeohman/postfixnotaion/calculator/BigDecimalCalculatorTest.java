@@ -18,6 +18,12 @@ public class BigDecimalCalculatorTest {
 
         actual = sc.involution("3","2");
         assertEquals(9, actual.intValue());
+
+        actual = sc.involution("2","-1");
+        assertEquals(new BigDecimal("0.5"), actual);
+
+        actual = sc.involution("2","-1.9");
+        assertEquals(new BigDecimal("0.267943365634"), actual);
     }
 
     @Test

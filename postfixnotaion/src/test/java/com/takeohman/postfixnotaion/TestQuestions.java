@@ -157,7 +157,7 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
             }
             case 12: {
                 String[] tmp = {"/", "3"};
-                _q = new Question("/3","0.3333333333", tmp, "割り算（割られる数が空の場合に1を対象にすることの確認2）");
+                _q = new Question("/3","0.333333333333", tmp, "割り算（割られる数が空の場合に1を対象にすることの確認2）");
                 break;
             }
             case 13: {
@@ -401,6 +401,11 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q = new Question(".1.23.4", "0.0092", tmp, "数字の先頭に.があり、合計で3つの.がある式。(=0.1*0.23*0.4)");
                 break;
             }
+            case 59: {
+                String[] tmp = {"/", "3", "+", "100000"};
+                _q = new Question("/3 + 100000","100000.333333333333", tmp, "割り算（割られる数が空の場合に1を対象にすることの確認3）");
+                break;
+            }
         }
 
         return _q;
@@ -459,6 +464,13 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
             case 8: {
                 String[] tmp = {"(", "1", "+", "2", ")", "*", "(", "2", "+", "3", ")"};
                 _q = new Question("(1 + 2) * (2 + 3)", "15", tmp, "");
+                break;
+            }
+            case 9: {
+                String[] tmp = {"2", "*", "*", "-1"};
+                _q = new Question("2 * * -1", "0.5", tmp, "階乗にマイナス値が渡った場合のテスト");
+                // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
+                _q.setIsAmbiguous(true);
                 break;
             }
         }
@@ -527,7 +539,8 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 // 0.4997701026
                 String[] tmp = {"sin","(","30","*","3.14","/","180",")"};
                 _q = new Question("sin(30*3.14/180)",
-                        "0.499770102614230438131670553048024885356426239013671875",
+//                        "0.499770102614230438131670553048024885356426239013671875",
+                        "0.499770102642813685012157520759501494467258453369140625",
                         tmp, ""
                 );
                 break;
@@ -575,7 +588,8 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 // 0.8661580944
                 String[] tmp = {"cos","(","30","*","3.14","/","180",")"};
                 _q = new Question("cos(30*3.14/180)",
-                        "0.86615809442212199353861024064826779067516326904296875",
+//                        "0.86615809442212199353861024064826779067516326904296875",
+                        "0.86615809440562951948550107772462069988250732421875",
                         tmp, ""
                 );
                 break;
@@ -629,7 +643,8 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
             case 12:{
                 String[] tmp = {"tan","(","30","*","3.14","/","180",")"};
                 _q = new Question("tan(30*3.14/180)",
-                        "0.57699640034844212888032188857323490083217620849609375",
+//                        "0.57699640034844212888032188857323490083217620849609375",
+                        "0.57699640039242872102676074064220301806926727294921875",
                         tmp, ""
                 );
                 break;
