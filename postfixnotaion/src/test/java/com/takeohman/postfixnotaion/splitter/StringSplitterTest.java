@@ -20,7 +20,8 @@ public class StringSplitterTest {
         TestQuestions.TestQuestionType[] tp = {
             TestQuestions.TestQuestionType.Basic,
             TestQuestions.TestQuestionType.ManyOperator,
-            TestQuestions.TestQuestionType.UI
+            TestQuestions.TestQuestionType.UI,
+            TestQuestions.TestQuestionType.Comma
         };
 
         for (TestQuestions.TestQuestionType type : tp) {

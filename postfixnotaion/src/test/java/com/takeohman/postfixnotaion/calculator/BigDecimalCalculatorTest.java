@@ -79,8 +79,14 @@ public class BigDecimalCalculatorTest {
     public void add() throws Exception {
         BigDecimalCalculator sc = new BigDecimalCalculator();
 
-        BigDecimal bd = sc.add("1","2");
-        assertEquals(bd.intValue(), 3);
+        {
+            BigDecimal bd = sc.add("1", "2");
+            assertEquals(bd.intValue(), 3);
+        }
+//        {
+//            BigDecimal bd = sc.add("1,000", "2,000");
+//            assertEquals(bd.intValue(), 3000);
+//        }
     }
 
     @Test

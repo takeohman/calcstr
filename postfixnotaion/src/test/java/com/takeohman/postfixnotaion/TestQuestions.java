@@ -16,7 +16,8 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
         UI("ui"),
         Impossible("impossible"),
         SinCosTan("sin_cos_tan"),
-        Log("log");
+        Log("log"),
+        Comma("comma");
 
         String type;
         TestQuestionType(String type){
@@ -781,6 +782,22 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 String[] tmp = {"(", "1", "-", "2", "(", "3"};
                 _q = new Question("(1-2(3", "-5", tmp, "");
                 _q.setIsAmbiguous(true);
+                break;
+            }
+        }
+        return _q;
+    }
+    public Question get_comma(int index){
+        Question _q = null;
+        switch (index){
+            case 0: {
+                String[] tmp = {"100,000"};
+                _q = new Question("100,000", "100000", tmp, "");
+                break;
+            }
+            case 1: {
+                String[] tmp = {"100,000", "+", "2,000"};
+                _q = new Question("100,000 + 2,000", "102000", tmp, "");
                 break;
             }
         }
