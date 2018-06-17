@@ -40,9 +40,19 @@ public class NumericValueFormatUtil {
      * Format the numeric value with cursor.
      * @param problem_str String
      * @param cursorPosition int
-     * @return
+     * @return String
      */
     String convertNumericValueWithCursor(String problem_str, int cursorPosition){
+        return this.convertNumericValueWithCursor(problem_str, cursorPosition, "");
+    }
+    /**
+     * Format the numeric value with cursor.
+     * @param problem_str String
+     * @param cursorPosition int
+     * @param insertStr String
+     * @return
+     */
+    String convertNumericValueWithCursor(String problem_str, int cursorPosition, String insertStr){
 
 
         if (problem_str.length() <= 0 || cursorPosition < 0){
@@ -50,7 +60,10 @@ public class NumericValueFormatUtil {
         }
         String str_cursor_right = cursorPosition < problem_str.length() ? problem_str.substring(cursorPosition,
                 problem_str.length()) : "";
-        String str_cursor_left = problem_str.substring(0, cursorPosition);
+
+        String str_to_add = insertStr == null ? "" : insertStr;
+        int split_index = (insertStr == null && cursorPosition > 0) ? 1 : 0;
+        String str_cursor_left = problem_str.substring(0, cursorPosition - split_index) + str_to_add;
 
         // The prefix is the tail of the value.
         MatchedString ms_prefix = this.getNumericEdgeString(str_cursor_left, regPatternTail);
