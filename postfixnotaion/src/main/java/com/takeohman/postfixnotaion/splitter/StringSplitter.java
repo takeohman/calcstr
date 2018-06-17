@@ -21,7 +21,7 @@ public class StringSplitter implements Splitter {
      * @return Matcher
      */
     public Matcher getMatcher(String problemStr){
-        String splitPattern = "(^[-][0-9]*[.]?[0-9]+|^[-][0-9]+|(?<=([*/]))[-+](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|(?<=\\()[-](?:<P>[0-9]+|[0-9]*[.]?[0-9]+|[0-9]+)|[0-9]*[.]?[0-9]+|[0-9]+|!|sin|cos|tan|log|[^()0-9 ]+?|\\(|\\))";
+        String splitPattern = "(^[-][0-9,]*[.]?[0-9]+|^[-][0-9,]+|(?<=([*/]))[-+](?:<P>[0-9,]+|[0-9,]*[.]?[0-9]+|[0-9,]+)|(?<=\\()[-](?:<P>[0-9,]+|[0-9,]*[.]?[0-9]+|[0-9,]+)|[0-9,]*[.]?[0-9]+|[0-9,]+|!|sin|cos|tan|log|[^()0-9, ]+?|\\(|\\))";
 
         String trimmedStr = problemStr.replace(" ", "");
 
