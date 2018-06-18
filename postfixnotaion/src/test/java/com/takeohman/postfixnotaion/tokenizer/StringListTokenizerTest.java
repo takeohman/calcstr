@@ -128,8 +128,8 @@ public class StringListTokenizerTest {
 
         e5 = new ArrayList<>();
         e5.add("1");
-        e5.add("+");
-        e5.add("1");
+        e5.add("-");
+        e5.add("-1");
         assertEquals(e5, l1);
 
 
