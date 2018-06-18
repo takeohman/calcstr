@@ -11,6 +11,8 @@ public class TokenElement {
 
     int index;  // 式中のインデックス
     String str; // 文字
+    String numeric_str;
+    Boolean isValid;
 
     private TokenCheckerInterface ec;
 
@@ -21,8 +23,9 @@ public class TokenElement {
      */
     public TokenElement(TokenCheckerInterface ec, int index, String str){
         this.index = index;
-        this.str = str;
         this.ec = ec;
+        this.setStr(str);
+        this.isValid = true;
     }
 
     /**
@@ -31,10 +34,18 @@ public class TokenElement {
      */
     public TokenElement(TokenCheckerInterface ec, String str){
         this.index = -1;
-        this.str = str;
         this.ec = ec;
+        this.setStr(str);
+        this.isValid = true;
     }
 
+    public Boolean getIsValid(){
+        return this.isValid;
+    }
+
+    public void setIsValid(Boolean isValid){
+        this.isValid = isValid;
+    }
     /**
      * toStringのオーバーライド
      * @return String
@@ -66,6 +77,9 @@ public class TokenElement {
      * @return String
      */
     public String getStr(){
+        if (this.numeric_str != null){
+            return this.numeric_str;
+        }
         return this.str;
     }
 
@@ -76,6 +90,7 @@ public class TokenElement {
      */
     public String setStr(String str){
         this.str = str;
+        this.numeric_str = this.ec.getNumericValue(str);
         return this.str;
     }
 

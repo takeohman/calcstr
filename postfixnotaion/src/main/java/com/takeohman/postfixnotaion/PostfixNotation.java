@@ -2,7 +2,7 @@ package com.takeohman.postfixnotaion;
 
 import com.takeohman.postfixnotaion.calculator.BigDecimalCalculator;
 import com.takeohman.postfixnotaion.calculator.Calculator;
-import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
+import com.takeohman.postfixnotaion.checker.BDNumericCheckerEx;
 import com.takeohman.postfixnotaion.checker.FunctionChecker;
 import com.takeohman.postfixnotaion.checker.OperatorChecker;
 import com.takeohman.postfixnotaion.splitter.StringSplitter;
@@ -32,7 +32,7 @@ public class PostfixNotation {
             new BigDecimalCalculator(),
             new StringListTokenizer(
                     new StringTokenizer(new StringSplitter()),
-                    new TokenValueChecker(new BigDecimalNumericChecker(), new FunctionChecker(), new OperatorChecker())
+                    new TokenValueChecker(new BDNumericCheckerEx(), new FunctionChecker(), new OperatorChecker())
             )
         );
     }
@@ -72,6 +72,10 @@ public class PostfixNotation {
 
             TokenElement listItem = pbmTokenObjList.get(idx++);
 
+            // 無効な要素の場合は次の要素を取り直し。
+            if (!listItem.getIsValid()){
+                continue;
+            }
             /*
             処理対象が数字以外の場合
              */

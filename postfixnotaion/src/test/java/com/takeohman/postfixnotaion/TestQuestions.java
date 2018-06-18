@@ -416,26 +416,31 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
         Question _q = null;
         switch (index) {
             case 0: {
-                String[] tmp = {"-", "-", "1"};
+                String[] tmp = {"-", "-1"};
+//                String[] tmp = {"-", "-", "1"};
                 _q = new Question("--1", "1", tmp, "-が２つ連続する場合。（数字一つ）");
                 _q.setIsAmbiguous(true);
                 break;
             }
             case 1: {
-                String[] tmp = {"1", "-", "-", "1"};
+                String[] tmp = {"1", "-", "-1"};
+//                String[] tmp = {"1", "-", "-", "1"};
                 _q = new Question("1--1", "2", tmp, "-が２つ連続する場合。（数字２つ）N+Nと判定される。");
                 // 逆ポーランドにすると : [1, -, 1, -] = -2 となり期待している2にならない
                 _q.setIsAmbiguous(true);
                 break;
             }
             case 2: {
-                String[] tmp = {"1", "+", "-", "1"};
+                String[] tmp = {"1", "+", "-1"};
+//                String[] tmp = {"1", "+", "-", "1"};
                 _q = new Question("1+-1", "0", tmp, "+-の順番で演算子が並ぶ場合。計算可能");
                 break;
             }
             case 3:{
-                String[] tmp = {"1", "-", "-", "-", "1"};
+                String[] tmp = {"1", "-", "--1"};
+//                String[] tmp = {"1", "-", "-", "-", "1"};
                 _q = new Question("1---1", "0", tmp, "-が3つ連続する場合。N+-Nと判定される。");
+                _q.setIsAmbiguous(true);
                 break;
             }
             case 4: {
@@ -470,6 +475,34 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
             case 9: {
                 String[] tmp = {"2", "*", "*", "-1"};
                 _q = new Question("2 * * -1", "0.5", tmp, "階乗にマイナス値が渡った場合のテスト");
+                // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 10: {
+                String[] tmp = {"25", "*", "-5"};
+                _q = new Question("25*-5", "-125", tmp, "マイナス値での掛け算");
+                // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 11: {
+                String[] tmp = {"25", "*", "--5"};
+                _q = new Question("25*--5", "125", tmp, "マイナスが２つ付く数値での掛け算");
+                // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 12: {
+                String[] tmp = {"25", "*", "---5"};
+                _q = new Question("25*---5", "-125", tmp, "マイナスが３つ付く数値での掛け算");
+                // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 13: {
+                String[] tmp = {"15", "*", "6","(","--3",")"};
+                _q = new Question("15*6(--3)", "270", tmp, "マイナスが３つ付く数値での掛け算");
                 // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
                 _q.setIsAmbiguous(true);
                 break;
@@ -733,6 +766,18 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 // 50+/5
                 String[] tmp = {"50","+","/","5"};
                 _q = new Question("50+/5", null, tmp, "演算子の順序例外(+/)");
+                break;
+            }
+            case 9: {
+                // 50*+5
+                String[] tmp = {"50","*","+","5"};
+                _q = new Question("50*+5", null, tmp, "演算子の順序例外(*+)");
+                break;
+            }
+            case 10: {
+                // 50/+5
+                String[] tmp = {"50","/","+","5"};
+                _q = new Question("50/+5", null, tmp, "演算子の順序例外(/+)");
                 break;
             }
         }

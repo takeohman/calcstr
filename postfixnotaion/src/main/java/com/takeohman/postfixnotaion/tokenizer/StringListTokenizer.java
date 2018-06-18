@@ -83,35 +83,56 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                    |  (   |    )    |Exception|
 
                  */
-                else if (prevElement.isMinusOperator() && matchedElement.isMinusOperator() ||
-                        prevElement.isPlusOperator() && matchedElement.isPlusOperator()) {
-                    prevElement.setStr("+");
-                    continue;
+
+                // - -
+                else if (prevElement.isMinusOperator() && matchedElement.isMinusOperator()){
+                    prevElement.setIsValid(false);
+                    matchedElement.setStr("+");
                 }
+                // + - -> -
                 else if (prevElement.isPlusOperator() && matchedElement.isMinusOperator()){
                     prevElement.setStr("-");
                     continue;
                 }
+                // * * -> ^
                 else if (prevElement.isMultiplicationOperator() && matchedElement.isMultiplicationOperator()){
                     prevElement.setStr("^");
                     continue;
                 }
+                // + + -> Exception
+                else if (prevElement.isPlusOperator() && matchedElement.isPlusOperator()){
+                    throw new InvalidElementOrderException();
+                }
+                // - +
                 else if (prevElement.isMinusOperator() && matchedElement.isPlusOperator()){
                     throw new InvalidElementOrderException();
                 }
+                // - *
                 else if (prevElement.isMinusOperator() && matchedElement.isMultiplicationOperator()){
                     throw new InvalidElementOrderException();
                 }
+                // - /
                 else if (prevElement.isMinusOperator() && matchedElement.isDivisionOperator()){
                     throw new InvalidElementOrderException();
                 }
+                // + *
                 else if (prevElement.isPlusOperator() && matchedElement.isMultiplicationOperator()){
                     throw new InvalidElementOrderException();
                 }
+                // + /
                 else if (prevElement.isPlusOperator() && matchedElement.isDivisionOperator()){
                     throw new InvalidElementOrderException();
                 }
+                // ( )
                 else if (prevElement.isLeftBracket() && matchedElement.isRightBracket()){
+                    throw new InvalidElementOrderException();
+                }
+                // * +
+                else if (prevElement.isMultiplicationOperator() && matchedElement.isPlusOperator()){
+                    throw new InvalidElementOrderException();
+                }
+                // / +
+                else if (prevElement.isDivisionOperator() && matchedElement.isPlusOperator()){
                     throw new InvalidElementOrderException();
                 }
             }
