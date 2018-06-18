@@ -474,6 +474,13 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q.setIsAmbiguous(true);
                 break;
             }
+            case 10: {
+                String[] tmp = {"25", "*", "-5"};
+                _q = new Question("25*-5", "-125", tmp, "階乗にマイナス値が渡った場合のテスト");
+                // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
+                _q.setIsAmbiguous(true);
+                break;
+            }
         }
         return _q;
     }
@@ -733,6 +740,18 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 // 50+/5
                 String[] tmp = {"50","+","/","5"};
                 _q = new Question("50+/5", null, tmp, "演算子の順序例外(+/)");
+                break;
+            }
+            case 9: {
+                // 50*+5
+                String[] tmp = {"50","*","+","5"};
+                _q = new Question("50*+5", null, tmp, "演算子の順序例外(*+)");
+                break;
+            }
+            case 10: {
+                // 50/+5
+                String[] tmp = {"50","/","+","5"};
+                _q = new Question("50/+5", null, tmp, "演算子の順序例外(/+)");
                 break;
             }
         }

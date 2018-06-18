@@ -21,7 +21,8 @@ public class StringSplitterTest {
             TestQuestions.TestQuestionType.Basic,
             TestQuestions.TestQuestionType.ManyOperator,
             TestQuestions.TestQuestionType.UI,
-            TestQuestions.TestQuestionType.Comma
+            TestQuestions.TestQuestionType.Comma,
+            TestQuestions.TestQuestionType.Impossible
         };
 
         for (TestQuestions.TestQuestionType type : tp) {

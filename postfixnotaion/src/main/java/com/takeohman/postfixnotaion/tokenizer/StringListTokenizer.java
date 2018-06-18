@@ -114,6 +114,12 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                 else if (prevElement.isLeftBracket() && matchedElement.isRightBracket()){
                     throw new InvalidElementOrderException();
                 }
+                else if (prevElement.isMultiplicationOperator() && matchedElement.isPlusOperator()){
+                    throw new InvalidElementOrderException();
+                }
+                else if (prevElement.isDivisionOperator() && matchedElement.isPlusOperator()){
+                    throw new InvalidElementOrderException();
+                }
             }
             prevElement = matchedElement;
             matchedElement.setIndex(index);
