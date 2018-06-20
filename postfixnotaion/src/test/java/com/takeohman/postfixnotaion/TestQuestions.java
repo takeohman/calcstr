@@ -829,6 +829,24 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q.setIsAmbiguous(true);
                 break;
             }
+            case 6: {
+                String[] tmp = {".01"};
+                _q = new Question(".01", "0.01", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 7: {
+                String[] tmp = {"-10.", "+", "4"};
+                _q = new Question("-10.+4", "-6", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 8: {
+                String[] tmp = {"10.", "+", "4"};
+                _q = new Question("10.+4", "14", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
         }
         return _q;
     }
@@ -843,6 +861,11 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
             case 1: {
                 String[] tmp = {"100,000", "+", "2,000"};
                 _q = new Question("100,000 + 2,000", "102000", tmp, "");
+                break;
+            }
+            case 3: {
+                String[] tmp = {"100,000.123", "+", "2,000"};
+                _q = new Question("100,000.123 + 2,000", "102000.123", tmp, "");
                 break;
             }
         }

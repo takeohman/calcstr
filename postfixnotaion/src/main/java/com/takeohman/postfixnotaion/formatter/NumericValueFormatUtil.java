@@ -1,5 +1,7 @@
 package com.takeohman.postfixnotaion.formatter;
 
+import com.takeohman.postfixnotaion.checker.PeriodPositionChecker;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,6 +9,7 @@ public class NumericValueFormatUtil {
     static String regPatternHead = "^[0-9,.]+";
     static String regPatternTail = "[0-9,.]+$";
     NumericValueFormatter formatter;
+    PeriodPositionChecker checker;
     class MatchedString {
         Matcher mat;
         MatchedString(Matcher mat){
@@ -24,6 +27,7 @@ public class NumericValueFormatUtil {
     }
     public NumericValueFormatUtil(){
         this.formatter = new NumericValueFormatter(new CommaEraser());
+        this.checker = new PeriodPositionChecker();
 
     }
     MatchedString getNumericEdgeString(String val, String regPattern){
@@ -31,7 +35,6 @@ public class NumericValueFormatUtil {
         Matcher matcher = pattern.matcher(val);
         if(matcher.find()){
             return new MatchedString(matcher);
-
         }
         return null;
     }
@@ -42,7 +45,7 @@ public class NumericValueFormatUtil {
      * @param cursorPosition int
      * @return String
      */
-    String convertNumericValueWithCursor(String problem_str, int cursorPosition){
+    public String convertNumericValueWithCursor(String problem_str, int cursorPosition){
         return this.convertNumericValueWithCursor(problem_str, cursorPosition, "");
     }
     /**
@@ -52,10 +55,10 @@ public class NumericValueFormatUtil {
      * @param insertStr String
      * @return
      */
-    String convertNumericValueWithCursor(String problem_str, int cursorPosition, String insertStr){
+    public String convertNumericValueWithCursor(String problem_str, int cursorPosition, String insertStr){
 
 
-        if (problem_str.length() <= 0 || cursorPosition < 0){
+        if ((!(insertStr == null || insertStr.length() > 0) && problem_str.length() <= 0) || cursorPosition < 0){
             return problem_str;
         }
         String str_cursor_right = cursorPosition < problem_str.length() ? problem_str.substring(cursorPosition,
@@ -101,7 +104,31 @@ public class NumericValueFormatUtil {
 
         String numeric_value = "";
         if (!head_of_numeric_value.equals("") ||  !tail_of_numeric_value.equals("")) {
-            numeric_value = this.formatter.format(head_of_numeric_value + tail_of_numeric_value);
+            String _v = head_of_numeric_value + tail_of_numeric_value;
+
+            PeriodPositionChecker.PeriodPositionCheckResult checkResult = this.checker.getPeriodPos(_v);
+
+            if (_v.equals(".") || checkResult.getPeriodCnt() > 1){
+                // フォーマット不能なのでそのまま返す
+                numeric_value = _v;
+            }
+            else if (checkResult.getPeriodCnt()==0){
+                // periodなしは普通にフォーマット
+                numeric_value = this.formatter.format(_v);
+            }
+            else if (checkResult.isHeadPeriod()){
+                numeric_value = _v;
+            }
+            else if (checkResult.isTailPeriod()){
+                numeric_value = _v.substring(0, _v.length()-1) + ".";
+            }
+            else {
+
+                String[] a = _v.split("(?<=[0-9])\\.(?=[0-9])", 2);
+
+                numeric_value = this.formatter.format(a[0]) + "." + a[1];
+            }
+
         }
         return predecessor_str + numeric_value + successor_str;
     }

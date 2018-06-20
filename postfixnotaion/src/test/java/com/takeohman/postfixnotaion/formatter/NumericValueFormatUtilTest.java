@@ -311,4 +311,33 @@ public class NumericValueFormatUtilTest {
             assertEquals("1234 + 5678 + 9,012", actual);
         }
     }
+    @Test
+    public void convertNumericValueWithCursor4() {
+        NumericValueFormatUtil nvf = new NumericValueFormatUtil();
+        {
+            String actual = nvf.convertNumericValueWithCursor(".", 0, "");
+            assertEquals(".", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("100.01", 0, "");
+            assertEquals("100.01", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("100.100100", 0, "");
+            assertEquals("100.100100", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor(".01", 0, "");
+            assertEquals(".01", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("100.", 0, "");
+            assertEquals("100.", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("100.00", 0, "");
+            assertEquals("100.00", actual);
+        }
+    }
+
 }
