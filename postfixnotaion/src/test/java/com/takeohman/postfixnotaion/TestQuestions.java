@@ -507,6 +507,14 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q.setIsAmbiguous(true);
                 break;
             }
+//            TODO : fix to pass the following test case
+//            case 14: {
+//                String[] tmp = {"123", "*", "*", "-2"};
+//                _q = new Question("123**-2", "0.00006609822196", tmp, "マイナスが３つ付く数値での掛け算");
+//                // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
+//                _q.setIsAmbiguous(true);
+//                break;
+//            }
         }
         return _q;
     }
@@ -778,6 +786,12 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 // 50/+5
                 String[] tmp = {"50","/","+","5"};
                 _q = new Question("50/+5", null, tmp, "演算子の順序例外(/+)");
+                break;
+            }
+            case 11: {
+                // 12**1234
+                String[] tmp = {"12","*","*","1234"};
+                _q = new Question("12**1234", null, tmp, "NumberFormatException::Infinite or NaN");
                 break;
             }
         }

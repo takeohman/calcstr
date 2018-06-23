@@ -80,6 +80,12 @@ public class PeriodPositionChecker {
 //            System.out.println("end      : " + end);
 //            System.out.println("value    : " + value.length());
         }
+
+//        Pattern pattern_zero = Pattern.compile("^[0.,]+$");
+//        Matcher matcher_zero = pattern_zero.matcher(value);
+//        if (matcher_zero.find()){
+//            System.out.println("value    : " + value.length());
+//        }
         return new PeriodPositionCheckResult(periodCnt, isHeadPeriod, isTailPeriod);
 
     }

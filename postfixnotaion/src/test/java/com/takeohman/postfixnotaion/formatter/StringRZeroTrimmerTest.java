@@ -72,4 +72,21 @@ public class StringRZeroTrimmerTest {
             assertEquals("7", actual);
         }
     }
+//
+//    @Test
+//    public void myFormat() {
+//        StringRZeroTrimmer trimmer = new StringRZeroTrimmer(new NumericValueFormatter());
+//        {
+//            String actual = trimmer.myFormat("0.00006609822196");
+//            assertEquals("0.00006609822196", actual );
+//        }
+//        {
+//            String actual = trimmer.myFormat(".00006609822196");
+//            assertEquals(".00006609822196", actual );
+//        }
+//        {
+//            String actual = trimmer.myFormat(".000066098221960");
+//            assertEquals(".00006609822196", actual );
+//        }
+//    }
 }

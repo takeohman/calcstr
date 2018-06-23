@@ -107,9 +107,14 @@ public class NumericValueFormatUtil {
             String _v = head_of_numeric_value + tail_of_numeric_value;
 
             PeriodPositionChecker.PeriodPositionCheckResult checkResult = this.checker.getPeriodPos(_v);
+            Pattern pattern_zero = Pattern.compile("^[0.,]+$");
+            Matcher matcher_zero = pattern_zero.matcher(_v);
 
             if (_v.equals(".") || checkResult.getPeriodCnt() > 1){
                 // フォーマット不能なのでそのまま返す
+                numeric_value = _v;
+            }
+            else if (matcher_zero.find()){
                 numeric_value = _v;
             }
             else if (checkResult.getPeriodCnt()==0){

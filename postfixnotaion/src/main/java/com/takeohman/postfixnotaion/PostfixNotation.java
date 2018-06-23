@@ -117,6 +117,7 @@ public class PostfixNotation {
 
         String ans = null;
         TokenElementList pbmTokenObjList = null;
+        Exception _ex = null;
         try {
             pbmTokenObjList = this.stringListTokenizer.getList(problemStr);
             ans = this.calcInfixProblemStrList(pbmTokenObjList);
@@ -129,12 +130,14 @@ public class PostfixNotation {
             ans = null;
         } catch (StringListTokenizer.InvalidBracketCountException ex) {
             ans = null;
-        } catch (StringListTokenizer.LeftBracketOnlyException ex){
-            ans =  "";
+        } catch (StringListTokenizer.LeftBracketOnlyException ex) {
+            ans = "";
+        } catch (NumberFormatException ex){
+            _ex = ex;
         } catch (Exception ex) {
             //想定外
             ans =  "";
         }
-        return new PostfixNotationResult(problemStr, ans, pbmTokenObjList);
+        return new PostfixNotationResult(problemStr, ans, pbmTokenObjList, _ex);
     }
 }

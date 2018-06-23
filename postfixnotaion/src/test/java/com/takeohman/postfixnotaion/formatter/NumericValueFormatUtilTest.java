@@ -338,6 +338,10 @@ public class NumericValueFormatUtilTest {
             String actual = nvf.convertNumericValueWithCursor("100.00", 0, "");
             assertEquals("100.00", actual);
         }
+        {
+            String actual = nvf.convertNumericValueWithCursor("10(0).00", 3, "0");
+            assertEquals("10(00).00", actual);
+        }
     }
 
 }
