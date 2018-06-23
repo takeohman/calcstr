@@ -21,7 +21,7 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
     }
 
     /**
-     * 足し算
+     * addition
      * @param strA
      * @param strB
      * @return
@@ -33,7 +33,7 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
     }
 
     /**
-     * 引き算
+     * subtraction
      * @param strA
      * @param strB
      * @return
@@ -45,7 +45,7 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
     }
 
     /**
-     * 掛け算
+     * multiplication
      * @param strA
      * @param strB
      * @return
@@ -55,11 +55,9 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
         BigDecimal b = new BigDecimal(strB);
         return a.multiply(b);
     }
-//    private BigDecimal trimRightZero(BigDecimal val){
-//        return new BigDecimal(val.toString().replaceAll("[.]?0+$", ""));
-//    }
+
     /**
-     * 割り算
+     * division
      * @param strA
      * @param strB
      * @return
@@ -71,7 +69,7 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
     }
 
     /**
-     * 累乗
+     * involution (repeated multiplication)
      * @param strA
      * @param strB
      * @return
@@ -86,7 +84,7 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
     }
 
     /**
-     * 二項演算子を使った計算を行う
+     * calculate by binary operator
      * @param strA
      * @param strB
      * @param operator　演算子( +, -, *, / )
