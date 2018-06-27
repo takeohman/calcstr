@@ -2,6 +2,8 @@ package com.takeohman.postfixnotaion.formatter;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by takeoh on 2018/01/08.
@@ -9,32 +11,32 @@ import java.text.DecimalFormat;
 
 //public class NumericValueFormatter implements FormatterInterface<String>{
 public class NumericValueFormatter extends AbstractFormatter{
-    private String format_pattern = "#,###.################";
-    private DecimalFormat decimal_format;
+    // the format pattern string for decimal places.
+    private String format_pattern_dec = ".################";
+    // the format pattern string for a full numeric value.
+    private String format_pattern_full = "#,###.################";
 
-    public NumericValueFormatter(DecimalFormat dc){
-        super();
-        this.decimal_format = dc;
-    }
-
-    public NumericValueFormatter(FormatterInterface<String> formatter, DecimalFormat dc){
-        super(formatter);
-        this.decimal_format = dc;
-    }
 
     public NumericValueFormatter(FormatterInterface<String> formatter){
         super(formatter);
-        this.decimal_format = new DecimalFormat(this.format_pattern);
+//        this.decimal_format = new DecimalFormat(this.format_pattern_full);
     }
 
     public NumericValueFormatter(){
         super();
-        this.decimal_format = new DecimalFormat(this.format_pattern);
+//        this.decimal_format = new DecimalFormat(this.format_pattern_full);
     }
 
-    private String formatAsNumber(Object val){
-        return this.decimal_format.format(val);
+    private String getFormatStr(String val){
+        Pattern pat = Pattern.compile("^\\.[0-9]+$");
+        Matcher mat =  pat.matcher(val.toString());
+        String format_str = this.format_pattern_full;
+        if (mat.find()){
+            format_str = this.format_pattern_dec;
+        }
+        return format_str;
     }
+
 
     @Override
     public String myFormat(String val){
@@ -42,7 +44,10 @@ public class NumericValueFormatter extends AbstractFormatter{
         if (this.formatter != null){
             _val = this.formatter.format(val);
         }
+        String format_str = this.getFormatStr(_val);
+        DecimalFormat dc = new DecimalFormat(format_str);
+
         BigDecimal bd = new BigDecimal(_val);
-        return this.formatAsNumber(bd);
+        return dc.format(bd);
     }
 }

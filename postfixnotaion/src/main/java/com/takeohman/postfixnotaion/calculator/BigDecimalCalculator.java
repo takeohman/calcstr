@@ -1,5 +1,6 @@
 package com.takeohman.postfixnotaion.calculator;
 
+import com.takeohman.postfixnotaion.formatter.NumericValueFormatter;
 import com.takeohman.postfixnotaion.formatter.StringRZeroTrimmer;
 
 import java.math.BigDecimal;
@@ -80,7 +81,8 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
         BigDecimal bdAns = new BigDecimal(
                 Math.pow(a.doubleValue(), b.doubleValue())).setScale(this.scale, RoundingMode.HALF_EVEN);
         StringRZeroTrimmer trimmer = new StringRZeroTrimmer();
-        return new BigDecimal(trimmer.format(bdAns.toString()));
+        NumericValueFormatter formatter = new NumericValueFormatter();
+        return new BigDecimal(formatter.format(bdAns.toString()));
     }
 
     /**

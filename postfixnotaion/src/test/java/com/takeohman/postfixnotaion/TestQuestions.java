@@ -508,13 +508,14 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 break;
             }
 //            TODO : fix to pass the following test case
-//            case 14: {
-//                String[] tmp = {"123", "*", "*", "-2"};
-//                _q = new Question("123**-2", "0.00006609822196", tmp, "マイナスが３つ付く数値での掛け算");
-//                // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
-//                _q.setIsAmbiguous(true);
-//                break;
-//            }
+            case 14: {
+                String[] tmp = {"123", "*", "*", "-2"};
+                // The more accurate answer is 0.00006609822196.
+                _q = new Question("123**-2", "0.000066098222", tmp, "involution of minus value");
+                // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
+                _q.setIsAmbiguous(true);
+                break;
+            }
         }
         return _q;
     }
