@@ -6,10 +6,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NumericValueFormatUtil {
-    static String regPatternHead = "^[0-9,.]+";
-    static String regPatternTail = "[0-9,.]+$";
     NumericValueFormatter formatter;
     PeriodPositionChecker checker;
+    private Pattern patHead;
+    private Pattern patTail;
+    private Pattern patZero;
     class MatchedString {
         Matcher mat;
         MatchedString(Matcher mat){
@@ -28,10 +29,12 @@ public class NumericValueFormatUtil {
     public NumericValueFormatUtil(){
         this.formatter = new NumericValueFormatter(new CommaEraser());
         this.checker = new PeriodPositionChecker();
+        this.patHead = Pattern.compile("^[0-9,.]+");
+        this.patTail = Pattern.compile("[0-9,.]+$");
+        this.patZero = Pattern.compile("^[0.,]+$");
 
     }
-    MatchedString getNumericEdgeString(String val, String regPattern){
-        Pattern pattern = Pattern.compile(regPattern);
+    MatchedString getNumericEdgeString(String val, Pattern pattern){
         Matcher matcher = pattern.matcher(val);
         if(matcher.find()){
             return new MatchedString(matcher);
@@ -39,6 +42,30 @@ public class NumericValueFormatUtil {
         return null;
     }
 
+    String[] getStringsAroundTheCursor(String str_cursor_left, String str_cursor_right){
+
+        MatchedString ms_prefix = this.getNumericEdgeString(str_cursor_left, this.patTail);
+        String head_of_numeric_value = "";
+        String predecessor_str = str_cursor_left;
+        if (ms_prefix != null){
+            head_of_numeric_value = ms_prefix.getGroup();
+            predecessor_str = str_cursor_left.substring(0, ms_prefix.getStart());
+        }
+
+        // The suffix is the head of the value.
+        MatchedString ms_suffix = this.getNumericEdgeString(str_cursor_right, this.patHead);
+        String tail_of_numeric_value = "";
+        String successor_str = str_cursor_right;
+        if (ms_suffix != null){
+            tail_of_numeric_value = ms_suffix.getGroup();
+            successor_str = str_cursor_right.substring(ms_suffix.getEnd());
+        }
+        String[] _tmp = new String[3];
+        _tmp[0] = predecessor_str;
+        _tmp[1] = head_of_numeric_value + tail_of_numeric_value;
+        _tmp[2] = successor_str;
+        return _tmp;
+    }
     /**
      * Format the numeric value with cursor.
      * @param problem_str String
@@ -68,47 +95,16 @@ public class NumericValueFormatUtil {
         int split_index = (insertStr == null && cursorPosition > 0) ? 1 : 0;
         String str_cursor_left = problem_str.substring(0, cursorPosition - split_index) + str_to_add;
 
-        // The prefix is the tail of the value.
-        MatchedString ms_prefix = this.getNumericEdgeString(str_cursor_left, regPatternTail);
-        String head_of_numeric_value = "";
-        String predecessor_str = str_cursor_left;
-        if (ms_prefix != null){
-            head_of_numeric_value = ms_prefix.getGroup();
-            predecessor_str = str_cursor_left.substring(0, ms_prefix.getStart());
-
-//            System.out.println("==============================");
-//            System.out.println("head     : '" + head_of_numeric_value + "'");
-//            System.out.println("head len : " + head_of_numeric_value.length());
-//            System.out.println("getStart : " + ms_prefix.getStart());
-//            System.out.println("getEnd   : " + ms_prefix.getEnd());
-//            System.out.println("head head: '" + predecessor_str + "'");
-//            Log.d("numeric_value", "head : " + head_of_numeric_value);
-        }
-
-        // The suffix is the head of the value.
-        MatchedString ms_suffix = this.getNumericEdgeString(str_cursor_right, regPatternHead);
-        String tail_of_numeric_value = "";
-        String successor_str = str_cursor_right;
-        if (ms_suffix != null){
-            tail_of_numeric_value = ms_suffix.getGroup();
-            successor_str = str_cursor_right.substring(ms_suffix.getEnd());
-//            System.out.println("==============================");
-//            System.out.println("tail     : '" + tail_of_numeric_value + "'");
-//            System.out.println("tail len : " + tail_of_numeric_value.length());
-//            System.out.println("getStart : " + ms_suffix.getStart());
-//            System.out.println("getEnd   : " + ms_suffix.getEnd());
-//            System.out.println("tail end : '" + successor_str + "'");
-//
-//            Log.d("numeric_value", "tail : " + tail_of_numeric_value);
-        }
-
+        String[] strings = this.getStringsAroundTheCursor(str_cursor_left, str_cursor_right);
+        String predecessor_str = strings[0];
+        String temp_numeric_value = strings[1];
+        String successor_str = strings[2];
         String numeric_value = "";
-        if (!head_of_numeric_value.equals("") ||  !tail_of_numeric_value.equals("")) {
-            String _v = head_of_numeric_value + tail_of_numeric_value;
+        if (!temp_numeric_value.equals("")) {
+            String _v = temp_numeric_value;
 
             PeriodPositionChecker.PeriodPositionCheckResult checkResult = this.checker.getPeriodPos(_v);
-            Pattern pattern_zero = Pattern.compile("^[0.,]+$");
-            Matcher matcher_zero = pattern_zero.matcher(_v);
+            Matcher matcher_zero = this.patZero.matcher(_v);
 
             if (_v.equals(".") || checkResult.getPeriodCnt() > 1){
                 // フォーマット不能なのでそのまま返す

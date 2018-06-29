@@ -28,14 +28,21 @@ public class PeriodPositionChecker {
         }
 
     }
+    private Pattern patTailPeriod;
+    private Pattern patHeadPeriod;
+    private Pattern patPeriod;
+    public PeriodPositionChecker(){
+        this.patHeadPeriod = Pattern.compile("^\\.");
+        this.patTailPeriod = Pattern.compile("\\.$");
+        this.patPeriod = Pattern.compile("\\.");
+    }
     /**
      * Return true when the value starts ".".
      * @param value String to be checked.
      * @return boolean
      */
     boolean isTheHeadPeriod(String value){
-        Pattern pattern = Pattern.compile("^\\.");
-        Matcher matcher = pattern.matcher(value);
+        Matcher matcher = this.patHeadPeriod.matcher(value);
         return matcher.find();
     }
 
@@ -45,20 +52,18 @@ public class PeriodPositionChecker {
      * @return boolean
      */
     boolean isTheTailPeriod(String value){
-        Pattern pattern = Pattern.compile("\\.$");
-        Matcher matcher = pattern.matcher(value);
+        Matcher matcher = this.patTailPeriod.matcher(value);
         return matcher.find();
     }
 
 
     /**
-     * Return true when the value ends ".".
+     * Return a PeriodPositionCheckResult object
      * @param value String to be checked.
      * @return boolean
      */
     public PeriodPositionCheckResult getPeriodPos(String value){
-        Pattern pattern = Pattern.compile("\\.");
-        Matcher matcher = pattern.matcher(value);
+        Matcher matcher = this.patPeriod.matcher(value);
         int periodCnt = 0;
         boolean isHeadPeriod = false;
         boolean isTailPeriod = false;
@@ -74,18 +79,7 @@ public class PeriodPositionChecker {
             if (end == value.length()){
                 isTailPeriod = true;
             }
-
-//            System.out.println("group    : " + tmp);
-//            System.out.println("start    : " + start);
-//            System.out.println("end      : " + end);
-//            System.out.println("value    : " + value.length());
         }
-
-//        Pattern pattern_zero = Pattern.compile("^[0.,]+$");
-//        Matcher matcher_zero = pattern_zero.matcher(value);
-//        if (matcher_zero.find()){
-//            System.out.println("value    : " + value.length());
-//        }
         return new PeriodPositionCheckResult(periodCnt, isHeadPeriod, isTailPeriod);
 
     }

@@ -2,6 +2,8 @@ package com.takeohman.postfixnotaion.formatter;
 
 import org.junit.Test;
 
+import java.util.regex.Pattern;
+
 import static junit.framework.Assert.assertEquals;
 
 public class NumericValueFormatUtilTest {
@@ -12,7 +14,7 @@ public class NumericValueFormatUtilTest {
         String value = "100 + 10000";
         {
             NumericValueFormatUtil.MatchedString matchedString =
-                    nvf.getNumericEdgeString(value, NumericValueFormatUtil.regPatternHead);
+                    nvf.getNumericEdgeString(value, Pattern.compile("^[0-9,.]+"));
 
             String actual = matchedString.getGroup();
             assertEquals("100", actual);
@@ -24,7 +26,7 @@ public class NumericValueFormatUtilTest {
         }
         {
             NumericValueFormatUtil.MatchedString matchedString =
-                    nvf.getNumericEdgeString(value, NumericValueFormatUtil.regPatternTail);
+                    nvf.getNumericEdgeString(value, Pattern.compile("[0-9,.]+$"));
 
             String actual = matchedString.getGroup();
             assertEquals("10000", actual);
@@ -41,12 +43,12 @@ public class NumericValueFormatUtilTest {
         String value = "- 100 + 10000 +";
         {
             NumericValueFormatUtil.MatchedString matchedString =
-                    nvf.getNumericEdgeString(value, NumericValueFormatUtil.regPatternHead);
+                    nvf.getNumericEdgeString(value, Pattern.compile("^[0-9,.]+"));
             assertEquals(null, matchedString);
         }
         {
             NumericValueFormatUtil.MatchedString matchedString =
-                    nvf.getNumericEdgeString(value, NumericValueFormatUtil.regPatternTail);
+                    nvf.getNumericEdgeString(value, Pattern.compile("[0-9,.]+$"));
 
             assertEquals(null, matchedString);
         }
