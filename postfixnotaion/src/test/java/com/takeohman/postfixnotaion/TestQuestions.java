@@ -516,6 +516,14 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q.setIsAmbiguous(true);
                 break;
             }
+            case 15: {
+                String[] tmp = {"5", "*", "*", "5"};
+                // The more accurate answer is 0.00006609822196.
+                _q = new Question("5**5", "3125", tmp, "involution");
+                // 演算子が2つ続く計算は逆ポーランドにそのまま渡すと無理
+                _q.setIsAmbiguous(true);
+                break;
+            }
         }
         return _q;
     }
@@ -793,6 +801,12 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 // 12**1234
                 String[] tmp = {"12","*","*","1234"};
                 _q = new Question("12**1234", null, tmp, "NumberFormatException::Infinite or NaN");
+                break;
+            }
+            case 12: {
+                // 333333333**333
+                String[] tmp = {"333333333","*","*","333"};
+                _q = new Question("333333333**333", null, tmp, "NumberFormatException::Infinite or NaN");
                 break;
             }
         }

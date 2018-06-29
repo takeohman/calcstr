@@ -48,5 +48,9 @@ public class NumericValueFormatterTest {
             String actual = cf.myFormat(".000066098221960");
             assertEquals(".00006609822196", actual );
         }
+        {
+            String actual = cf.myFormat("3125.000000000000");
+            assertEquals("3,125", actual );
+        }
     }
 }

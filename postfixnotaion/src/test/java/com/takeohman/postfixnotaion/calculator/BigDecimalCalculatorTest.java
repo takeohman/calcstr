@@ -127,5 +127,18 @@ public class BigDecimalCalculatorTest {
 
         bd = sc.calculate("/","1","2");
         assertEquals(new BigDecimal("0.5"), bd.stripTrailingZeros());
+
+        bd = sc.calculate("^","5","5");
+        assertEquals(new BigDecimal("3125"), bd.stripTrailingZeros());
+
+        boolean exception_occured = false;
+        try {
+            bd = sc.calculate("^", "333333333", "333");
+        } catch (Exception ex){
+            exception_occured = true;
+        } finally{
+            assertEquals("",true, exception_occured);
+        }
+
     }
 }
