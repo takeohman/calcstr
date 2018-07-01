@@ -77,8 +77,6 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
         BigDecimal b = new BigDecimal(strB);
         BigDecimal bdAns = new BigDecimal(
                 Math.pow(a.doubleValue(), b.doubleValue())).setScale(this.scale, RoundingMode.HALF_EVEN);
-//        StringRZeroTrimmer trimmer = new StringRZeroTrimmer();
-//        NumericValueFormatter formatter = new NumericValueFormatter();
         return bdAns.stripTrailingZeros();
     }
 

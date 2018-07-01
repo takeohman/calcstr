@@ -9,30 +9,29 @@ import java.util.regex.Pattern;
  * Created by takeoh on 2018/01/08.
  */
 
-//public class NumericValueFormatter implements FormatterInterface<String>{
 public class NumericValueFormatter extends AbstractFormatter{
     // the format pattern string for decimal places.
-    private String format_pattern_dec = ".################";
+    private static String format_pattern_dec = ".################";
     // the format pattern string for a full numeric value.
-    private String format_pattern_full = "#,###.################";
+    private static String format_pattern_full = "#,###.################";
+    private Pattern patStartPeriod;
 
 
     public NumericValueFormatter(FormatterInterface<String> formatter){
         super(formatter);
-//        this.decimal_format = new DecimalFormat(this.format_pattern_full);
+        this.patStartPeriod = Pattern.compile("^\\.[0-9]+$");
     }
 
     public NumericValueFormatter(){
         super();
-//        this.decimal_format = new DecimalFormat(this.format_pattern_full);
+        this.patStartPeriod = Pattern.compile("^\\.[0-9]+$");
     }
 
     private String getFormatStr(String val){
-        Pattern pat = Pattern.compile("^\\.[0-9]+$");
-        Matcher mat =  pat.matcher(val.toString());
-        String format_str = this.format_pattern_full;
+        Matcher mat =  this.patStartPeriod.matcher(val);
+        String format_str = format_pattern_full;
         if (mat.find()){
-            format_str = this.format_pattern_dec;
+            format_str = format_pattern_dec;
         }
         return format_str;
     }
