@@ -93,6 +93,12 @@ public class NumericValueFormatUtil {
 
         String str_to_add = insertStr == null ? "" : insertStr;
         int split_index = (insertStr == null && cursorPosition > 0) ? 1 : 0;
+        if (split_index > 0){
+            if (problem_str.substring(cursorPosition - split_index, cursorPosition).equals(",")){
+                split_index+=1;
+            }
+        }
+
         String str_cursor_left = problem_str.substring(0, cursorPosition - split_index) + str_to_add;
 
         String[] strings = this.getStringsAroundTheCursor(str_cursor_left, str_cursor_right);
