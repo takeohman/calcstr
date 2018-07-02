@@ -407,6 +407,17 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q = new Question("/3 + 100000","100000.333333333333", tmp, "割り算（割られる数が空の場合に1を対象にすることの確認3）");
                 break;
             }
+            case 60: {
+                String[] tmp = {"2", "^","2","^","3"};
+                _q = new Question("2^2^3","256", tmp, "a series of two involution operations.");
+                break;
+            }
+            case 61: {
+                String[] tmp = {"2", "^","2","^","3","^","2"};
+                // 1.340780793E154
+                _q = new Question("2^2^3^2","13407807929942597099574024998205846127479365820592393377723561443721764030073546976801874298166903427690031858186486050853753882811946569946433649006084096", tmp, "a series of two involution operations.");
+                break;
+            }
         }
 
         return _q;
