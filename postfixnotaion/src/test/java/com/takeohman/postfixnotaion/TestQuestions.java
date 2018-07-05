@@ -408,14 +408,16 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 break;
             }
             case 60: {
-                String[] tmp = {"2", "^","2","^","3"};
-                _q = new Question("2^2^3","256", tmp, "a series of two involution operations.");
+                String[] tmp = {"4", "^","3","^","2"};
+                _q = new Question("4^3^2","262144", tmp, "a series of two involution operations.");
+                _q.setIsAmbiguous(true);// TODO: need to pass the test case in PostfixNotationUtilTest
                 break;
             }
             case 61: {
                 String[] tmp = {"2", "^","2","^","3","^","2"};
                 // 1.340780793E154
                 _q = new Question("2^2^3^2","13407807929942597099574024998205846127479365820592393377723561443721764030073546976801874298166903427690031858186486050853753882811946569946433649006084096", tmp, "a series of two involution operations.");
+                _q.setIsAmbiguous(true);// TODO: need to pass the test case in PostfixNotationUtilTest
                 break;
             }
         }

@@ -10,7 +10,8 @@ public class NumericValueFormatUtil {
     PeriodPositionChecker checker;
     private Pattern patHead;
     private Pattern patTail;
-    private Pattern patZero;
+    private Pattern patIsZeroOnly;
+    private Pattern patIsZeroHead;
     class MatchedString {
         Matcher mat;
         MatchedString(Matcher mat){
@@ -31,7 +32,8 @@ public class NumericValueFormatUtil {
         this.checker = new PeriodPositionChecker();
         this.patHead = Pattern.compile("^[0-9,.]+");
         this.patTail = Pattern.compile("[0-9,.]+$");
-        this.patZero = Pattern.compile("^[0.,]+$");
+        this.patIsZeroOnly = Pattern.compile("^[0.,]+$");
+        this.patIsZeroHead = Pattern.compile("^[0]+");
 
     }
     MatchedString getNumericEdgeString(String val, Pattern pattern){
@@ -110,13 +112,13 @@ public class NumericValueFormatUtil {
             String _v = temp_numeric_value;
 
             PeriodPositionChecker.PeriodPositionCheckResult checkResult = this.checker.getPeriodPos(_v);
-            Matcher matcher_zero = this.patZero.matcher(_v);
+//            Matcher matcher_zero = this.patIsZeroOnly.matcher(_v);
 
             if (_v.equals(".") || checkResult.getPeriodCnt() > 1){
                 // フォーマット不能なのでそのまま返す
                 numeric_value = _v;
             }
-            else if (matcher_zero.find()){
+            else if (this.patIsZeroOnly.matcher(_v).find()){
                 numeric_value = _v;
             }
             else if (checkResult.getPeriodCnt()==0){
@@ -132,8 +134,11 @@ public class NumericValueFormatUtil {
             else {
 
                 String[] a = _v.split("(?<=[0-9])\\.(?=[0-9])", 2);
-
-                numeric_value = this.formatter.format(a[0]) + "." + a[1];
+                if (this.patIsZeroHead.matcher(a[0]).find()){
+                    numeric_value = _v;
+                } else {
+                    numeric_value = this.formatter.format(a[0]) + "." + a[1];
+                }
             }
 
         }
