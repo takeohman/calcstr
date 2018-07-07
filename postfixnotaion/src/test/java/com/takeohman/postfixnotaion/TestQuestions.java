@@ -420,6 +420,12 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q.setIsAmbiguous(true);// TODO: need to pass the test case in PostfixNotationUtilTest
                 break;
             }
+            case 62:{
+                String[] tmp = {"0", "(","2","(","3",")","-","2",")"};
+                _q = new Question("0(2(3)-2)","0", tmp, "multiplication case with subtraction after right bracket");
+
+                break;
+            }
         }
 
         return _q;

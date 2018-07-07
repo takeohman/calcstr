@@ -80,15 +80,18 @@ public class PostfixNotation {
             処理対象が数字以外の場合
              */
             int listItemPriority = listItem.getPriority();
+            boolean hasLeftAlreadyPop = false;
             while( operatorStack.size() > 0
                     && !(operatorStack.lastElement().isInvolusionOperator() && listItem.isInvolusionOperator())
                     && listItemPriority <= operatorStack.lastElement().getPriority()
                     && (!operatorStack.lastElement().isLeftBracket()
-                    || (operatorStack.lastElement().isLeftBracket() && listItem.isRightBracket()))) {
+                    || (!hasLeftAlreadyPop && operatorStack.lastElement().isLeftBracket() && listItem.isRightBracket()))) {
                 /*
                 スタックの内容を計算する
                  */
-                su.doCalc();
+                if (su.doCalc()){
+                    hasLeftAlreadyPop = true;
+                }
             }
             if (listItem.isNumeric()) {
                 numericStack.push(listItem);

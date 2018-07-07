@@ -35,7 +35,7 @@ class StackUser{
      * 　　・階乗演算子の場合 => 演算子のすぐ前の数字に対して計算する
      * 　　・その他は二項演算子の前提で処理をすすめる。
      */
-    void doCalc(){
+    boolean doCalc(){
 
         // スタックが空だといずれにせよ例外になるので、ここで独自の例外を投げておく。
         if (numericStack.size() <= 0 || operatorStack.size() <= 0){
@@ -55,15 +55,16 @@ class StackUser{
             if (pbm.isExclamation()){
                 Number fcAns = this.sc.factorial(numericStack.pop().getStr());
                 numericStack.push(new TokenElement(this.ec, pbm.getIndex(), fcAns.toString()));
-                return;
+                return false;
             }
             if (operatorStack.size() <= 0){
-                return;
+                return false;
             }
         }
         TokenElement _ope = operatorStack.pop();
         if (_ope.isLeftBracket()){
-            return;
+            // TODO: 左括弧削除済みの場合にtrue
+            return true;
         }
 
         /*
@@ -84,7 +85,7 @@ class StackUser{
             if (_a != null){
                 numericStack.push(new TokenElement(this.ec, _num.getIndex(), _a.toString()));
             }
-            return;
+            return false;
         }
 
         /*
@@ -101,7 +102,7 @@ class StackUser{
                 /*
                 演算子が"+", "*"の場合はなにもしない
                  */
-                return;
+                return false;
             }else if (_ope.isMinusOperator()){
                 /*
                 演算子が"-"の場合は符号が変わるので-1を掛ける
@@ -109,7 +110,7 @@ class StackUser{
                 TokenElement _num = numericStack.pop();
                 Number _a = this.sc.multiply(_num.getStr(), "-1");
                 numericStack.push(new TokenElement(this.ec, 0, _a.toString()));
-                return;
+                return false;
             } else if (_ope.isDivisionOperator()){
                 /*
                 演算子が/の場合は、1をスタックの数字で割る。
@@ -117,7 +118,7 @@ class StackUser{
                 TokenElement _num = numericStack.pop();
                 Number _a = this.sc.divide("1", _num.getStr());
                 numericStack.push(new TokenElement(this.ec, 0, _a.toString()));
-                return;
+                return false;
             }
         }
         /*
@@ -129,5 +130,6 @@ class StackUser{
 
         Number ans = this.sc.calculate(_ope.getStr(), a.getStr(), b.getStr());
         numericStack.push(new TokenElement(this.ec, b.getIndex(), ans.toString()));
+        return false;
     }
 }

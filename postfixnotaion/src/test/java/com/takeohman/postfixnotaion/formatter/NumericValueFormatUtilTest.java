@@ -236,6 +236,90 @@ public class NumericValueFormatUtilTest {
         }
     }
     @Test
+    public void convertNumericValueWithCursor2_2() {
+        NumericValueFormatUtil nvf = new NumericValueFormatUtil();
+        {
+            String value = "12 + 3456 + 1";
+            String actual = nvf.convertNumericValueWithCursor(value, 6, "");
+            assertEquals("12 + 3,456 + 1", actual);
+        }
+
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 0, "");
+            assertEquals("1,234 + 5678 + 90", actual);
+        }
+
+        {
+            String actual = nvf.convertNumericValueWithCursor("1,234 + 5678 + 90", 0, "");
+            assertEquals("1,234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 1, "");
+            assertEquals("1,234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 2, "");
+            assertEquals("1,234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 3, "");
+            assertEquals("1,234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 4, "");
+            assertEquals("1,234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 5, "");
+            // "1234+ 5678 + 90" can be the expected result, but may be no problem.
+            assertEquals("1234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 6, "");
+            assertEquals("1234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 7, "");
+            assertEquals("1234 + 5,678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 8, "");
+            assertEquals("1234 + 5,678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 9, "");
+            assertEquals("1234 + 5,678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 10, "");
+            assertEquals("1234 + 5,678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 11, "");
+            assertEquals("1234 + 5,678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 12, "");
+            assertEquals("1234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 13, "");
+            assertEquals("1234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 14, "");
+            assertEquals("1234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 15, "");
+            assertEquals("1234 + 5678 + 90", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 16, "");
+            assertEquals("1234 + 5678 + 90", actual);
+        }
+    }
+    @Test
     public void convertNumericValueWithCursor3() {
         NumericValueFormatUtil nvf = new NumericValueFormatUtil();
 
@@ -345,5 +429,94 @@ public class NumericValueFormatUtilTest {
             assertEquals("10(00).00", actual);
         }
     }
+    @Test
+    public void convertNumericValueWithCursor5() {
+        NumericValueFormatUtil nvf = new NumericValueFormatUtil();
+        {
+            //右端に数字以外追加ー＞数字を分けないので左側フォーマットなし
+            String actual = nvf.convertNumericValueWithCursor("", 0, ")");
+            assertEquals(")", actual);
+        }
+        {
+            //右端に数字以外追加ー＞数字を分けないので左側フォーマットなし
+            String actual = nvf.convertNumericValueWithCursor("", 0, "(");
+            assertEquals("(", actual);
+        }
+        {
+            //右端に数字以外追加ー＞数字を分けないので左側フォーマットなし
+            String actual = nvf.convertNumericValueWithCursor("123(*4", 6, ")");
+            assertEquals("123(*4)", actual);
+        }
+        {
+            //演算子の次に演算子を追加ー＞
+            String actual = nvf.convertNumericValueWithCursor("123*45", 4, "*");
+            assertEquals("123**45", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("12345", 4, "*");
+            assertEquals("1,234*5", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("12,345", 5, "*");
+            assertEquals("1,234*5", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("(2)12,345", 5, "*");
+            assertEquals("(2)12*345", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("(2)12,345,678", 6, "*");
+            assertEquals("(2)12*345,678", actual);
+        }
 
+        {
+            String actual = nvf.convertNumericValueWithCursor("(2)12,345,678", 6, "*");
+            assertEquals("(2)12*345,678", actual);
+        }
+    }
+    @Test
+    public void formatNumericString() {
+        NumericValueFormatUtil nvf = new NumericValueFormatUtil();
+        {
+            String actual = nvf.formatNumericString("");
+            assertEquals("", actual);
+        }
+        {
+            String actual = nvf.formatNumericString(".");
+            assertEquals(".", actual);
+        }
+        {
+            String actual = nvf.formatNumericString("00");
+            assertEquals("00", actual);
+        }
+        {
+            String actual = nvf.formatNumericString("01");
+            assertEquals("01", actual);
+        }
+        {
+            String actual = nvf.formatNumericString("0100");
+            assertEquals("0,100", actual);
+        }
+        {
+            String actual = nvf.formatNumericString(".0100");
+            assertEquals(".0100", actual);
+        }
+        {
+            String actual = nvf.formatNumericString(".0100.");
+            assertEquals(".0100.", actual);
+        }
+        {
+            String actual = nvf.formatNumericString("0100.");
+            assertEquals("0,100.", actual);
+        }
+        {
+            String actual = nvf.formatNumericString("0123.456");
+            assertEquals("0,123.456", actual);
+        }
+
+        {
+            String actual = nvf.formatNumericString("0123,");
+            assertEquals("0,123", actual);
+        }
+    }
 }

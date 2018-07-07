@@ -42,8 +42,9 @@ public class PeriodPositionChecker {
      * @return boolean
      */
     boolean isTheHeadPeriod(String value){
-        Matcher matcher = this.patHeadPeriod.matcher(value);
-        return matcher.find();
+        return value.length() > 0 && String.valueOf(value.charAt(0)).equals(".");
+//        Matcher matcher = this.patHeadPeriod.matcher(value);
+//        return matcher.find();
     }
 
     /**
@@ -52,8 +53,9 @@ public class PeriodPositionChecker {
      * @return boolean
      */
     boolean isTheTailPeriod(String value){
-        Matcher matcher = this.patTailPeriod.matcher(value);
-        return matcher.find();
+        return value.length() > 0  && String.valueOf(value.charAt(value.length()-1)).equals(".");
+//        Matcher matcher = this.patTailPeriod.matcher(value);
+//        return matcher.find();
     }
 
 

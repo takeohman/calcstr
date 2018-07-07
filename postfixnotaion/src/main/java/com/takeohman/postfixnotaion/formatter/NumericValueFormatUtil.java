@@ -1,5 +1,6 @@
 package com.takeohman.postfixnotaion.formatter;
 
+import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
 import com.takeohman.postfixnotaion.checker.PeriodPositionChecker;
 
 import java.util.regex.Matcher;
@@ -10,8 +11,6 @@ public class NumericValueFormatUtil {
     PeriodPositionChecker checker;
     private Pattern patHead;
     private Pattern patTail;
-    private Pattern patIsZeroOnly;
-    private Pattern patIsZeroHead;
     class MatchedString {
         Matcher mat;
         MatchedString(Matcher mat){
@@ -32,9 +31,6 @@ public class NumericValueFormatUtil {
         this.checker = new PeriodPositionChecker();
         this.patHead = Pattern.compile("^[0-9,.]+");
         this.patTail = Pattern.compile("[0-9,.]+$");
-        this.patIsZeroOnly = Pattern.compile("^[0.,]+$");
-        this.patIsZeroHead = Pattern.compile("^[0]+");
-
     }
     MatchedString getNumericEdgeString(String val, Pattern pattern){
         Matcher matcher = pattern.matcher(val);
@@ -77,6 +73,47 @@ public class NumericValueFormatUtil {
     public String convertNumericValueWithCursor(String problem_str, int cursorPosition){
         return this.convertNumericValueWithCursor(problem_str, cursorPosition, "");
     }
+
+    public String formatNumericString(String numericString){
+        String numeric_value = "";
+        if (!numericString.equals("")) {
+            String _v = numericString;
+
+            String[] split_str = _v.split("\\.", 2);
+            boolean is_head_zero = split_str[0].length() > 0 && String.valueOf(split_str[0].charAt(0)).equals("0");
+            if (split_str.length < 2){
+                if (is_head_zero){
+                    String reg = "(?<=\\d)(?=(\\d{3})+($|\\D))";
+                    Pattern pat = Pattern.compile(reg);
+                    Matcher mat = pat.matcher(split_str[0].replace(",",""));
+                    numeric_value = mat.replaceAll(",");
+                } else {
+                    numeric_value = this.formatter.format(split_str[0]);
+                }
+            } else {
+                boolean is_head_period = split_str[0].equals("");
+                boolean is_tail_period = split_str[1].equals("");
+
+                if (is_head_period && is_tail_period){  // "."
+                    numeric_value = _v;
+                } else if (is_head_period) {            // ".1234"
+                    numeric_value = _v;
+                } else {
+                    // "123,456." , 123,456.789
+                    if (is_head_zero){
+                        String reg = "(?<=\\d)(?=(\\d{3})+($|\\D))";
+                        Pattern pat = Pattern.compile(reg);
+                        Matcher mat = pat.matcher(split_str[0].replace(",",""));
+                        numeric_value = mat.replaceAll(",") + "." + split_str[1];
+                    } else {
+                        numeric_value = this.formatter.format(split_str[0]) + "." + split_str[1];
+                    }
+                }
+            }
+        }
+        return numeric_value;
+    }
+
     /**
      * Format the numeric value with cursor.
      * @param problem_str String
@@ -100,48 +137,35 @@ public class NumericValueFormatUtil {
                 split_index+=1;
             }
         }
+        String str_cursor_left = null;
+        BigDecimalNumericChecker bdChecker = new BigDecimalNumericChecker();
+        String temp_str_cursor_left = problem_str.substring(0, cursorPosition - split_index);
 
-        String str_cursor_left = problem_str.substring(0, cursorPosition - split_index) + str_to_add;
+        String left_char_of_cursor = "";
+
+        if (temp_str_cursor_left.length() > 0){
+            left_char_of_cursor = String.valueOf(temp_str_cursor_left.charAt(temp_str_cursor_left.length()-1));
+        }
+        //
+        if (bdChecker.isNumeric(str_to_add) || str_to_add.equals("")) {
+            // str_to_addが数字の場合は、追加先が数字だった場合、数字を分割しないのでそのままで大丈夫
+            str_cursor_left = temp_str_cursor_left + str_to_add;
+        } else if (str_cursor_right.equals("") || !bdChecker.isNumeric(String.valueOf(str_cursor_right.charAt(0)))){
+            // str_to_addの追加先の右側が数字ではない場合は、追加先の数字を分割しないのでそのままで大丈夫
+            str_cursor_left = temp_str_cursor_left + str_to_add;
+        } else if (!bdChecker.isNumeric(left_char_of_cursor) && !left_char_of_cursor.equals(",")){
+            // str_to_addの追加先の左側が数字ではない場合は、追加先の数字を分割しないのでそのままで大丈夫
+            str_cursor_left = temp_str_cursor_left + str_to_add;
+        } else {
+            // when the str_to_add is not a numeric value, the numeric string left of it should be reformatted.
+            str_cursor_left = this.convertNumericValueWithCursor(temp_str_cursor_left,temp_str_cursor_left.length(),"") + str_to_add;
+        }
 
         String[] strings = this.getStringsAroundTheCursor(str_cursor_left, str_cursor_right);
         String predecessor_str = strings[0];
         String temp_numeric_value = strings[1];
         String successor_str = strings[2];
-        String numeric_value = "";
-        if (!temp_numeric_value.equals("")) {
-            String _v = temp_numeric_value;
-
-            PeriodPositionChecker.PeriodPositionCheckResult checkResult = this.checker.getPeriodPos(_v);
-//            Matcher matcher_zero = this.patIsZeroOnly.matcher(_v);
-
-            if (_v.equals(".") || checkResult.getPeriodCnt() > 1){
-                // フォーマット不能なのでそのまま返す
-                numeric_value = _v;
-            }
-            else if (this.patIsZeroOnly.matcher(_v).find()){
-                numeric_value = _v;
-            }
-            else if (checkResult.getPeriodCnt()==0){
-                // periodなしは普通にフォーマット
-                numeric_value = this.formatter.format(_v);
-            }
-            else if (checkResult.isHeadPeriod()){
-                numeric_value = _v;
-            }
-            else if (checkResult.isTailPeriod()){
-                numeric_value = _v.substring(0, _v.length()-1) + ".";
-            }
-            else {
-
-                String[] a = _v.split("(?<=[0-9])\\.(?=[0-9])", 2);
-                if (this.patIsZeroHead.matcher(a[0]).find()){
-                    numeric_value = _v;
-                } else {
-                    numeric_value = this.formatter.format(a[0]) + "." + a[1];
-                }
-            }
-
-        }
+        String numeric_value = this.formatNumericString(temp_numeric_value);;
         return predecessor_str + numeric_value + successor_str;
     }
 }
