@@ -1,6 +1,7 @@
 package com.takeohman.postfixnotaion.checker;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by takeoh on 2018/04/25.
@@ -18,31 +19,44 @@ public class PriorityChecker {
 
     private NumericCheckerInterface nc;
 
+    private static String[] p1 = {"("};
+    private static String[] p3 = {"!"};
+    private static String[] p4 = {"^", "sin", "cos", "tan", "log"};
+    private static String[] p5 = {"*", "/"};
+    private static String[] p6 = {"+", "-"};
+    private static String[] p7 = {")"};
+    private List<String> p1List;
+    private List<String> p3List;
+    private List<String> p4List;
+    private List<String> p5List;
+    private List<String> p6List;
+    private List<String> p7List;
+
     public PriorityChecker(NumericCheckerInterface nc){
         this.nc = nc;
+        this.p1List = Arrays.asList(p1);
+        this.p3List = Arrays.asList(p3);
+        this.p4List = Arrays.asList(p4);
+        this.p5List = Arrays.asList(p5);
+        this.p6List = Arrays.asList(p6);
+        this.p7List = Arrays.asList(p7);
     }
 
     public int getValuePriority(String val){
-        String[] p1 = {"("};
-        String[] p3 = {"!"};
-        String[] p4 = {"^", "sin", "cos", "tan", "log"};
-        String[] p5 = {"*", "/"};
-        String[] p6 = {"+", "-"};
-        String[] p7 = {")"};
 
-        if (Arrays.asList(p1).contains(val)) {          // "("
+        if (this.p1List.contains(val)) {          // "("
             return PRIORITY_1;
         }else if (nc.isNumeric(val)){   // 0,1,2....
             return PRIORITY_3;
-        } else if (Arrays.asList(p3).contains(val)){    // !
+        } else if (this.p3List.contains(val)){    // !
             return PRIORITY_2;
-        } else if (Arrays.asList(p4).contains(val)){    // ^
+        } else if (this.p4List.contains(val)){    // ^
             return PRIORITY_4;
-        } else if (Arrays.asList(p5).contains(val)){    // *, /
+        } else if (this.p5List.contains(val)){    // *, /
             return PRIORITY_5;
-        } else if (Arrays.asList(p6).contains(val)){    // +, -
+        } else if (this.p6List.contains(val)){    // +, -
             return PRIORITY_6;
-        } else if (Arrays.asList(p7).contains(val)){    // ")"
+        } else if (this.p7List.contains(val)){    // ")"
             return PRIORITY_7;
         } else {
             return PRIORITY_8;

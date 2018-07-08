@@ -1,23 +1,20 @@
 package com.takeohman.postfixnotaion.checker;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class BDNumericCheckerEx extends BigDecimalNumericChecker{
-    private Pattern pattern;
+//    private Pattern pattern;
     public BDNumericCheckerEx(){
         super();
-        this.pattern = Pattern.compile("^(--)*[-]?[0-9.,]*$");
+//        this.pattern = Pattern.compile("^(--)*[-]?[0-9.,]*$");
     }
     @Override
     public String getNumericValue(String num){
 
-        Matcher matcher = this.pattern.matcher(num);
-
-        if (matcher.find()) {
+//        Matcher matcher = this.pattern.matcher(num);
+//
+//        if (matcher.find()) {
             return super.getNumericValue(num.replaceAll("^(--)+|,", ""));
-        } else {
-            return null;
-        }
+//        } else {
+//            return null;
+//        }
     }
 }
