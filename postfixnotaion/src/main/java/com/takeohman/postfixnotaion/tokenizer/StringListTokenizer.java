@@ -53,19 +53,15 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                 1. ...)*(...
                 2. ...)*7
                 3. ...7*(...
-                4. ...!*7...
-                5. ...!*(...
-                6. ...7*tan...
-                7. ...7*.123
+                4. ...7*tan...
+                5. ...7*.123
+                6. ...!*7...
+                7. ...!*(...
                  */
-                if ((prevElement.isRightBracket() && matchedElement.isLeftBracket()) ||
-                        (prevElement.isRightBracket() && matchedElement.isNumeric()) ||
-                        (prevElement.isNumeric() && matchedElement.isLeftBracket()) ||
-                        (prevElement.isExclamation() && matchedElement.isNumeric()) ||
-                        (prevElement.isExclamation() && matchedElement.isLeftBracket()) ||
-                        (prevElement.isNumeric() && matchedElement.isFunction()) ||
-                        (prevElement.isNumeric() && matchedElement.isIncompleteDecimal())
-                        )
+                if ((prevElement.isRightBracket() && (matchedElement.isLeftBracket() || matchedElement.isNumeric())) ||
+                    (prevElement.isNumeric() && (matchedElement.isLeftBracket()||matchedElement.isFunction() || matchedElement.isIncompleteDecimal())) ||
+                    (prevElement.isExclamation() && (matchedElement.isNumeric() || matchedElement.isLeftBracket()))
+                    )
                 {
                     tokenElementObjList.add(new TokenElement(this.ec, index, "*"));
                     index++;
