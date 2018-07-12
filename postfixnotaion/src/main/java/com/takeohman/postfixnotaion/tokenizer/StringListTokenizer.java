@@ -74,7 +74,7 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                    | prev | matched | replace |
                    |  -   |    -    |    +    |
                    |  +   |    -    |    -    |
-                   |  +   |    +    |    +    |
+                   |  +   |    +    |Exception|
                    |  -   |    +    |Exception|
                    |  -   |    *    |Exception|
                    |  -   |    /    |Exception|
@@ -88,6 +88,11 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                 else if (prevElement.isMinusOperator() && matchedElement.isMinusOperator()){
                     prevElement.setIsValid(false);
                     matchedElement.setStr("+");
+                }
+                // "(" "+ or * or /" --->Exception
+                else if (prevElement.isLeftBracket() &&
+                        (matchedElement.isPlusOperator() || matchedElement.isMultiplicationOperator() || matchedElement.isDivisionOperator())){
+                    throw new InvalidElementOrderException();
                 }
                 // + - -> -
                 else if (prevElement.isPlusOperator() && matchedElement.isMinusOperator()){
@@ -127,11 +132,11 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                 else if (prevElement.isLeftBracket() && matchedElement.isRightBracket()){
                     throw new InvalidElementOrderException();
                 }
-                // * +
+                // "*" "+" -> Exception
                 else if (prevElement.isMultiplicationOperator() && matchedElement.isPlusOperator()){
                     throw new InvalidElementOrderException();
                 }
-                // / +
+                // "/" "+" -> Exception
                 else if (prevElement.isDivisionOperator() && matchedElement.isPlusOperator()){
                     throw new InvalidElementOrderException();
                 }
