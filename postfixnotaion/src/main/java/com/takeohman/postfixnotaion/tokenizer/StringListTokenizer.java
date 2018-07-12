@@ -74,7 +74,7 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                    | prev | matched | replace |
                    |  -   |    -    |    +    |
                    |  +   |    -    |    -    |
-                   |  +   |    +    |    +    |
+                   |  +   |    +    |Exception|
                    |  -   |    +    |Exception|
                    |  -   |    *    |Exception|
                    |  -   |    /    |Exception|
@@ -84,56 +84,70 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
 
                  */
 
-                // - -
-                else if (prevElement.isMinusOperator() && matchedElement.isMinusOperator()){
-                    prevElement.setIsValid(false);
-                    matchedElement.setStr("+");
+                else if (prevElement.str.equals(matchedElement.str)){
+                    //
+                    if (matchedElement.isMinusOperator()){
+                        prevElement.setIsValid(false);
+                        matchedElement.setStr("+");
+                    }
+                    // * * -> ^
+                    else if (matchedElement.isMultiplicationOperator()){
+                        prevElement.setStr("^");
+                        continue;
+                    }
+                    // + + -> Exception
+                    else if (matchedElement.isPlusOperator()){
+                        throw new InvalidElementOrderException();
+                    }
+                    // "/" "/" -> Exception
+                    else if (matchedElement.isDivisionOperator()){
+                        throw new InvalidElementOrderException();
+                    }
                 }
-                // + - -> -
-                else if (prevElement.isPlusOperator() && matchedElement.isMinusOperator()){
-                    prevElement.setStr("-");
-                    continue;
+
+                else if (prevElement.isMinusOperator()){
+                    // - +
+                    if (matchedElement.isPlusOperator()){
+                        throw new InvalidElementOrderException();
+                    }
+                    // - *
+                    else if (matchedElement.isMultiplicationOperator()){
+                        throw new InvalidElementOrderException();
+                    }
+                    // - /
+                    else if (matchedElement.isDivisionOperator()){
+                        throw new InvalidElementOrderException();
+                    }
                 }
-                // * * -> ^
-                else if (prevElement.isMultiplicationOperator() && matchedElement.isMultiplicationOperator()){
-                    prevElement.setStr("^");
-                    continue;
+                else if (prevElement.isPlusOperator()){
+                    // + - -> -
+                    if (matchedElement.isMinusOperator()){
+                        prevElement.setStr("-");
+                        continue;
+                    }
+                    // + *
+                    else if (matchedElement.isMultiplicationOperator()){
+                        throw new InvalidElementOrderException();
+                    }
+                    // + /
+                    else if (matchedElement.isDivisionOperator()){
+                        throw new InvalidElementOrderException();
+                    }
                 }
-                // + + -> Exception
-                else if (prevElement.isPlusOperator() && matchedElement.isPlusOperator()){
+                // "(" and "+ or * or / or )" --->Exception
+                else if (prevElement.isLeftBracket() &&
+                        (matchedElement.isPlusOperator() ||
+                            matchedElement.isMultiplicationOperator() ||
+                            matchedElement.isDivisionOperator() ||
+                            matchedElement.isRightBracket())){
                     throw new InvalidElementOrderException();
                 }
-                // - +
-                else if (prevElement.isMinusOperator() && matchedElement.isPlusOperator()){
-                    throw new InvalidElementOrderException();
-                }
-                // - *
-                else if (prevElement.isMinusOperator() && matchedElement.isMultiplicationOperator()){
-                    throw new InvalidElementOrderException();
-                }
-                // - /
-                else if (prevElement.isMinusOperator() && matchedElement.isDivisionOperator()){
-                    throw new InvalidElementOrderException();
-                }
-                // + *
-                else if (prevElement.isPlusOperator() && matchedElement.isMultiplicationOperator()){
-                    throw new InvalidElementOrderException();
-                }
-                // + /
-                else if (prevElement.isPlusOperator() && matchedElement.isDivisionOperator()){
-                    throw new InvalidElementOrderException();
-                }
-                // ( )
-                else if (prevElement.isLeftBracket() && matchedElement.isRightBracket()){
-                    throw new InvalidElementOrderException();
-                }
-                // * +
-                else if (prevElement.isMultiplicationOperator() && matchedElement.isPlusOperator()){
-                    throw new InvalidElementOrderException();
-                }
-                // / +
-                else if (prevElement.isDivisionOperator() && matchedElement.isPlusOperator()){
-                    throw new InvalidElementOrderException();
+                else if (matchedElement.isPlusOperator()){
+                    // "*" "+" -> Exception
+                    // "/" "+" -> Exception
+                    if (prevElement.isMultiplicationOperator() || prevElement.isDivisionOperator()){
+                        throw new InvalidElementOrderException();
+                    }
                 }
             }
             prevElement = matchedElement;

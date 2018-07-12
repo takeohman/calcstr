@@ -131,7 +131,8 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
             }
             case 7: {
                 String[] tmp = {"(","+","3",")"};
-                _q = new Question("(+3)", "3", tmp, "符号付きの１つの数字：+ ");
+                _q = new Question("(+3)", null, tmp, "符号付きの１つの数字：+ ");
+                _q.setIsAmbiguous(true); // for PostfixNotationUtilTest
                 break;
             }
             case 8: {
@@ -424,6 +425,18 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 String[] tmp = {"0", "(","2","(","3",")","-","2",")"};
                 _q = new Question("0(2(3)-2)","0", tmp, "multiplication case with subtraction after right bracket");
 
+                break;
+            }
+            case 63:{
+                String[] tmp = {"1","(","*","2","/","3",")"};
+                _q = new Question("1(*2/3)",null, tmp, "");
+                _q.setIsAmbiguous(true); // for PostfixNotationUtilTest
+
+                break;
+            }
+            case 64:{
+                String[] tmp = {"1","(","*","*","2","/","3",")"};
+                _q = new Question("1(**2/3)",null, tmp, "");
                 break;
             }
         }
