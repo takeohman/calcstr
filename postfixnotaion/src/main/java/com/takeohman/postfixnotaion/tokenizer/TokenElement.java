@@ -9,10 +9,12 @@ package com.takeohman.postfixnotaion.tokenizer;
  */
 public class TokenElement {
 
-    int index;  // 式中のインデックス
-    String str; // 文字
-    String numeric_str;
-    Boolean isValid;
+    protected int index;  // 式中のインデックス
+    protected String str; // 文字
+    protected String numeric_str;
+    protected Boolean isValid;
+    protected int priority;
+    protected boolean isIncompleteDec;
 
     private TokenCheckerInterface ec;
 
@@ -83,6 +85,10 @@ public class TokenElement {
         return this.str;
     }
 
+    public String getRawStr(){
+        return this.str;
+    }
+
     /**
      *
      * @param str
@@ -91,6 +97,8 @@ public class TokenElement {
     public String setStr(String str){
         this.str = str;
         this.numeric_str = this.ec.getNumericValue(str);
+        this.priority = this.ec.getValuePriority(str);
+        this.isIncompleteDec = this.ec.isIncompleteDecimal(str);
         return this.str;
     }
 
@@ -99,20 +107,23 @@ public class TokenElement {
      * @return boolean
      */
     public boolean isNumeric(){
-        return this.ec.isNumeric(this.str);
+        return this.numeric_str != null;
+//        return this.ec.isNumeric(this.str);
     }
 
 
 
     public boolean isIncompleteDecimal(){
-        return this.ec.isIncompleteDecimal(this.str);
+        return this.isIncompleteDec;
+//        return this.ec.isIncompleteDecimal(this.str);
     }
     /**
      * 文字の優先順位を返す
      * @return int
      */
     public int getPriority(){
-        return this.ec.getValuePriority(this.str);
+        return this.priority;
+//        return this.ec.getValuePriority(this.str);
     }
 
     /**

@@ -24,7 +24,7 @@ public class StringListTokenizerTest {
     ArrayList<String> getStrList(ArrayList<TokenElement> temp) {
         ArrayList<String> strList = new ArrayList<>();
         for(int i = 0; i < temp.size(); i++){
-            strList.add(temp.get(i).str);
+            strList.add(temp.get(i).getRawStr());
         }
         return strList;
     }
@@ -39,7 +39,7 @@ public class StringListTokenizerTest {
         ArrayList<String> l1 = new ArrayList<>();
 
         for(int i = 0; i < temp.size(); i++){
-            l1.add(temp.get(i).str);
+            l1.add(temp.get(i).getRawStr());
         }
         ArrayList<String> e1 = new ArrayList<>();
         e1.add("1");

@@ -80,7 +80,7 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
 
                  */
 
-                else if (prevElement.str.equals(matchedElement.str)){
+                else if (prevElement.getRawStr().equals(matchedElement.getRawStr())){
                     //
                     if (matchedElement.isMinusOperator()){
                         prevElement.setIsValid(false);

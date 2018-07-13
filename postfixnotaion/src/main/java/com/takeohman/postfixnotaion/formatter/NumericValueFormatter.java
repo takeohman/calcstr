@@ -15,6 +15,9 @@ public class NumericValueFormatter extends AbstractFormatter{
     // the format pattern string for a full numeric value.
     private static String format_pattern_full = "#,###.################";
     private Pattern patStartPeriod;
+    private static DecimalFormat formatter_dec = new DecimalFormat(format_pattern_dec);
+    private static DecimalFormat formatter_full = new DecimalFormat(format_pattern_full);
+
 
 
     public NumericValueFormatter(FormatterInterface<String> formatter){
@@ -27,13 +30,12 @@ public class NumericValueFormatter extends AbstractFormatter{
         this.patStartPeriod = Pattern.compile("^\\.[0-9]+$");
     }
 
-    private String getFormatStr(String val){
+    private DecimalFormat getDecimalFormat(String val){
         Matcher mat =  this.patStartPeriod.matcher(val);
-        String format_str = format_pattern_full;
         if (mat.find()){
-            format_str = format_pattern_dec;
+            return formatter_dec;
         }
-        return format_str;
+        return formatter_full;
     }
 
 
@@ -43,10 +45,7 @@ public class NumericValueFormatter extends AbstractFormatter{
         if (this.formatter != null){
             _val = this.formatter.format(val);
         }
-        String format_str = this.getFormatStr(_val);
-        DecimalFormat dc = new DecimalFormat(format_str);
-
         BigDecimal bd = new BigDecimal(_val);
-        return dc.format(bd);
+        return getDecimalFormat(_val).format(bd);
     }
 }
