@@ -82,7 +82,7 @@ public class PostfixNotation {
             int listItemPriority = listItem.getPriority();
             boolean hasLeftAlreadyPop = false;
             while( operatorStack.size() > 0
-                    && !(operatorStack.lastElement().isInvolusionOperator() && listItem.isInvolusionOperator())
+                    && !(operatorStack.lastElement().isInvolutionOperator() && listItem.isInvolutionOperator())
                     && listItemPriority <= operatorStack.lastElement().getPriority()
                     && (!operatorStack.lastElement().isLeftBracket()
                     || (!hasLeftAlreadyPop && operatorStack.lastElement().isLeftBracket() && listItem.isRightBracket()))) {

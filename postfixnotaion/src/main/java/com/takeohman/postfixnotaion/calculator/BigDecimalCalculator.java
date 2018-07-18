@@ -75,8 +75,13 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
     public BigDecimal involution(String strA, String strB){
         BigDecimal a = new BigDecimal(strA);
         BigDecimal b = new BigDecimal(strB);
-        BigDecimal bdAns = new BigDecimal(
-                Math.pow(a.doubleValue(), b.doubleValue())).setScale(this.scale, RoundingMode.HALF_EVEN);
+        BigDecimal bdAns = null;
+        if (b.toString().contains(".") || b.compareTo(BigDecimal.ZERO) < 0){
+            bdAns = new BigDecimal(
+                    Math.pow(a.doubleValue(), b.doubleValue())).setScale(this.scale, RoundingMode.HALF_EVEN);
+        } else {
+            bdAns = a.pow(b.intValueExact());
+        }
         return bdAns.stripTrailingZeros();
     }
 

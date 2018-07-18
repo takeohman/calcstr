@@ -130,6 +130,13 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                         throw new InvalidElementOrderException();
                     }
                 }
+                else if ((prevElement.isMultiplicationOperator() && matchedElement.isDivisionOperator())||
+                        prevElement.isDivisionOperator() && matchedElement.isMultiplicationOperator()){
+                    throw new InvalidElementOrderException();
+                }
+                else if (prevElement.isInvolutionOperator() && (!matchedElement.isNumeric() && !matchedElement.isMinusOperator())){
+                    throw new InvalidElementOrderException();
+                }
                 // "(" and "+ or * or / or )" --->Exception
                 else if (prevElement.isLeftBracket() &&
                         (matchedElement.isPlusOperator() ||
