@@ -1,4 +1,6 @@
-package com.takeohman.postfixnotaion.formatter;
+package com.takeohman.postfixnotaion.ui;
+
+import com.takeohman.postfixnotaion.ui.NumericValueFormatUtil;
 
 import org.junit.Test;
 

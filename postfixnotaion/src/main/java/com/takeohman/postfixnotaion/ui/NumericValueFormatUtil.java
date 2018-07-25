@@ -1,7 +1,9 @@
-package com.takeohman.postfixnotaion.formatter;
+package com.takeohman.postfixnotaion.ui;
 
 import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
 import com.takeohman.postfixnotaion.checker.PeriodPositionChecker;
+import com.takeohman.postfixnotaion.formatter.CommaEraser;
+import com.takeohman.postfixnotaion.formatter.NumericValueFormatter;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +13,10 @@ public class NumericValueFormatUtil {
     PeriodPositionChecker checker;
     private Pattern patHead;
     private Pattern patTail;
+
+    /**
+     *
+     */
     class MatchedString {
         Matcher mat;
         MatchedString(Matcher mat){
@@ -26,12 +32,23 @@ public class NumericValueFormatUtil {
             return this.mat.end();
         }
     }
+
+    /**
+     *
+     */
     public NumericValueFormatUtil(){
         this.formatter = new NumericValueFormatter(new CommaEraser());
         this.checker = new PeriodPositionChecker();
         this.patHead = Pattern.compile("^[0-9,.]+");
         this.patTail = Pattern.compile("[0-9,.]+$");
     }
+
+    /**
+     *
+     * @param val
+     * @param pattern
+     * @return
+     */
     MatchedString getNumericEdgeString(String val, Pattern pattern){
         Matcher matcher = pattern.matcher(val);
         if(matcher.find()){
@@ -40,6 +57,16 @@ public class NumericValueFormatUtil {
         return null;
     }
 
+    /**
+     * Parse the strings of cursor's left and right, and return result in a string array with 3 elements.
+     * @param str_cursor_left : string of cursor's left
+     * @param str_cursor_right: string of cursor's right
+     * @return String[]
+     *
+     * [0]  :a predecessor string
+     * [1]  :a string of a element in the middle
+     * [2]  :a successor string
+     */
     String[] getStringsAroundTheCursor(String str_cursor_left, String str_cursor_right){
 
         MatchedString ms_prefix = this.getNumericEdgeString(str_cursor_left, this.patTail);
@@ -64,6 +91,7 @@ public class NumericValueFormatUtil {
         _tmp[2] = successor_str;
         return _tmp;
     }
+
     /**
      * Format the numeric value with cursor.
      * @param problem_str String
@@ -74,6 +102,11 @@ public class NumericValueFormatUtil {
         return this.convertNumericValueWithCursor(problem_str, cursorPosition, "");
     }
 
+    /**
+     *
+     * @param numericString
+     * @return
+     */
     public String formatNumericString(String numericString){
         String numeric_value = "";
         if (!numericString.equals("")) {
