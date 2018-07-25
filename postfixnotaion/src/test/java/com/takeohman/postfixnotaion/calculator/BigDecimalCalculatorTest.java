@@ -138,4 +138,48 @@ public class BigDecimalCalculatorTest {
 
 
     }
+
+    @Test
+    public void sin() {
+        BigDecimalCalculator sc = new BigDecimalCalculator();
+
+        BigDecimal bd = sc.sin("1");
+        assertEquals(new BigDecimal("0.8414709848078965048756572286947630345821380615234375"), bd.stripTrailingZeros());
+    }
+
+    @Test
+    public void cos() {
+        BigDecimalCalculator sc = new BigDecimalCalculator();
+
+        BigDecimal bd = sc.cos("1");
+        assertEquals(new BigDecimal("0.540302305868139765010482733487151563167572021484375"), bd.stripTrailingZeros());
+
+    }
+
+    @Test
+    public void tan() {
+        BigDecimalCalculator sc = new BigDecimalCalculator();
+
+        BigDecimal bd = sc.tan("1");
+        assertEquals(new BigDecimal("1.557407724654902292371616567834280431270599365234375"), bd.stripTrailingZeros());
+
+    }
+
+    @Test
+    public void log() {
+        BigDecimalCalculator sc = new BigDecimalCalculator();
+
+        BigDecimal bd = sc.log("200");
+        assertEquals(new BigDecimal("5.29831736654803631125787433120422065258026123046875"), bd.stripTrailingZeros());
+
+    }
+
+    @Test
+    public void log10() {
+        BigDecimalCalculator sc = new BigDecimalCalculator();
+
+        BigDecimal bd = sc.log10("200");
+        assertEquals(new BigDecimal("2.301029995663981253528618253767490386962890625"), bd.stripTrailingZeros());
+
+    }
 }

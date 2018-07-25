@@ -28,12 +28,8 @@ public class PeriodPositionChecker {
         }
 
     }
-    private Pattern patTailPeriod;
-    private Pattern patHeadPeriod;
     private Pattern patPeriod;
     public PeriodPositionChecker(){
-        this.patHeadPeriod = Pattern.compile("^\\.");
-        this.patTailPeriod = Pattern.compile("\\.$");
         this.patPeriod = Pattern.compile("\\.");
     }
     /**
@@ -43,8 +39,6 @@ public class PeriodPositionChecker {
      */
     boolean isTheHeadPeriod(String value){
         return value.length() > 0 && String.valueOf(value.charAt(0)).equals(".");
-//        Matcher matcher = this.patHeadPeriod.matcher(value);
-//        return matcher.find();
     }
 
     /**
@@ -54,8 +48,6 @@ public class PeriodPositionChecker {
      */
     boolean isTheTailPeriod(String value){
         return value.length() > 0  && String.valueOf(value.charAt(value.length()-1)).equals(".");
-//        Matcher matcher = this.patTailPeriod.matcher(value);
-//        return matcher.find();
     }
 
 
@@ -72,7 +64,6 @@ public class PeriodPositionChecker {
 
         while (matcher.find()){
             periodCnt++;
-//            String tmp = matcher.group();
             int start = matcher.start();
             int end = matcher.end();
             if (start == 0){

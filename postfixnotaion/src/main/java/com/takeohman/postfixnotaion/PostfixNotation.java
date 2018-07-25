@@ -61,7 +61,7 @@ public class PostfixNotation {
      * @param pbmTokenObjList 問題式を分割したProblemStrオブジェクトのリスト
      * @return 答えのString
      */
-    private String calcInfixProblemStrList(TokenElementList pbmTokenObjList){
+    public String calcInfixProblemStrList(TokenElementList pbmTokenObjList){
 
         Stack<TokenElement> numericStack = new Stack<>();
         Stack<TokenElement> operatorStack = new Stack<>();
