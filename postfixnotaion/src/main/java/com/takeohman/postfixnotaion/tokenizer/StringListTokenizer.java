@@ -134,7 +134,7 @@ public class StringListTokenizer implements Tokenizer<TokenElementList, String>{
                         prevElement.isDivisionOperator() && matchedElement.isMultiplicationOperator()){
                     throw new InvalidElementOrderException();
                 }
-                else if (prevElement.isInvolutionOperator() && (!matchedElement.isNumeric() && !matchedElement.isMinusOperator())){
+                else if (prevElement.isInvolutionOperator() && (!matchedElement.isNumeric() && !matchedElement.isLeftBracket() && !matchedElement.isMinusOperator())){
                     throw new InvalidElementOrderException();
                 }
                 // "(" and "+ or * or / or )" --->Exception

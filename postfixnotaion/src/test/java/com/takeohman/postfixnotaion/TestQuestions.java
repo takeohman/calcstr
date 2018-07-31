@@ -439,6 +439,12 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q = new Question("1(**2/3)",null, tmp, "");
                 break;
             }
+            case 65:{
+                String[] tmp = {"5", "*" , "*" , "(" , "6", "-", "1", ")"};
+                _q = new Question("5**(6-1)","3125", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
         }
 
         return _q;
