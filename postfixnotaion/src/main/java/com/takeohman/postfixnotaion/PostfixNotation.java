@@ -10,6 +10,7 @@ import com.takeohman.postfixnotaion.tokenizer.StringListTokenizer;
 import com.takeohman.postfixnotaion.tokenizer.StringTokenizer;
 import com.takeohman.postfixnotaion.tokenizer.TokenElement;
 import com.takeohman.postfixnotaion.tokenizer.TokenElementList;
+import com.takeohman.postfixnotaion.tokenizer.TokenElementObject;
 import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
 
 import java.util.Stack;
@@ -63,8 +64,8 @@ public class PostfixNotation {
      */
     public String calcInfixProblemStrList(TokenElementList pbmTokenObjList){
 
-        Stack<TokenElement> numericStack = new Stack<>();
-        Stack<TokenElement> operatorStack = new Stack<>();
+        Stack<TokenElementObject> numericStack = new Stack<>();
+        Stack<TokenElementObject> operatorStack = new Stack<>();
 
         StackUser su = new StackUser(this.calculator, numericStack, operatorStack);
         int idx = 0;
