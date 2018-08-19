@@ -4,7 +4,9 @@ import com.takeohman.postfixnotaion.calculator.Calculator;
 import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
 import com.takeohman.postfixnotaion.checker.FunctionChecker;
 import com.takeohman.postfixnotaion.checker.OperatorChecker;
+import com.takeohman.postfixnotaion.tokenizer.NumericTokenElement;
 import com.takeohman.postfixnotaion.tokenizer.TokenElement;
+import com.takeohman.postfixnotaion.tokenizer.TokenElementObject;
 import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
 
 import java.util.Stack;
@@ -16,9 +18,9 @@ import java.util.Stack;
 class StackUser{
     private Calculator sc;
     private TokenValueChecker ec;
-    private Stack<TokenElement> numericStack;
-    private Stack<TokenElement> operatorStack;
-    StackUser(Calculator sc, Stack<TokenElement> numericStack, Stack<TokenElement> operatorStack){
+    private Stack<TokenElementObject> numericStack;
+    private Stack<TokenElementObject> operatorStack;
+    StackUser(Calculator sc, Stack<TokenElementObject> numericStack, Stack<TokenElementObject> operatorStack){
         this.numericStack = numericStack;
         this.operatorStack = operatorStack;
         this.sc = sc;
@@ -50,7 +52,7 @@ class StackUser{
 
             追加：N!（階乗）の対応はここで行う。
              */
-            TokenElement pbm = operatorStack.pop();
+            TokenElementObject pbm = operatorStack.pop();
 
             if (pbm.isExclamation()){
                 Number fcAns = this.sc.factorial(numericStack.pop().getStr());
@@ -61,7 +63,7 @@ class StackUser{
                 return false;
             }
         }
-        TokenElement _ope = operatorStack.pop();
+        TokenElementObject _ope = operatorStack.pop();
         if (_ope.isLeftBracket()){
             // TODO: 左括弧削除済みの場合にtrue
             return true;
@@ -71,7 +73,7 @@ class StackUser{
         sin, cos, tan, log
          */
         if (_ope.isFunction()){
-            TokenElement _num = numericStack.pop();
+            TokenElementObject _num = numericStack.pop();
             Number _a = null;
             if (_ope.isSineFunc()){
                 _a = this.sc.sin(_num.getStr());
@@ -107,7 +109,7 @@ class StackUser{
                 /*
                 演算子が"-"の場合は符号が変わるので-1を掛ける
                  */
-                TokenElement _num = numericStack.pop();
+                TokenElementObject _num = numericStack.pop();
                 Number _a = this.sc.multiply(_num.getStr(), "-1");
                 numericStack.push(new TokenElement(this.ec, 0, _a.toString()));
                 return false;
@@ -115,7 +117,7 @@ class StackUser{
                 /*
                 演算子が/の場合は、1をスタックの数字で割る。
                  */
-                TokenElement _num = numericStack.pop();
+                TokenElementObject _num = numericStack.pop();
                 Number _a = this.sc.divide("1", _num.getStr());
                 numericStack.push(new TokenElement(this.ec, 0, _a.toString()));
                 return false;
@@ -125,11 +127,12 @@ class StackUser{
         二項演算子の計算
          */
 
-        TokenElement b = numericStack.pop();
-        TokenElement a = numericStack.pop();
+        TokenElementObject b = numericStack.pop();
+        TokenElementObject a = numericStack.pop();
 
         Number ans = this.sc.calculate(_ope.getStr(), a.getStr(), b.getStr());
-        numericStack.push(new TokenElement(this.ec, b.getIndex(), ans.toString()));
+//        numericStack.push(new TokenElement(this.ec, b.getIndex(), ans.toString()));
+        numericStack.push(new NumericTokenElement(b.getIndex(), ans));
         return false;
     }
 }

@@ -4,16 +4,14 @@ package com.takeohman.postfixnotaion.tokenizer;
  * Created by takeoh on 2017/11/09.
  */
 
+import java.math.BigDecimal;
+
 /**
  * 四則計算の、式の文字を表すクラス
  */
-public class TokenElement {
+public class TokenElement extends TokenElementObject{
 
-    protected int index;  // 式中のインデックス
-    protected String str; // 文字
     protected String numeric_str;
-    protected Boolean isValid;
-    protected int priority;
     protected boolean isIncompleteDec;
 
     private TokenCheckerInterface ec;
@@ -24,10 +22,9 @@ public class TokenElement {
      * @param str 数値や演算子の文字
      */
     public TokenElement(TokenCheckerInterface ec, int index, String str){
-        this.index = index;
+        super(index);
         this.ec = ec;
         this.setStr(str);
-        this.isValid = true;
     }
 
     /**
@@ -35,19 +32,11 @@ public class TokenElement {
      * @param str
      */
     public TokenElement(TokenCheckerInterface ec, String str){
-        this.index = -1;
+        super(-1);
         this.ec = ec;
         this.setStr(str);
-        this.isValid = true;
     }
 
-    public Boolean getIsValid(){
-        return this.isValid;
-    }
-
-    public void setIsValid(Boolean isValid){
-        this.isValid = isValid;
-    }
     /**
      * toStringのオーバーライド
      * @return String
@@ -56,23 +45,6 @@ public class TokenElement {
         return this.str;
     }
 
-    /**
-     * インデックスの取得
-     * @return int
-     */
-    public int getIndex(){
-        return this.index;
-    }
-
-    /**
-     *
-     * @param index
-     * @return
-     */
-    public int setIndex(int index){
-        this.index = index;
-        return this.index;
-    }
 
     /**
      *
@@ -85,10 +57,6 @@ public class TokenElement {
         return this.str;
     }
 
-    public String getRawStr(){
-        return this.str;
-    }
-
     /**
      *
      * @param str
@@ -97,11 +65,22 @@ public class TokenElement {
     public String setStr(String str){
         this.str = str;
         this.numeric_str = this.ec.getNumericValue(str);
-        this.priority = this.ec.getValuePriority(str);
+        this.setPriority(this.ec.getValuePriority(str));
         this.isIncompleteDec = this.ec.isIncompleteDecimal(str);
         return this.str;
     }
 
+
+    /**
+     * Return Number Object if it's possible.
+     * @return Number or null
+     */
+    public Number getNumberObject(){
+        if (this.numeric_str != null){
+            return new BigDecimal(this.numeric_str);
+        }
+        return null;
+    }
     /**
      * 数値の場合にtrueを返す
      * @return boolean
@@ -116,14 +95,6 @@ public class TokenElement {
     public boolean isIncompleteDecimal(){
         return this.isIncompleteDec;
 //        return this.ec.isIncompleteDecimal(this.str);
-    }
-    /**
-     * 文字の優先順位を返す
-     * @return int
-     */
-    public int getPriority(){
-        return this.priority;
-//        return this.ec.getValuePriority(this.str);
     }
 
     /**
