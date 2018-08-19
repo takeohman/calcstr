@@ -15,6 +15,11 @@ public class NumericTokenElement extends TokenElementObject {
     }
 
     @Override
+    public Number getNumberObject() {
+        return this.bc;
+    }
+
+    @Override
     public String setStr(String str) {
         this.bc = null;
         this.bc = new BigDecimal(str);

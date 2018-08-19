@@ -57,12 +57,13 @@ public class PostfixNotation {
         this.stringListTokenizer = stringListTokenizer;
     }
 
+
     /**
      * ProblemStrオブジェクトのリストを計算する
      * @param pbmTokenObjList 問題式を分割したProblemStrオブジェクトのリスト
      * @return 答えのString
      */
-    public String calcInfixProblemStrList(TokenElementList pbmTokenObjList){
+    public TokenElementObject calcInfixProblemStrList(TokenElementList pbmTokenObjList){
 
         Stack<TokenElementObject> numericStack = new Stack<>();
         Stack<TokenElementObject> operatorStack = new Stack<>();
@@ -105,7 +106,7 @@ public class PostfixNotation {
             su.doCalc();
         }
 
-        return numericStack.pop().getStr();
+        return numericStack.pop();
     }
 
     /**
@@ -119,30 +120,16 @@ public class PostfixNotation {
     }
 
     public PostfixNotationResult calcInfixProblemString(String problemStr){
-
-        String ans = null;
+        // TODO: ansをTokenElement or NumericTokenElementにする
+        TokenElementObject ansElm = null;
         TokenElementList pbmTokenObjList = null;
         Exception _ex = null;
         try {
             pbmTokenObjList = this.stringListTokenizer.getList(problemStr);
-            ans = this.calcInfixProblemStrList(pbmTokenObjList);
-
-        } catch (StackUser.NoElementException ex) {
-            //想定内
-            ans = null;
-        } catch (StringListTokenizer.InvalidElementOrderException ex) {
-            //想定内
-            ans = null;
-        } catch (StringListTokenizer.InvalidBracketCountException ex) {
-            ans = null;
-        } catch (StringListTokenizer.LeftBracketOnlyException ex) {
-            ans = "";
-        } catch (NumberFormatException ex){
-            _ex = ex;
+            ansElm = this.calcInfixProblemStrList(pbmTokenObjList);
         } catch (Exception ex) {
-            //想定外
-            ans =  "";
+            _ex = ex;
         }
-        return new PostfixNotationResult(problemStr, ans, pbmTokenObjList, _ex);
+        return new PostfixNotationResult(problemStr, ansElm, pbmTokenObjList, _ex);
     }
 }

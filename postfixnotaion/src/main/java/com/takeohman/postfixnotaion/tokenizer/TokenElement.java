@@ -4,6 +4,8 @@ package com.takeohman.postfixnotaion.tokenizer;
  * Created by takeoh on 2017/11/09.
  */
 
+import java.math.BigDecimal;
+
 /**
  * 四則計算の、式の文字を表すクラス
  */
@@ -68,6 +70,17 @@ public class TokenElement extends TokenElementObject{
         return this.str;
     }
 
+
+    /**
+     * Return Number Object if it's possible.
+     * @return Number or null
+     */
+    public Number getNumberObject(){
+        if (this.numeric_str != null){
+            return new BigDecimal(this.numeric_str);
+        }
+        return null;
+    }
     /**
      * 数値の場合にtrueを返す
      * @return boolean

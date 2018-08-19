@@ -49,6 +49,13 @@ public abstract class TokenElementObject {
         return this.str;
     }
 
+
+    /**
+     * get Number object directly
+     * @return Number or null
+     */
+    abstract public Number getNumberObject();
+
     /**
      *
      * @param str
