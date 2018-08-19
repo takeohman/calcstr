@@ -1,6 +1,6 @@
 package com.takeohman.postfixnotaion.formatter;
 
-public interface FormatterInterface <T>{
-    T format (T val);
+public interface FormatterInterface <T1, T2>{
+    T1 format (T2 val);
 }
 

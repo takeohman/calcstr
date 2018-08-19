@@ -1,8 +1,8 @@
 package com.takeohman.postfixnotaion.formatter;
 
-abstract public class AbstractFormatter implements FormatterInterface<String>{
-    protected FormatterInterface<String> formatter;
-    public AbstractFormatter(FormatterInterface<String> formatter){
+abstract public class AbstractFormatter implements FormatterInterface<String, String>{
+    protected FormatterInterface<String, String> formatter;
+    public AbstractFormatter(FormatterInterface<String, String> formatter){
         this.formatter = formatter;
     }
     public AbstractFormatter(){this.formatter=null;}

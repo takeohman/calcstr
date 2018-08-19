@@ -20,7 +20,7 @@ public class NumericValueFormatter extends AbstractFormatter{
 
 
 
-    public NumericValueFormatter(FormatterInterface<String> formatter){
+    public NumericValueFormatter(FormatterInterface<String, String> formatter){
         super(formatter);
         this.patStartPeriod = Pattern.compile("^\\.[0-9]+$");
     }
