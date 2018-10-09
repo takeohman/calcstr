@@ -76,9 +76,35 @@ public class BigDecimalCalculator implements Calculator<BigDecimal>{
         BigDecimal a = new BigDecimal(strA);
         BigDecimal b = new BigDecimal(strB);
         BigDecimal bdAns = null;
-        if (b.toString().contains(".") || b.compareTo(BigDecimal.ZERO) < 0){
-            bdAns = new BigDecimal(
-                    Math.pow(a.doubleValue(), b.doubleValue())).setScale(this.scale, RoundingMode.HALF_EVEN);
+        String bStr = b.toString();
+
+        // Since BigDecimal only allow int value for involution, check bStr.
+        if ( bStr.contains(".") || b.compareTo(BigDecimal.ZERO) < 0 ) {
+
+            boolean is_minus_value = bStr.startsWith("-");
+            // 整数
+            String[] split_float_value = bStr.split("[.]", 2);
+            BigDecimal _numeric = new BigDecimal(split_float_value[0]);
+            double _numeric_ans = Math.pow(a.doubleValue(), _numeric.intValueExact());
+            BigDecimal _n = null;
+            if (Double.isInfinite(_numeric_ans)){
+                _n = a.pow(_numeric.intValueExact());
+            } else {
+                _n = new BigDecimal(_numeric_ans);
+            }
+
+            // 小数点以下に値がある場合はその計算
+            if (split_float_value.length > 1){
+                BigDecimal _float = new BigDecimal((is_minus_value ? "-0." : "0.") + split_float_value[1]);
+                double _float_ans = Math.pow(a.doubleValue(), _float.doubleValue());
+                BigDecimal _f = new BigDecimal(_float_ans);
+
+                // multiply the results of Math.pow of NNN.xxx and xxx.NNN.
+                bdAns = _n.multiply(_f);
+            } else {
+                bdAns = _n;
+            }
+
         } else {
             bdAns = a.pow(b.intValueExact());
         }
