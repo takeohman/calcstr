@@ -8,6 +8,7 @@ import com.takeohman.postfixnotaion.tokenizer.NumericTokenElement;
 import com.takeohman.postfixnotaion.tokenizer.TokenElementObject;
 import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
 
+import java.math.BigDecimal;
 import java.util.Stack;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Stack;
  */
 
 class StackUser{
-    private Calculator sc;
+    private Calculator<Number, Number> sc;
     private TokenValueChecker ec;
     private Stack<TokenElementObject> numericStack;
     private Stack<TokenElementObject> operatorStack;
@@ -54,7 +55,7 @@ class StackUser{
             TokenElementObject pbm = operatorStack.pop();
 
             if (pbm.isExclamation()){
-                Number fcAns = this.sc.factorial(numericStack.pop().getStr());
+                Number fcAns = this.sc.factorial(numericStack.pop().getNumberObject());
                 numericStack.push(new NumericTokenElement(pbm.getIndex(), fcAns));
                 return false;
             }
@@ -75,13 +76,13 @@ class StackUser{
             TokenElementObject _num = numericStack.pop();
             Number _a = null;
             if (_ope.isSineFunc()){
-                _a = this.sc.sin(_num.getStr());
+                _a = this.sc.sin(_num.getNumberObject());
             } else if (_ope.isCosineFunc()){
-                _a = this.sc.cos(_num.getStr());
+                _a = this.sc.cos(_num.getNumberObject());
             } else if (_ope.isTangentFunc()){
-                _a = this.sc.tan(_num.getStr());
+                _a = this.sc.tan(_num.getNumberObject());
             } else if (_ope.isLogarithmFunc()){
-                _a = this.sc.log10(_num.getStr());
+                _a = this.sc.log10(_num.getNumberObject());
             }
             if (_a != null){
                 numericStack.push(new NumericTokenElement(_num.getIndex(), _a));
@@ -109,7 +110,7 @@ class StackUser{
                 演算子が"-"の場合は符号が変わるので-1を掛ける
                  */
                 TokenElementObject _num = numericStack.pop();
-                Number _a = this.sc.multiply(_num.getStr(), "-1");
+                Number _a = this.sc.multiply(_num.getNumberObject(), new BigDecimal("-1"));
                 numericStack.push(new NumericTokenElement(0, _a));
                 return false;
             } else if (_ope.isDivisionOperator()){
@@ -117,7 +118,7 @@ class StackUser{
                 演算子が/の場合は、1をスタックの数字で割る。
                  */
                 TokenElementObject _num = numericStack.pop();
-                Number _a = this.sc.divide("1", _num.getStr());
+                Number _a = this.sc.divide(new BigDecimal("1"), _num.getNumberObject());
                 numericStack.push(new NumericTokenElement( 0, _a));
                 return false;
             }
@@ -129,7 +130,7 @@ class StackUser{
         TokenElementObject b = numericStack.pop();
         TokenElementObject a = numericStack.pop();
 
-        Number ans = this.sc.calculate(_ope.getStr(), a.getStr(), b.getStr());
+        Number ans = this.sc.calculate(_ope.getStr(), a.getNumberObject(), b.getNumberObject());
         numericStack.push(new NumericTokenElement(b.getIndex(), ans));
         return false;
     }

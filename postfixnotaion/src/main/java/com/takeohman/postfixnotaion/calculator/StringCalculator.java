@@ -9,64 +9,72 @@ import java.math.RoundingMode;
  */
 
 
-public class BigDecimalCalculator implements Calculator<BigDecimal, BigDecimal>{
+public class StringCalculator implements Calculator<BigDecimal, String>{
     private MathContext mc;
     int scale;
 
-    public BigDecimalCalculator(){
+    public StringCalculator(){
         this.mc = new MathContext(12, RoundingMode.HALF_EVEN);
         this.scale = 12;
     }
 
     /**
      * addition
-     * @param valA
-     * @param valB
+     * @param strA
+     * @param strB
      * @return
      */
-    public BigDecimal add(BigDecimal valA, BigDecimal valB){
-        return valA.add(valB);
+    public BigDecimal add(String strA, String strB){
+        BigDecimal a = new BigDecimal(strA);
+        BigDecimal b = new BigDecimal(strB);
+        return a.add(b);
     }
 
     /**
      * subtraction
-     * @param valA
-     * @param valB
+     * @param strA
+     * @param strB
      * @return
      */
-    public BigDecimal subtract(BigDecimal valA, BigDecimal valB){
-        return valA.subtract(valB);
+    public BigDecimal subtract(String strA, String strB){
+        BigDecimal a = new BigDecimal(strA);
+        BigDecimal b = new BigDecimal(strB);
+        return a.subtract(b);
     }
 
     /**
      * multiplication
-     * @param valA
-     * @param valB
+     * @param strA
+     * @param strB
      * @return
      */
-    public BigDecimal multiply(BigDecimal valA, BigDecimal valB){
-        return valA.multiply(valB);
+    public BigDecimal multiply(String strA, String strB){
+        BigDecimal a = new BigDecimal(strA);
+        BigDecimal b = new BigDecimal(strB);
+        return a.multiply(b);
     }
 
     /**
      * division
-     * @param valA
-     * @param valB
+     * @param strA
+     * @param strB
      * @return
      */
-    public BigDecimal divide(BigDecimal valA, BigDecimal valB){
-        return valA.divide(valB, this.mc);
+    public BigDecimal divide(String strA, String strB){
+        BigDecimal a = new BigDecimal(strA);
+        BigDecimal b = new BigDecimal(strB);
+        return a.divide(b,this.mc);
     }
 
     /**
      * involution (repeated multiplication)
-     * @param valA
-     * @param valB
+     * @param strA
+     * @param strB
      * @return
      */
-    public BigDecimal involution(BigDecimal valA, BigDecimal valB){
-        BigDecimal a = valA;
-        BigDecimal b = valB;
+    public BigDecimal involution(String strA, String strB){
+        BigDecimal a = new BigDecimal(strA);
+        BigDecimal b = new BigDecimal(strB);
         BigDecimal bdAns = null;
         String bStr = b.toString();
 
@@ -105,49 +113,49 @@ public class BigDecimalCalculator implements Calculator<BigDecimal, BigDecimal>{
 
     /**
      * calculate by binary operator
-     * @param valA
-     * @param valB
+     * @param strA
+     * @param strB
      * @param operator　演算子( +, -, *, / )
      * @return
      *
      * 【補足】
      * operatorに未定義の演算子が渡された場合は加算する。
      */
-    public BigDecimal calculate(String operator, BigDecimal valA, BigDecimal valB) {
+    public BigDecimal calculate(String operator, String strA, String strB) {
         /*
             逆ポーランドの計算方法は、"operatorの場合にスタックを取り出して計算"なので
             operatorの値は必ず演算子になるはず。それゆえ、switch文のデフォルトは"+"とまとめている。
          */
         switch (operator) {
             case "^":
-                return this.involution(valA, valB);
+                return this.involution(strA, strB);
             case "-":
-                return this.subtract(valA,valB);
+                return this.subtract(strA,strB);
             case "*":
             case "×":
             case ".":
-                return this.multiply(valA,valB);
+                return this.multiply(strA,strB);
             case "/":
             case "÷":
-                return this.divide(valA,valB);
+                return this.divide(strA,strB);
             case "+":
             default:
-                return this.add(valA,valB);
+                return this.add(strA,strB);
         }
     }
 
-    public BigDecimal calculate(String operator, BigDecimal val){
+    public BigDecimal calculate(String operator, String str){
         switch (operator) {
             case "sin":
-                return this.sin(val);
+                return this.sin(str);
             case "cos":
-                return this.cos(val);
+                return this.cos(str);
             case "tan":
-                return this.tan(val);
+                return this.tan(str);
             case "log":
-                return this.log10(val);
+                return this.log10(str);
             case "log10":
-                return this.log10(val);
+                return this.log10(str);
             default:
                 return null;
         }
@@ -156,14 +164,14 @@ public class BigDecimalCalculator implements Calculator<BigDecimal, BigDecimal>{
     /**
      * 渡された数値文字列を階乗する。
      *
-     * @param intVal 階乗する数値の文字列
+     * @param intValStr 階乗する数値の文字列
      * @return BigDecimal
      *
      * TODO: 計算処理の負荷については入力数値の上限を決める等を検討すること
      */
-    public BigDecimal factorial(BigDecimal intVal){
+    public BigDecimal factorial(String intValStr){
 
-        BigDecimal decOrg = intVal;
+        BigDecimal decOrg = new BigDecimal(intValStr);
 
         BigDecimal decToCalc = decOrg.abs();
         BigDecimal srcNum = new BigDecimal(1);
@@ -181,26 +189,31 @@ public class BigDecimalCalculator implements Calculator<BigDecimal, BigDecimal>{
 
     /**
      *
-     * @param inVal
+     * @param inValStr
      * @return
      */
-    public BigDecimal sin(BigDecimal inVal){
-        return new BigDecimal(Math.sin(inVal.doubleValue()));
+    public BigDecimal sin(String inValStr){
+        BigDecimal bc = new BigDecimal(inValStr);
+        return new BigDecimal(Math.sin(bc.doubleValue()));
     }
 
-    public BigDecimal cos(BigDecimal inVal){
-        return new BigDecimal(Math.cos(inVal.doubleValue()));
+    public BigDecimal cos(String inValStr){
+        BigDecimal bc = new BigDecimal(inValStr);
+        return new BigDecimal(Math.cos(bc.doubleValue()));
     }
 
-    public BigDecimal tan(BigDecimal inVal){
-        return new BigDecimal(Math.tan(inVal.doubleValue()));
+    public BigDecimal tan(String inValStr){
+        BigDecimal bc = new BigDecimal(inValStr);
+        return new BigDecimal(Math.tan(bc.doubleValue()));
     }
 
-    public BigDecimal log(BigDecimal inVal){
-        return new BigDecimal(Math.log(inVal.doubleValue()));
+    public BigDecimal log(String inValStr){
+        BigDecimal bc = new BigDecimal(inValStr);
+        return new BigDecimal(Math.log(bc.doubleValue()));
     }
 
-    public BigDecimal log10(BigDecimal inVal){
-        return new BigDecimal(Math.log10(inVal.doubleValue()));
+    public BigDecimal log10(String inValStr){
+        BigDecimal bc = new BigDecimal(inValStr);
+        return new BigDecimal(Math.log10(bc.doubleValue()));
     }
 }
