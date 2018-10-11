@@ -9,7 +9,7 @@ import java.math.RoundingMode;
  */
 
 
-public class BigDecimalCalculator implements Calculator<BigDecimal>{
+public class BigDecimalCalculator implements Calculator<BigDecimal, String>{
     private MathContext mc;
     int scale;
 

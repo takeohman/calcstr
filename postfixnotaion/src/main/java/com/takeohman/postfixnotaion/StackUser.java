@@ -5,7 +5,6 @@ import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
 import com.takeohman.postfixnotaion.checker.FunctionChecker;
 import com.takeohman.postfixnotaion.checker.OperatorChecker;
 import com.takeohman.postfixnotaion.tokenizer.NumericTokenElement;
-import com.takeohman.postfixnotaion.tokenizer.TokenElement;
 import com.takeohman.postfixnotaion.tokenizer.TokenElementObject;
 import com.takeohman.postfixnotaion.tokenizer.TokenValueChecker;
 
@@ -56,7 +55,7 @@ class StackUser{
 
             if (pbm.isExclamation()){
                 Number fcAns = this.sc.factorial(numericStack.pop().getStr());
-                numericStack.push(new TokenElement(this.ec, pbm.getIndex(), fcAns.toString()));
+                numericStack.push(new NumericTokenElement(pbm.getIndex(), fcAns));
                 return false;
             }
             if (operatorStack.size() <= 0){
@@ -85,7 +84,7 @@ class StackUser{
                 _a = this.sc.log10(_num.getStr());
             }
             if (_a != null){
-                numericStack.push(new TokenElement(this.ec, _num.getIndex(), _a.toString()));
+                numericStack.push(new NumericTokenElement(_num.getIndex(), _a));
             }
             return false;
         }
@@ -111,7 +110,7 @@ class StackUser{
                  */
                 TokenElementObject _num = numericStack.pop();
                 Number _a = this.sc.multiply(_num.getStr(), "-1");
-                numericStack.push(new TokenElement(this.ec, 0, _a.toString()));
+                numericStack.push(new NumericTokenElement(0, _a));
                 return false;
             } else if (_ope.isDivisionOperator()){
                 /*
@@ -119,7 +118,7 @@ class StackUser{
                  */
                 TokenElementObject _num = numericStack.pop();
                 Number _a = this.sc.divide("1", _num.getStr());
-                numericStack.push(new TokenElement(this.ec, 0, _a.toString()));
+                numericStack.push(new NumericTokenElement( 0, _a));
                 return false;
             }
         }
@@ -131,7 +130,6 @@ class StackUser{
         TokenElementObject a = numericStack.pop();
 
         Number ans = this.sc.calculate(_ope.getStr(), a.getStr(), b.getStr());
-//        numericStack.push(new TokenElement(this.ec, b.getIndex(), ans.toString()));
         numericStack.push(new NumericTokenElement(b.getIndex(), ans));
         return false;
     }
