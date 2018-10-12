@@ -479,6 +479,12 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q = new Question("2*-2.7755575E-17*10000", "-5.55111500000E-13", tmp, "");
                 break;
             }
+            case 72:{
+                String[] tmp = {"2", "*", "*", "-55.55"};
+                _q = new Question("2**-55.55", "1.89576168201698791917337432830149664707679595283817963746741952490992844104766845703125E-17", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
 //            case 72:{
 //                String[] tmp = {"2", "*", "-2.7755575E-17", "-", "99"};
 ////                _q = new Question("2*-2.7755575E-17*10000", "-5.5511150E-17", tmp, "");
