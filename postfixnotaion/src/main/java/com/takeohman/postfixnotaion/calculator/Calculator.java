@@ -4,18 +4,18 @@ package com.takeohman.postfixnotaion.calculator;
  * Created by takeoh on 2018/02/08.
  */
 
-public interface Calculator<T extends Number> {
-    T add(String strA, String strB);
-    T subtract(String strA, String strB);
-    T multiply(String strA, String strB);
-    T divide(String strA, String strB);
-    T involution(String strA, String strB);
-    T calculate(String operator, String strA, String strB);
-    T calculate(String operator, String str);
-    T factorial(String intValStr);
-    T sin(String inValStr);
-    T cos(String inValStr);
-    T tan(String inValStr);
-    T log(String inValStr);
-    T log10(String inValStr);
+public interface Calculator<T extends Number, N> {
+    T add(N strA, N strB);
+    T subtract(N strA, N strB);
+    T multiply(N strA, N strB);
+    T divide(N strA, N strB);
+    T involution(N strA, N strB);
+    T calculate(String operator, N strA, N strB);
+    T calculate(String operator, N str);
+    T factorial(N intValStr);
+    T sin(N inValStr);
+    T cos(N inValStr);
+    T tan(N inValStr);
+    T log(N inValStr);
+    T log10(N inValStr);
 }
