@@ -13,6 +13,9 @@ public class NumericValueFormatUtil {
     PeriodPositionChecker checker;
     private Pattern patHead;
     private Pattern patTail;
+    private Pattern patHeadE;
+    private Pattern patHeadNum;
+    private Pattern patTailE;
 
     /**
      *
@@ -41,6 +44,10 @@ public class NumericValueFormatUtil {
         this.checker = new PeriodPositionChecker();
         this.patHead = Pattern.compile("^[0-9,.]+");
         this.patTail = Pattern.compile("[0-9,.]+$");
+
+        this.patHeadE = Pattern.compile("^(E[+-][0-9]+)(.*)");
+        this.patHeadNum = Pattern.compile("^([+-][0-9]+)(.*)");
+        this.patTailE = Pattern.compile("(^|.*[^0-9.]+)([0-9.]+E[+-]?)$");
     }
 
     /**
@@ -57,6 +64,52 @@ public class NumericValueFormatUtil {
         return null;
     }
 
+    /**
+     *
+     * @param s
+     * @return
+     */
+    String[] getEStringAndOthersFromHead(String s){
+        return this.getStringsFromMatcher(s, this.patHeadE);
+    }
+
+    /**
+     *
+     * @param s
+     * @return
+     */
+    String[] getNumStringAndOthersFromHead(String s){
+        return this.getStringsFromMatcher(s, this.patHeadNum);
+    }
+
+    /**
+     *
+     * @param s
+     * @return
+     */
+    String[] getEStringAndOthersFromTail(String s) {
+        return this.getStringsFromMatcher(s, this.patTailE);
+    }
+
+    /**
+     *
+     * @param s
+     * @param _p
+     * @return
+     */
+    private String[] getStringsFromMatcher(String s, Pattern _p){
+        Matcher _m = _p.matcher(s);
+        String[] ret = null;
+        if (_m.find()) {
+            if (_m.groupCount() > 0) {
+                ret = new String[_m.groupCount()];
+                for (int i = 0; i < ret.length; i++) {
+                    ret[i] = _m.group(i + 1);
+                }
+            }
+        }
+        return ret;
+    }
     /**
      * Parse the strings of cursor's left and right, and return result in a string array with 3 elements.
      * @param str_cursor_left : string of cursor's left
@@ -86,9 +139,33 @@ public class NumericValueFormatUtil {
             successor_str = str_cursor_right.substring(ms_suffix.getEnd());
         }
         String[] _tmp = new String[3];
+        String combined_numeric_value = head_of_numeric_value + tail_of_numeric_value;
         _tmp[0] = predecessor_str;
-        _tmp[1] = head_of_numeric_value + tail_of_numeric_value;
+        _tmp[1] = combined_numeric_value;
         _tmp[2] = successor_str;
+
+        // check : ...1.23E ???
+        String[] parts_p = this.getEStringAndOthersFromTail(predecessor_str);
+        if (_tmp[1].equals("")){
+            // case : ..1.23E && -45...
+            String[] parts_n = this.getNumStringAndOthersFromHead(successor_str);
+            if (parts_p != null && parts_n != null){
+                _tmp[0] = parts_p[0];
+                _tmp[1] = parts_p[1] + parts_n[0];
+                _tmp[2] = parts_n[1];
+            }
+        } else {
+            String[] parts_s = this.getEStringAndOthersFromHead(successor_str);
+            if (parts_s != null){
+                _tmp[0] = predecessor_str;
+                _tmp[1] = combined_numeric_value + parts_s[0];
+                _tmp[2] = parts_s[1];
+            } else if (parts_p != null){
+                _tmp[0] = parts_p[0];
+                _tmp[1] = parts_p[1] + combined_numeric_value;
+                _tmp[2] = successor_str;
+            }
+        }
         return _tmp;
     }
 

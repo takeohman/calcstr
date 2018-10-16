@@ -1,12 +1,11 @@
 package com.takeohman.postfixnotaion.ui;
 
-import com.takeohman.postfixnotaion.ui.NumericValueFormatUtil;
-
 import org.junit.Test;
 
 import java.util.regex.Pattern;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 
 public class NumericValueFormatUtilTest {
 
@@ -476,6 +475,86 @@ public class NumericValueFormatUtilTest {
             assertEquals("(2)12*345,678", actual);
         }
     }
+    public void showParamOfGetStringsAroundTheCursor(String exp,int index, String[] actual){
+        if (false){
+            return;
+        }
+        System.out.println("============================");
+        System.out.println("expressin     : " + exp);
+        System.out.println("  index       : " + String.valueOf(index));
+        System.out.println("  pre | suffix: " + exp.substring(0,index) + " | " + exp.substring(index,exp.length()));
+        System.out.println("    actual[0] : " + actual[0]);
+        System.out.println("    actual[1] : " + actual[1]);
+        System.out.println("    actual[2] : " + actual[2]);
+    }
+    @Test
+    public void getStringsAroundTheCursor() {
+        NumericValueFormatUtil nvf = new NumericValueFormatUtil();
+        String exp = "1*-2.3E-45*67";
+//        String[] expected = {"1*-", "2.3", "E-45*67"};
+        String[] expected = {"1*-", "2.3E-45", "*67"};
+        {
+            int index = 2;
+            String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
+            this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
+        }
+        // ここから →
+        {
+            int index = 3;
+            String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
+            this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
+            assertEquals(expected[1], actual[1]);
+        }
+
+        {
+            int index = 4;
+            String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
+            this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
+            assertEquals(expected[1], actual[1]);
+        }
+        {
+            int index = 5;
+            String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
+            this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
+            assertEquals(expected[1], actual[1]);
+        }
+        {
+            int index = 6;
+            String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
+            this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
+            assertEquals(expected[1], actual[1]);
+        }
+        {
+            int index = 7;
+            String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
+            this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
+            assertEquals(expected[1], actual[1]);
+        }
+        {
+            int index = 8;
+            String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
+            this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
+            assertEquals(expected[1], actual[1]);
+        }
+        {
+            int index = 9;
+            String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
+            this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
+            assertEquals(expected[1], actual[1]);
+        }
+        {
+            int index = 10;
+            String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
+            this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
+            assertEquals(expected[1], actual[1]);
+        }
+        // ← ここまで
+        {
+            int index = 11;
+            String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
+            this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
+        }
+    }
     @Test
     public void formatNumericString() {
         NumericValueFormatUtil nvf = new NumericValueFormatUtil();
@@ -519,6 +598,133 @@ public class NumericValueFormatUtilTest {
         {
             String actual = nvf.formatNumericString("0123,");
             assertEquals("0,123", actual);
+        }
+    }
+
+    @Test
+    public void getEStringAndOthersFromHead() {
+        NumericValueFormatUtil nvf = new NumericValueFormatUtil();
+
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("E+45*67");
+            assertEquals(2, actual.length);
+            assertEquals("E+45", actual[0]);
+            assertEquals("*67", actual[1]);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("E-45*67");
+            assertEquals(2, actual.length);
+            assertEquals("E-45", actual[0]);
+            assertEquals("*67", actual[1]);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("E-45*6");
+            assertEquals(2, actual.length);
+            assertEquals("E-45", actual[0]);
+            assertEquals("*6", actual[1]);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("E-45*");
+            assertEquals(2, actual.length);
+            assertEquals("E-45", actual[0]);
+            assertEquals("*", actual[1]);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("E-45");
+            assertEquals(2, actual.length);
+            assertEquals("E-45", actual[0]);
+            assertEquals("", actual[1]);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("E-4");
+            assertEquals(2, actual.length);
+            assertEquals("E-4", actual[0]);
+            assertEquals("", actual[1]);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("E-");
+            assertNull(actual);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("E");
+            assertNull(actual);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("");
+            assertNull(actual);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("1E-45*67");
+            assertNull(actual);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromHead("-45*67");
+            assertNull(actual);
+        }
+    }
+
+    @Test
+    public void getEStringAndOthersFromTail() {
+        NumericValueFormatUtil nvf = new NumericValueFormatUtil();
+
+        {
+            String[] actual = nvf.getEStringAndOthersFromTail("1+987*1.23E");
+            assertEquals(2, actual.length);
+            assertEquals("1+987*", actual[0]);
+            assertEquals("1.23E", actual[1]);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromTail("+987*1.23E");
+            assertEquals(2, actual.length);
+            assertEquals("+987*", actual[0]);
+            assertEquals("1.23E", actual[1]);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromTail("7*1.23E");
+            assertEquals(2, actual.length);
+            assertEquals("7*", actual[0]);
+            assertEquals("1.23E", actual[1]);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromTail("*1.23E");
+            assertEquals(2, actual.length);
+            assertEquals("*", actual[0]);
+            assertEquals("1.23E", actual[1]);
+        }
+        {
+            String[] actual = nvf.getEStringAndOthersFromTail("1.23E");
+            assertEquals(2, actual.length);
+            assertEquals("", actual[0]);
+            assertEquals("1.23E", actual[1]);
+        }
+    }
+
+    @Test
+    public void getNumStringAndOthersFromHead() {
+        NumericValueFormatUtil nvf = new NumericValueFormatUtil();
+
+        {
+            String[] actual = nvf.getNumStringAndOthersFromHead("E+45*67");
+            assertNull(actual);
+        }
+        {
+            String[] actual = nvf.getNumStringAndOthersFromHead("-45*67");
+            assertEquals(2, actual.length);
+            assertEquals("-45", actual[0]);
+            assertEquals("*67", actual[1]);
+        }
+        {
+            String[] actual = nvf.getNumStringAndOthersFromHead("45*6");
+            assertNull(actual);
+        }
+
+        {
+            String[] actual = nvf.getNumStringAndOthersFromHead("");
+            assertNull(actual);
+        }
+        {
+            String[] actual = nvf.getNumStringAndOthersFromHead("1E-45*67");
+            assertNull(actual);
         }
     }
 }
