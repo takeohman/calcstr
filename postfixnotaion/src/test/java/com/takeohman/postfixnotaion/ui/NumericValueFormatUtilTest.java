@@ -475,6 +475,30 @@ public class NumericValueFormatUtilTest {
             assertEquals("(2)12*345,678", actual);
         }
     }
+    @Test
+    public void convertNumericValueWithCursor6() {
+        NumericValueFormatUtil nvf = new NumericValueFormatUtil();
+
+        {
+            String actual = nvf.convertNumericValueWithCursor("100,000,001", 6, ".");
+            assertEquals("10,000.0001", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("100,000,001", 7, ".");
+            assertEquals("100,000.001", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("1+100,000.001+2", 10, null);
+            assertEquals("1+100,000,001+2", actual);
+        }
+        {
+            String actual = nvf.convertNumericValueWithCursor("100,000.001", 8, null);
+            assertEquals("100,000,001", actual);
+        }
+
+    }
+
+
     public void showParamOfGetStringsAroundTheCursor(String exp,int index, String[] actual){
         if (false){
             return;
