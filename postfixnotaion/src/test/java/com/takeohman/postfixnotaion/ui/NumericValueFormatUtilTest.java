@@ -157,82 +157,82 @@ public class NumericValueFormatUtilTest {
         NumericValueFormatUtil nvf = new NumericValueFormatUtil();
         {
             String value = "12 + 3456 + 1";
-            String actual = nvf.convertNumericValueWithCursor(value, 6, null);
+            String actual = nvf.convertNumericValueWithCursor(value, 6, null).getNumericValueString();
             assertEquals("12 + 456 + 1", actual);
         }
 
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 0, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 0, null).getNumericValueString();
             assertEquals("1,234 + 5678 + 90", actual);
         }
 
         {
-            String actual = nvf.convertNumericValueWithCursor("1,234 + 5678 + 90", 0, null);
+            String actual = nvf.convertNumericValueWithCursor("1,234 + 5678 + 90", 0, null).getNumericValueString();
             assertEquals("1,234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 1, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 1, null).getNumericValueString();
             assertEquals("234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 2, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 2, null).getNumericValueString();
             assertEquals("134 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 3, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 3, null).getNumericValueString();
             assertEquals("124 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 4, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 4, null).getNumericValueString();
             assertEquals("123 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 5, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 5, null).getNumericValueString();
             // "1234+ 5678 + 90" can be the expected result, but may be no problem.
             assertEquals("1,234+ 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 6, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 6, null).getNumericValueString();
             assertEquals("1234  5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 7, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 7, null).getNumericValueString();
             assertEquals("1234 +5,678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 8, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 8, null).getNumericValueString();
             assertEquals("1234 + 678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 9, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 9, null).getNumericValueString();
             assertEquals("1234 + 578 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 10, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 10, null).getNumericValueString();
             assertEquals("1234 + 568 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 11, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 11, null).getNumericValueString();
             assertEquals("1234 + 567 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 12, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 12, null).getNumericValueString();
             assertEquals("1234 + 5,678+ 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 13, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 13, null).getNumericValueString();
             assertEquals("1234 + 5678  90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 14, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 14, null).getNumericValueString();
             assertEquals("1234 + 5678 +90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 15, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 15, null).getNumericValueString();
             assertEquals("1234 + 5678 + 0", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 16, null);
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 16, null).getNumericValueString();
             assertEquals("1234 + 5678 + 9", actual);
         }
     }
@@ -241,82 +241,82 @@ public class NumericValueFormatUtilTest {
         NumericValueFormatUtil nvf = new NumericValueFormatUtil();
         {
             String value = "12 + 3456 + 1";
-            String actual = nvf.convertNumericValueWithCursor(value, 6, "");
+            String actual = nvf.convertNumericValueWithCursor(value, 6, "").getNumericValueString();
             assertEquals("12 + 3,456 + 1", actual);
         }
 
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 0, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 0, "").getNumericValueString();
             assertEquals("1,234 + 5678 + 90", actual);
         }
 
         {
-            String actual = nvf.convertNumericValueWithCursor("1,234 + 5678 + 90", 0, "");
+            String actual = nvf.convertNumericValueWithCursor("1,234 + 5678 + 90", 0, "").getNumericValueString();
             assertEquals("1,234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 1, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 1, "").getNumericValueString();
             assertEquals("1,234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 2, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 2, "").getNumericValueString();
             assertEquals("1,234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 3, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 3, "").getNumericValueString();
             assertEquals("1,234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 4, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 4, "").getNumericValueString();
             assertEquals("1,234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 5, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 5, "").getNumericValueString();
             // "1234+ 5678 + 90" can be the expected result, but may be no problem.
             assertEquals("1234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 6, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 6, "").getNumericValueString();
             assertEquals("1234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 7, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 7, "").getNumericValueString();
             assertEquals("1234 + 5,678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 8, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 8, "").getNumericValueString();
             assertEquals("1234 + 5,678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 9, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 9, "").getNumericValueString();
             assertEquals("1234 + 5,678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 10, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 10, "").getNumericValueString();
             assertEquals("1234 + 5,678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 11, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 11, "").getNumericValueString();
             assertEquals("1234 + 5,678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 12, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 12, "").getNumericValueString();
             assertEquals("1234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 13, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 13, "").getNumericValueString();
             assertEquals("1234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 14, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 14, "").getNumericValueString();
             assertEquals("1234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 15, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 15, "").getNumericValueString();
             assertEquals("1234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 16, "");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 16, "").getNumericValueString();
             assertEquals("1234 + 5678 + 90", actual);
         }
     }
@@ -325,76 +325,76 @@ public class NumericValueFormatUtilTest {
         NumericValueFormatUtil nvf = new NumericValueFormatUtil();
 
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 0, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 0, "1").getNumericValueString();
             assertEquals("11,234 + 5678 + 90", actual);
         }
 
         {
-            String actual = nvf.convertNumericValueWithCursor("1,234 + 5678 + 90", 0, "1");
+            String actual = nvf.convertNumericValueWithCursor("1,234 + 5678 + 90", 0, "1").getNumericValueString();
             assertEquals("11,234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 1, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 1, "1").getNumericValueString();
             assertEquals("11,234 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 2, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 2, "1").getNumericValueString();
             assertEquals("12,134 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 3, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 3, "1").getNumericValueString();
             assertEquals("12,314 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 4, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 4, "1").getNumericValueString();
             assertEquals("12,341 + 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 5, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 5, "1").getNumericValueString();
             assertEquals("1234 1+ 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 6, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 6, "1").getNumericValueString();
             assertEquals("1234 +1 5678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 7, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 7, "1").getNumericValueString();
             assertEquals("1234 + 15,678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 8, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 8, "1").getNumericValueString();
             assertEquals("1234 + 51,678 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 9, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 9, "1").getNumericValueString();
             assertEquals("1234 + 56,178 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 10, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 10, "1").getNumericValueString();
             assertEquals("1234 + 56,718 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 11, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 11, "1").getNumericValueString();
             assertEquals("1234 + 56,781 + 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 12, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 12, "1").getNumericValueString();
             assertEquals("1234 + 5678 1+ 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 13, "1");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 13, "1").getNumericValueString();
             assertEquals("1234 + 5678 +1 90", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 14, "12");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 14, "12").getNumericValueString();
             assertEquals("1234 + 5678 + 1,290", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 15, "12");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 15, "12").getNumericValueString();
             assertEquals("1234 + 5678 + 9,120", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 16, "12");
+            String actual = nvf.convertNumericValueWithCursor("1234 + 5678 + 90", 16, "12").getNumericValueString();
             assertEquals("1234 + 5678 + 9,012", actual);
         }
     }
@@ -402,31 +402,31 @@ public class NumericValueFormatUtilTest {
     public void convertNumericValueWithCursor4() {
         NumericValueFormatUtil nvf = new NumericValueFormatUtil();
         {
-            String actual = nvf.convertNumericValueWithCursor(".", 0, "");
+            String actual = nvf.convertNumericValueWithCursor(".", 0, "").getNumericValueString();
             assertEquals(".", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("100.01", 0, "");
+            String actual = nvf.convertNumericValueWithCursor("100.01", 0, "").getNumericValueString();
             assertEquals("100.01", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("100.100100", 0, "");
+            String actual = nvf.convertNumericValueWithCursor("100.100100", 0, "").getNumericValueString();
             assertEquals("100.100100", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor(".01", 0, "");
+            String actual = nvf.convertNumericValueWithCursor(".01", 0, "").getNumericValueString();
             assertEquals(".01", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("100.", 0, "");
+            String actual = nvf.convertNumericValueWithCursor("100.", 0, "").getNumericValueString();
             assertEquals("100.", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("100.00", 0, "");
+            String actual = nvf.convertNumericValueWithCursor("100.00", 0, "").getNumericValueString();
             assertEquals("100.00", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("10(0).00", 3, "0");
+            String actual = nvf.convertNumericValueWithCursor("10(0).00", 3, "0").getNumericValueString();
             assertEquals("10(00).00", actual);
         }
     }
@@ -435,43 +435,43 @@ public class NumericValueFormatUtilTest {
         NumericValueFormatUtil nvf = new NumericValueFormatUtil();
         {
             //右端に数字以外追加ー＞数字を分けないので左側フォーマットなし
-            String actual = nvf.convertNumericValueWithCursor("", 0, ")");
+            String actual = nvf.convertNumericValueWithCursor("", 0, ")").getNumericValueString();
             assertEquals(")", actual);
         }
         {
             //右端に数字以外追加ー＞数字を分けないので左側フォーマットなし
-            String actual = nvf.convertNumericValueWithCursor("", 0, "(");
+            String actual = nvf.convertNumericValueWithCursor("", 0, "(").getNumericValueString();
             assertEquals("(", actual);
         }
         {
             //右端に数字以外追加ー＞数字を分けないので左側フォーマットなし
-            String actual = nvf.convertNumericValueWithCursor("123(*4", 6, ")");
+            String actual = nvf.convertNumericValueWithCursor("123(*4", 6, ")").getNumericValueString();
             assertEquals("123(*4)", actual);
         }
         {
             //演算子の次に演算子を追加ー＞
-            String actual = nvf.convertNumericValueWithCursor("123*45", 4, "*");
+            String actual = nvf.convertNumericValueWithCursor("123*45", 4, "*").getNumericValueString();
             assertEquals("123**45", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("12345", 4, "*");
+            String actual = nvf.convertNumericValueWithCursor("12345", 4, "*").getNumericValueString();
             assertEquals("1,234*5", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("12,345", 5, "*");
+            String actual = nvf.convertNumericValueWithCursor("12,345", 5, "*").getNumericValueString();
             assertEquals("1,234*5", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("(2)12,345", 5, "*");
+            String actual = nvf.convertNumericValueWithCursor("(2)12,345", 5, "*").getNumericValueString();
             assertEquals("(2)12*345", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("(2)12,345,678", 6, "*");
+            String actual = nvf.convertNumericValueWithCursor("(2)12,345,678", 6, "*").getNumericValueString();
             assertEquals("(2)12*345,678", actual);
         }
 
         {
-            String actual = nvf.convertNumericValueWithCursor("(2)12,345,678", 6, "*");
+            String actual = nvf.convertNumericValueWithCursor("(2)12,345,678", 6, "*").getNumericValueString();
             assertEquals("(2)12*345,678", actual);
         }
     }
@@ -480,20 +480,34 @@ public class NumericValueFormatUtilTest {
         NumericValueFormatUtil nvf = new NumericValueFormatUtil();
 
         {
-            String actual = nvf.convertNumericValueWithCursor("100,000,001", 6, ".");
+            String actual = nvf.convertNumericValueWithCursor("100,000,001", 6, ".").getNumericValueString();
             assertEquals("10,000.0001", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("100,000,001", 7, ".");
+            String actual = nvf.convertNumericValueWithCursor("100,000,001", 7, ".").getNumericValueString();
             assertEquals("100,000.001", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("1+100,000.001+2", 10, null);
+            String actual = nvf.convertNumericValueWithCursor("1+100,000.001+2", 10, null).getNumericValueString();
             assertEquals("1+100,000,001+2", actual);
         }
         {
-            String actual = nvf.convertNumericValueWithCursor("100,000.001", 8, null);
+            String actual = nvf.convertNumericValueWithCursor("100,000.001", 8, null).getNumericValueString();
             assertEquals("100,000,001", actual);
+        }
+
+        {
+            NumericValueFormatUtil.ConvertNumericValueResult result = nvf.convertNumericValueWithCursor("100,000.1234.56", 8, null);
+            String actual = result.getNumericValueString();
+            assertEquals("1,000,001,234.56", actual);
+            assertEquals(1, result.getCursorMove());
+        }
+
+        {
+            NumericValueFormatUtil.ConvertNumericValueResult result = nvf.convertNumericValueWithCursor("1,000,001,234.56", 8, ".");
+            String actual = result.getNumericValueString();
+            assertEquals("100,000.1234.56", actual);
+            assertEquals(-1, result.getCursorMove());
         }
 
     }
