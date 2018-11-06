@@ -1,7 +1,6 @@
 package com.takeohman.postfixnotaion.ui;
 
 import com.takeohman.postfixnotaion.checker.BigDecimalNumericChecker;
-import com.takeohman.postfixnotaion.checker.PeriodPositionChecker;
 import com.takeohman.postfixnotaion.formatter.CommaEraser;
 import com.takeohman.postfixnotaion.formatter.NumericValueFormatter;
 
@@ -10,7 +9,6 @@ import java.util.regex.Pattern;
 
 public class NumericValueFormatUtil {
     NumericValueFormatter formatter;
-    PeriodPositionChecker checker;
     private Pattern patHead;
     private Pattern patTail;
     private Pattern patHeadE;
@@ -41,7 +39,6 @@ public class NumericValueFormatUtil {
      */
     public NumericValueFormatUtil(){
         this.formatter = new NumericValueFormatter(new CommaEraser());
-        this.checker = new PeriodPositionChecker();
         this.patHead = Pattern.compile("^[0-9,.]+");
         this.patTail = Pattern.compile("[0-9,.]+$");
 
@@ -117,8 +114,9 @@ public class NumericValueFormatUtil {
      * @return String[]
      *
      * [0]  :a predecessor string
-     * [1]  :a string of a element in the middle
-     * [2]  :a successor string
+     * [1]  :a number string of cursor's left
+     * [2]  :a number string of cursor's right
+     * [3]  :a successor string
      */
     String[] getStringsAroundTheCursor(String str_cursor_left, String str_cursor_right){
 
@@ -138,32 +136,38 @@ public class NumericValueFormatUtil {
             tail_of_numeric_value = ms_suffix.getGroup();
             successor_str = str_cursor_right.substring(ms_suffix.getEnd());
         }
-        String[] _tmp = new String[3];
         String combined_numeric_value = head_of_numeric_value + tail_of_numeric_value;
+        String[] _tmp = new String[4];
         _tmp[0] = predecessor_str;
-        _tmp[1] = combined_numeric_value;
-        _tmp[2] = successor_str;
+        _tmp[1] = head_of_numeric_value;
+        _tmp[2] = tail_of_numeric_value;
+        _tmp[3] = successor_str;
 
         // check : ...1.23E ???
-        String[] parts_p = this.getEStringAndOthersFromTail(predecessor_str);
-        if (_tmp[1].equals("")){
+        String[] parts_from_predecessor = this.getEStringAndOthersFromTail(predecessor_str);
+
+        // if combined_numeric_value is empty, the value can be a number in scientific notation.
+        if (combined_numeric_value.equals("")){
             // case : ..1.23E && -45...
-            String[] parts_n = this.getNumStringAndOthersFromHead(successor_str);
-            if (parts_p != null && parts_n != null){
-                _tmp[0] = parts_p[0];
-                _tmp[1] = parts_p[1] + parts_n[0];
-                _tmp[2] = parts_n[1];
+            String[] num_parts_from_successor = this.getNumStringAndOthersFromHead(successor_str);
+            if (parts_from_predecessor != null && num_parts_from_successor != null){
+                _tmp[0] = parts_from_predecessor[0];
+                _tmp[1] = parts_from_predecessor[1];
+                _tmp[2] = num_parts_from_successor[0];
+                _tmp[3] = num_parts_from_successor[1];
             }
         } else {
-            String[] parts_s = this.getEStringAndOthersFromHead(successor_str);
-            if (parts_s != null){
+            String[] parts_from_successor = this.getEStringAndOthersFromHead(successor_str);
+            if (parts_from_successor != null){
                 _tmp[0] = predecessor_str;
-                _tmp[1] = combined_numeric_value + parts_s[0];
-                _tmp[2] = parts_s[1];
-            } else if (parts_p != null){
-                _tmp[0] = parts_p[0];
-                _tmp[1] = parts_p[1] + combined_numeric_value;
-                _tmp[2] = successor_str;
+                _tmp[1] = combined_numeric_value;
+                _tmp[2] = parts_from_successor[0];
+                _tmp[3] = parts_from_successor[1];
+            } else if (parts_from_predecessor != null){
+                _tmp[0] = parts_from_predecessor[0];
+                _tmp[1] = parts_from_predecessor[1];
+                _tmp[2] = combined_numeric_value;
+                _tmp[3] = successor_str;
             }
         }
         return _tmp;
@@ -176,7 +180,7 @@ public class NumericValueFormatUtil {
      * @return String
      */
     public String convertNumericValueWithCursor(String problem_str, int cursorPosition){
-        return this.convertNumericValueWithCursor(problem_str, cursorPosition, "");
+        return this.convertNumericValueWithCursor(problem_str, cursorPosition, "").getNumericValueString();
     }
 
     /**
@@ -224,27 +228,45 @@ public class NumericValueFormatUtil {
         return numeric_value;
     }
 
+    public class ConvertNumericValueResult{
+        private String numericString;
+        private int cursorMove;
+        private ConvertNumericValueResult(String numericString, int cursorMove){
+            this.numericString = numericString;
+            this.cursorMove = cursorMove;
+        }
+        public String getNumericValueString(){
+            return this.numericString;
+        }
+        public int getCursorMove(){
+            return this.cursorMove;
+        }
+    }
     /**
      * Format the numeric value with cursor.
      * @param problem_str String
      * @param cursorPosition int
-     * @param insertStr String
+     * @param insertStr String or null when deleting left value.
      * @return
      */
-    public String convertNumericValueWithCursor(String problem_str, int cursorPosition, String insertStr){
+    public ConvertNumericValueResult convertNumericValueWithCursor(String problem_str, int cursorPosition, String insertStr){
 
 
         if ((!(insertStr == null || insertStr.length() > 0) && problem_str.length() <= 0) || cursorPosition < 0){
-            return problem_str;
+            return new ConvertNumericValueResult(problem_str,0);
         }
         String str_cursor_right = cursorPosition < problem_str.length() ? problem_str.substring(cursorPosition,
                 problem_str.length()) : "";
 
+        boolean isDeletePeriod = false;
         String str_to_add = insertStr == null ? "" : insertStr;
         int split_index = (insertStr == null && cursorPosition > 0) ? 1 : 0;
         if (split_index > 0){
-            if (problem_str.substring(cursorPosition - split_index, cursorPosition).equals(",")){
+            String str_left_tail = problem_str.substring(cursorPosition - split_index, cursorPosition);
+            if (str_left_tail.equals(",")){
                 split_index+=1;
+            } else if (str_left_tail.equals(".")){
+                isDeletePeriod = true;
             }
         }
 
@@ -272,12 +294,38 @@ public class NumericValueFormatUtil {
 //            sb_cursor_left.append(temp_str_cursor_left).append(str_to_add);
         } else {
             // when the str_to_add is not a numeric value, the numeric string left of it should be reformatted.
-            str_cursor_left = this.convertNumericValueWithCursor(temp_str_cursor_left,temp_str_cursor_left.length(),"") + str_to_add;
+            str_cursor_left = this.convertNumericValueWithCursor(
+                    temp_str_cursor_left,
+                    temp_str_cursor_left.length(),
+                    "").getNumericValueString() + str_to_add;
 //            sb_cursor_left.append(this.convertNumericValueWithCursor(temp_str_cursor_left,temp_str_cursor_left.length(),"") ).append(str_to_add);
         }
 
         String[] strings = this.getStringsAroundTheCursor(str_cursor_left, str_cursor_right);
-        return strings[0] + this.formatNumericString(strings[1]) + strings[2];
+        String num_head = strings[1];
+        String num_tail = strings[2];
 
+        int _before, _after;
+        _before = _after = num_tail.length();
+        if (num_head.endsWith(".")){
+            // Period is inserted, so you should remove ',' from its right part.
+            num_tail = num_tail.replace(",","");
+            _after = num_tail.length();
+        } else if (isDeletePeriod){
+            // Period is deleted, so you should reformat its right part.
+            int _index_of_period = num_tail.indexOf(".");
+            if (_index_of_period < 0){
+                int _l = num_tail.length();
+                _after += (_l > 0) ? _l / 3 : 0;
+            } else if (_index_of_period > 3){
+                _after += _index_of_period / 3;
+            }
+        }
+        int cursor_move_num = _after - _before;
+
+        return new ConvertNumericValueResult(
+                strings[0] + this.formatNumericString(num_head + num_tail) + strings[3],
+                cursor_move_num
+        );
     }
 }
