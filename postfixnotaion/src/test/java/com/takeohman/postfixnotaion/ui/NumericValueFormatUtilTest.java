@@ -510,6 +510,7 @@ public class NumericValueFormatUtilTest {
         System.out.println("    actual[0] : " + actual[0]);
         System.out.println("    actual[1] : " + actual[1]);
         System.out.println("    actual[2] : " + actual[2]);
+        System.out.println("    actual[3] : " + actual[3]);
     }
     @Test
     public void getStringsAroundTheCursor() {
@@ -527,50 +528,50 @@ public class NumericValueFormatUtilTest {
             int index = 3;
             String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
             this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
-            assertEquals(expected[1], actual[1]);
+            assertEquals(expected[1], actual[1] + actual[2]);
         }
 
         {
             int index = 4;
             String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
             this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
-            assertEquals(expected[1], actual[1]);
+            assertEquals(expected[1], actual[1] + actual[2]);
         }
         {
             int index = 5;
             String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
             this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
-            assertEquals(expected[1], actual[1]);
+            assertEquals(expected[1], actual[1] + actual[2]);
         }
         {
             int index = 6;
             String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
             this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
-            assertEquals(expected[1], actual[1]);
+            assertEquals(expected[1], actual[1] + actual[2]);
         }
         {
             int index = 7;
             String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
             this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
-            assertEquals(expected[1], actual[1]);
+            assertEquals(expected[1], actual[1] + actual[2]);
         }
         {
             int index = 8;
             String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
             this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
-            assertEquals(expected[1], actual[1]);
+            assertEquals(expected[1], actual[1] + actual[2]);
         }
         {
             int index = 9;
             String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
             this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
-            assertEquals(expected[1], actual[1]);
+            assertEquals(expected[1], actual[1] + actual[2]);
         }
         {
             int index = 10;
             String[] actual = nvf.getStringsAroundTheCursor(exp.substring(0,index), exp.substring(index,exp.length()));
             this.showParamOfGetStringsAroundTheCursor(exp, index, actual);
-            assertEquals(expected[1], actual[1]);
+            assertEquals(expected[1], actual[1] + actual[2]);
         }
         // ← ここまで
         {
