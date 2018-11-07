@@ -280,7 +280,8 @@ public class NumericValueFormatUtil {
         }
         String str_cursor_left = null;
 //        StringBuilder sb_cursor_left = new StringBuilder("");
-        if (bdChecker.isNumeric(str_to_add) || str_to_add.equals("")) {
+        boolean is_adding_numeric = bdChecker.isNumeric(str_to_add);
+        if (is_adding_numeric || str_to_add.equals("")) {
             // str_to_addが数字の場合は、追加先が数字だった場合、数字を分割しないのでそのままで大丈夫
             str_cursor_left = temp_str_cursor_left + str_to_add;
 //            sb_cursor_left.append(temp_str_cursor_left).append(str_to_add);
@@ -317,9 +318,15 @@ public class NumericValueFormatUtil {
             if (_index_of_period < 0){
                 int _l = num_tail.length();
                 _after += (_l > 0) ? _l / 3 : 0;
+                int _rest = _l % 3;
+                if (_rest == 0 && _after > 0){
+                    _after -= 1;
+                }
             } else if (_index_of_period > 3){
                 _after += _index_of_period / 3;
             }
+        } else if (!is_adding_numeric && str_to_add != "" && num_tail.startsWith(",")){
+            _after -= 1;
         }
         int cursor_move_num = _after - _before;
 

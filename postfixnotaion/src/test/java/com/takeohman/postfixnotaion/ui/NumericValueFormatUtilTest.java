@@ -509,6 +509,12 @@ public class NumericValueFormatUtilTest {
             assertEquals("100,000.1234.56", actual);
             assertEquals(-1, result.getCursorMove());
         }
+        {
+            NumericValueFormatUtil.ConvertNumericValueResult result = nvf.convertNumericValueWithCursor("1,000,001,234.56", 9, "*");
+            String actual = result.getNumericValueString();
+            assertEquals("1,000,001*234.56", actual);
+            assertEquals(-1, result.getCursorMove());
+        }
 
     }
 
