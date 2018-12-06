@@ -5,7 +5,9 @@ import org.junit.Test;
 import java.util.regex.Pattern;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.TestCase.assertTrue;
 
 public class NumericValueFormatUtilTest {
 
@@ -480,6 +482,28 @@ public class NumericValueFormatUtilTest {
         NumericValueFormatUtil nvf = new NumericValueFormatUtil();
 
         {
+            NumericValueFormatUtil.ConvertNumericValueResult result = nvf.convertNumericValueWithCursor("123.4567", 4, "*");
+            String actual = result.getNumericValueString();
+            assertEquals("123.*4,567", actual);
+            assertEquals(1, result.getCursorMove());
+        }
+        {
+            // erase '+'
+            // +が削除され、カーソル左と右の数字が連結されて左側のカンマが削除されることを確認する
+            NumericValueFormatUtil.ConvertNumericValueResult result = nvf.convertNumericValueWithCursor("1,234.0+5,678", 8, null);
+            String actual = result.getNumericValueString();
+            assertEquals("1,234.05678", actual);
+            assertEquals(-1, result.getCursorMove());
+        }
+        {
+            // erase '+'
+            // +が削除され、カーソル左と右の数字が連結されて左側のカンマが削除されることを確認する
+            NumericValueFormatUtil.ConvertNumericValueResult result = nvf.convertNumericValueWithCursor("1,234.05678", 7, "+");
+            String actual = result.getNumericValueString();
+            assertEquals("1,234.0+5,678", actual);
+            assertEquals(1, result.getCursorMove());
+        }
+        {
             String actual = nvf.convertNumericValueWithCursor("100,000,001", 6, ".").getNumericValueString();
             assertEquals("10,000.0001", actual);
         }
@@ -770,6 +794,23 @@ public class NumericValueFormatUtilTest {
         {
             String[] actual = nvf.getNumStringAndOthersFromHead("1E-45*67");
             assertNull(actual);
+        }
+    }
+
+    @Test
+    public void isTailOfStringNumberWithPeriod() {
+        NumericValueFormatUtil nvf = new NumericValueFormatUtil();
+        {
+            boolean result = nvf.isTailOfStringNumberWithPeriod("1,234");
+            assertFalse(result);
+        }
+        {
+            boolean result = nvf.isTailOfStringNumberWithPeriod("1,234.");
+            assertTrue(result);
+        }
+        {
+            boolean result = nvf.isTailOfStringNumberWithPeriod("1,234.5");
+            assertTrue(result);
         }
     }
 }

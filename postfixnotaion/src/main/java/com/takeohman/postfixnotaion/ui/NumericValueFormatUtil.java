@@ -14,6 +14,7 @@ public class NumericValueFormatUtil {
     private Pattern patHeadE;
     private Pattern patHeadNum;
     private Pattern patTailE;
+    private Pattern patIsTailNumberWithPeriod;
 
     /**
      *
@@ -45,8 +46,18 @@ public class NumericValueFormatUtil {
         this.patHeadE = Pattern.compile("^(E[+-][0-9]+)(.*)");
         this.patHeadNum = Pattern.compile("^([+-][0-9]+)(.*)");
         this.patTailE = Pattern.compile("(^|.*[^0-9.]+)([0-9.]+E[+-]?)$");
+        this.patIsTailNumberWithPeriod = Pattern.compile("^[0-9,]*[.]+[0-9.]?$");
     }
 
+    /**
+     *
+     * @param s
+     * @return boolean
+     */
+    boolean isTailOfStringNumberWithPeriod(String s){
+        Matcher m = this.patIsTailNumberWithPeriod.matcher(s);
+        return m.find();
+    }
     /**
      *
      * @param val
@@ -257,20 +268,20 @@ public class NumericValueFormatUtil {
         }
         String str_cursor_right = cursorPosition < problem_str.length() ? problem_str.substring(cursorPosition,
                 problem_str.length()) : "";
-
-        boolean isDeletePeriod = false;
+        BigDecimalNumericChecker bdChecker = new BigDecimalNumericChecker();
+        boolean isRightPartReformatNeeded = false;
         String str_to_add = insertStr == null ? "" : insertStr;
+        boolean is_adding_numeric = bdChecker.isNumeric(str_to_add);
         int split_index = (insertStr == null && cursorPosition > 0) ? 1 : 0;
         if (split_index > 0){
             String str_left_tail = problem_str.substring(cursorPosition - split_index, cursorPosition);
             if (str_left_tail.equals(",")){
                 split_index+=1;
             } else if (str_left_tail.equals(".")){
-                isDeletePeriod = true;
+                isRightPartReformatNeeded = true;
             }
         }
 
-        BigDecimalNumericChecker bdChecker = new BigDecimalNumericChecker();
         String temp_str_cursor_left = problem_str.substring(0, cursorPosition - split_index);
 
         String left_char_of_cursor = "";
@@ -278,9 +289,14 @@ public class NumericValueFormatUtil {
         if (temp_str_cursor_left.length() > 0){
             left_char_of_cursor = String.valueOf(temp_str_cursor_left.charAt(temp_str_cursor_left.length()-1));
         }
+
+        if (this.isTailOfStringNumberWithPeriod(temp_str_cursor_left) && !bdChecker.isNumeric(str_to_add)){
+            isRightPartReformatNeeded = true;
+        }
+
         String str_cursor_left = null;
 //        StringBuilder sb_cursor_left = new StringBuilder("");
-        boolean is_adding_numeric = bdChecker.isNumeric(str_to_add);
+
         if (is_adding_numeric || str_to_add.equals("")) {
             // str_to_addが数字の場合は、追加先が数字だった場合、数字を分割しないのでそのままで大丈夫
             str_cursor_left = temp_str_cursor_left + str_to_add;
@@ -289,7 +305,8 @@ public class NumericValueFormatUtil {
             // str_to_addの追加先の右側が数字ではない場合は、追加先の数字を分割しないのでそのままで大丈夫
             str_cursor_left = temp_str_cursor_left + str_to_add;
 //            sb_cursor_left.append(temp_str_cursor_left).append(str_to_add);
-        } else if (!bdChecker.isNumeric(left_char_of_cursor) && !left_char_of_cursor.equals(",")){
+        } else if (!bdChecker.isNumeric(left_char_of_cursor)
+                && (!left_char_of_cursor.equals(",") && !left_char_of_cursor.equals("."))){
             // str_to_addの追加先の左側が数字ではない場合は、追加先の数字を分割しないのでそのままで大丈夫
             str_cursor_left = temp_str_cursor_left + str_to_add;
 //            sb_cursor_left.append(temp_str_cursor_left).append(str_to_add);
@@ -308,11 +325,12 @@ public class NumericValueFormatUtil {
 
         int _before, _after;
         _before = _after = num_tail.length();
-        if (num_head.endsWith(".")){
+
+        if (this.isTailOfStringNumberWithPeriod(num_head)){
             // Period is inserted, so you should remove ',' from its right part.
             num_tail = num_tail.replace(",","");
             _after = num_tail.length();
-        } else if (isDeletePeriod){
+        } else if (isRightPartReformatNeeded){
             // Period is deleted, so you should reformat its right part.
             int _index_of_period = num_tail.indexOf(".");
             if (_index_of_period < 0){
