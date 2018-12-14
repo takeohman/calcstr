@@ -1,4 +1,4 @@
-package com.takeohman.prefixnotation;
+package com.tkohdk.prefixnotation;
 
 import org.junit.Test;
 
