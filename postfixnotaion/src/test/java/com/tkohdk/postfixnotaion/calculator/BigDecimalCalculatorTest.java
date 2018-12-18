@@ -3,6 +3,8 @@ package com.tkohdk.postfixnotaion.calculator;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class BigDecimalCalculatorTest {
     @Test
     public void involution() throws Exception {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator( new MathContext(12, RoundingMode.HALF_EVEN));
         BigDecimal actual = sc.involution(new BigDecimal("2"),new BigDecimal("3"));
         assertEquals(8, actual.intValue());
 
@@ -34,7 +36,7 @@ public class BigDecimalCalculatorTest {
 
     @Test
     public void factorial() throws Exception {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator( new MathContext(12, RoundingMode.HALF_EVEN));
         BigDecimal actual = sc.factorial(new BigDecimal("4"));
         assertEquals(24, actual.intValue());
 
@@ -83,7 +85,7 @@ public class BigDecimalCalculatorTest {
 
     @Test
     public void add() throws Exception {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator(new MathContext(12, RoundingMode.HALF_EVEN));
 
         {
             BigDecimal bd = sc.add(new BigDecimal("1"), new BigDecimal("2"));
@@ -97,14 +99,14 @@ public class BigDecimalCalculatorTest {
 
     @Test
     public void subtract() throws Exception {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator(new MathContext(12, RoundingMode.HALF_EVEN));
         BigDecimal bd = sc.subtract(new BigDecimal("1"),new BigDecimal("2"));
         assertEquals(new BigDecimal("-1"),bd);
     }
 
     @Test
     public void multiply() throws Exception {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator(new MathContext(12, RoundingMode.HALF_EVEN));
 
         BigDecimal bd = sc.multiply(new BigDecimal("1"),new BigDecimal("2"));
         assertEquals(new BigDecimal("2"),bd);
@@ -112,7 +114,7 @@ public class BigDecimalCalculatorTest {
 
     @Test
     public void divide() throws Exception {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator(new MathContext(12, RoundingMode.HALF_EVEN));
 
         BigDecimal bd = sc.calculate("/",new BigDecimal("1"),new BigDecimal("2"));
         assertEquals(new BigDecimal("0.5"), bd.stripTrailingZeros());
@@ -120,7 +122,7 @@ public class BigDecimalCalculatorTest {
 
     @Test
     public void calculate() throws Exception {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator(new MathContext(12, RoundingMode.HALF_EVEN));
 
         BigDecimal bd = sc.calculate("+",new BigDecimal("1"),new BigDecimal("2"));
         assertEquals(3, bd.intValue());
@@ -147,7 +149,7 @@ public class BigDecimalCalculatorTest {
 
     @Test
     public void sin() {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator(new MathContext(12, RoundingMode.HALF_EVEN));
 
         BigDecimal bd = sc.sin(new BigDecimal("1"));
         assertEquals(new BigDecimal("0.8414709848078965048756572286947630345821380615234375"), bd.stripTrailingZeros());
@@ -155,7 +157,7 @@ public class BigDecimalCalculatorTest {
 
     @Test
     public void cos() {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator(new MathContext(12, RoundingMode.HALF_EVEN));
 
         BigDecimal bd = sc.cos(new BigDecimal("1"));
         assertEquals(new BigDecimal("0.540302305868139765010482733487151563167572021484375"), bd.stripTrailingZeros());
@@ -164,7 +166,7 @@ public class BigDecimalCalculatorTest {
 
     @Test
     public void tan() {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator(new MathContext(12, RoundingMode.HALF_EVEN));
 
         BigDecimal bd = sc.tan(new BigDecimal("1"));
         assertEquals(new BigDecimal("1.557407724654902292371616567834280431270599365234375"), bd.stripTrailingZeros());
@@ -173,7 +175,7 @@ public class BigDecimalCalculatorTest {
 
     @Test
     public void log() {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator(new MathContext(12, RoundingMode.HALF_EVEN));
 
         BigDecimal bd = sc.log(new BigDecimal("200"));
         assertEquals(new BigDecimal("5.29831736654803631125787433120422065258026123046875"), bd.stripTrailingZeros());
@@ -182,7 +184,7 @@ public class BigDecimalCalculatorTest {
 
     @Test
     public void log10() {
-        BigDecimalCalculator sc = new BigDecimalCalculator();
+        BigDecimalCalculator sc = new BigDecimalCalculator(new MathContext(12, RoundingMode.HALF_EVEN));
 
         BigDecimal bd = sc.log10(new BigDecimal("200"));
         assertEquals(new BigDecimal("2.301029995663981253528618253767490386962890625"), bd.stripTrailingZeros());

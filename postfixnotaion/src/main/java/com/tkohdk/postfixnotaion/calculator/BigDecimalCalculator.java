@@ -2,7 +2,6 @@ package com.tkohdk.postfixnotaion.calculator;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.math.RoundingMode;
 
 /**
  * Created by takeoh on 2017/08/30.
@@ -11,11 +10,9 @@ import java.math.RoundingMode;
 
 public class BigDecimalCalculator implements Calculator<BigDecimal, BigDecimal>{
     private MathContext mc;
-    int scale;
 
-    public BigDecimalCalculator(){
-        this.mc = new MathContext(12, RoundingMode.HALF_EVEN);
-        this.scale = 12;
+    public BigDecimalCalculator(MathContext mc){
+        this.mc = mc;
     }
 
     /**

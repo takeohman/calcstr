@@ -5,6 +5,9 @@ import com.tkohdk.postfixnotaion.tokenizer.StringTokenizer;
 
 import org.junit.Test;
 
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -14,7 +17,8 @@ public class PostfixNotationTest {
 
     @Test
     public void calcInfixStr() throws Exception {
-        PostfixNotation pn = new PostfixNotation();
+        MathContext mc = new MathContext(12, RoundingMode.HALF_EVEN);
+        PostfixNotation pn = new PostfixNotation(mc);
 
 
         TestQuestions.TestQuestionType[] tp = {

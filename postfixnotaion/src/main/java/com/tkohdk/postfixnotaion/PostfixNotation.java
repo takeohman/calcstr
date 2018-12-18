@@ -13,6 +13,7 @@ import com.tkohdk.postfixnotaion.tokenizer.TokenElementList;
 import com.tkohdk.postfixnotaion.tokenizer.TokenElementObject;
 import com.tkohdk.postfixnotaion.tokenizer.TokenValueChecker;
 
+import java.math.MathContext;
 import java.util.Stack;
 
 /**
@@ -27,10 +28,10 @@ public class PostfixNotation {
     /**
      * コンストラクタ
      */
-    public PostfixNotation(){
-
+    public PostfixNotation(MathContext mc){
+//        MathContext mc = new MathContext(12, RoundingMode.HALF_EVEN);
         this.init(
-            new BigDecimalCalculator(),
+            new BigDecimalCalculator(mc),
             new StringListTokenizer(
                     new StringTokenizer(new StringSplitter()),
                     new TokenValueChecker(new BDNumericCheckerEx(), new FunctionChecker(), new OperatorChecker())
