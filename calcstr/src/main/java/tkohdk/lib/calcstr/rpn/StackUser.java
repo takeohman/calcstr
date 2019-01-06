@@ -1,32 +1,27 @@
-package tkohdk.lib.calcstr;
-
-import tkohdk.lib.calcstr.calculator.Calculator;
-import tkohdk.lib.calcstr.checker.BigDecimalNumericChecker;
-import tkohdk.lib.calcstr.checker.FunctionChecker;
-import tkohdk.lib.calcstr.checker.OperatorChecker;
-import tkohdk.lib.calcstr.tokenizer.NumericTokenElement;
-import tkohdk.lib.calcstr.tokenizer.TokenElementObject;
-import tkohdk.lib.calcstr.tokenizer.TokenValueChecker;
+package tkohdk.lib.calcstr.rpn;
 
 import java.math.BigDecimal;
 import java.util.Stack;
+
+import tkohdk.lib.calcstr.calculator.Calculator;
+import tkohdk.lib.calcstr.exception.NoElementException;
+import tkohdk.lib.calcstr.tokenizer.NumericTokenElement;
+import tkohdk.lib.calcstr.tokenizer.TokenElementObject;
 
 /**
  * Created by takeoh on 2017/11/09.
  */
 
-class StackUser{
+class StackUser {
     private Calculator<Number, Number> sc;
-    private TokenValueChecker ec;
+//    private TokenValueChecker ec;
     private Stack<TokenElementObject> numericStack;
     private Stack<TokenElementObject> operatorStack;
     StackUser(Calculator sc, Stack<TokenElementObject> numericStack, Stack<TokenElementObject> operatorStack){
         this.numericStack = numericStack;
         this.operatorStack = operatorStack;
         this.sc = sc;
-        this.ec = new TokenValueChecker(new BigDecimalNumericChecker(), new FunctionChecker(), new OperatorChecker());
     }
-    class NoElementException extends RuntimeException{}
     /**
      *
      * 演算子がない場合：ここにはこない
@@ -65,7 +60,7 @@ class StackUser{
         }
         TokenElementObject _ope = operatorStack.pop();
         if (_ope.isLeftBracket()){
-            // TODO: 左括弧削除済みの場合にtrue
+            // 左括弧削除済みの場合にtrue
             return true;
         }
 

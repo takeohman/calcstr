@@ -5,21 +5,18 @@ import org.junit.Test;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-import tkohdk.lib.calcstr.splitter.StringSplitter;
-import tkohdk.lib.calcstr.tokenizer.StringTokenizer;
-
 import static org.junit.Assert.assertEquals;
 
 /**
  * Created by takeoh on 2017/08/15.
  */
-public class PostfixNotationTest {
+public class CalcStrTest {
 
     @Test
     public void calcInfixStr() throws Exception {
         MathContext mc = new MathContext(12, RoundingMode.HALF_EVEN);
-        PostfixNotation pn = new PostfixNotation(mc);
 
+        CalcStr calcStr = new CalcStr(mc);
 
         TestQuestions.TestQuestionType[] tp = {
                 TestQuestions.TestQuestionType.Basic,
@@ -31,18 +28,12 @@ public class PostfixNotationTest {
         };
 
         for (TestQuestions.TestQuestionType type : tp) {
-            StringTokenizer st = new StringTokenizer(new StringSplitter());
             TestQuestions tq = new TestQuestions(type);
             while (tq.hasNext()) {
                 TestQuestions.Question q = tq.next();
-//                if (q.isAmbiguous()) {
-//                    System.out.println("Ignored question (" + this.getClass().getSimpleName() + ") : " + q.getQuestion() + " = " + q.getAns());
-//                    continue;
-//                }
 
                 try {
-                    String ans = pn.calcInfixStr(q.getQuestion());
-//                    System.out.println(q.getQuestion());
+                    String ans = calcStr.calculate(q.getQuestion()).getAns();
                     assertEquals(q.getQuestion() + ":" + q.getQuestion(), q.getAns(), ans);
                 } catch (Exception e) {
                     System.out.println("Exception:" + q.getQuestion());

@@ -3,8 +3,9 @@ package tkohdk.lib.calcstr;
 import tkohdk.lib.calcstr.tokenizer.StringListTokenizer;
 import tkohdk.lib.calcstr.tokenizer.TokenElementList;
 import tkohdk.lib.calcstr.tokenizer.TokenElementObject;
+import tkohdk.lib.calcstr.exception.NoElementException;
 
-public class PostfixNotationResult{
+public class CalcStrResult {
     private TokenElementList tokenElementList;
     private TokenElementObject ans;
     private String problemStr;
@@ -13,14 +14,14 @@ public class PostfixNotationResult{
     public static final int RESULT_EXPECTED_EXCEPTION = 1;
     public static final int RESULT_UNEXPECTED_EXCEPTION = -1;
 
-    public PostfixNotationResult(String problemStr, TokenElementObject ans, TokenElementList elementList){
+    public CalcStrResult(String problemStr, TokenElementObject ans, TokenElementList elementList){
         this.problemStr = problemStr;
         this.ans = ans;
         this.tokenElementList = elementList;
         this.ex = null;
     }
 
-    public PostfixNotationResult(String problemStr, TokenElementObject ans, TokenElementList elementList, Exception ex){
+    public CalcStrResult(String problemStr, TokenElementObject ans, TokenElementList elementList, Exception ex){
         this.problemStr = problemStr;
         this.ans = ans;
         this.tokenElementList = elementList;
@@ -45,7 +46,7 @@ public class PostfixNotationResult{
         } else if (ex != null){
             if (ex instanceof StringListTokenizer.InvalidElementOrderException ||
                     ex instanceof StringListTokenizer.InvalidBracketCountException ||
-                    ex instanceof StackUser.NoElementException) {
+                    ex instanceof NoElementException) {
                 return RESULT_EXPECTED_EXCEPTION;
             } else if (ex instanceof NumberFormatException){
                 return RESULT_UNEXPECTED_EXCEPTION;
