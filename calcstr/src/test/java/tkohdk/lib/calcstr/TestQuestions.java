@@ -17,7 +17,8 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
         Impossible("impossible"),
         SinCosTan("sin_cos_tan"),
         Log("log"),
-        Comma("comma");
+        Comma("comma"),
+        ScientificNotation("scientific_notation");
 
         String type;
         TestQuestionType(String type){
@@ -445,52 +446,13 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q.setIsAmbiguous(true);
                 break;
             }
-            // TODO: google の 電卓では 答えは5.5511151E-17だった。この誤差が妥当なものかは調査が必要
+
             case 66:{
-                String[] tmp = {"2.7755575E-17", "*", "2"};
-                _q = new Question("2.7755575E-17*2", "5.5511150E-17", tmp, "");
-
-                break;
-            }
-            case 67:{
-                String[] tmp = {"-2.7755575E-17", "*", "2"};
-                _q = new Question("-2.7755575E-17*2", "-5.5511150E-17", tmp, "");
-
-                break;
-            }
-            case 68:{
-                String[] tmp = {"2", "*", "2.7755575E-17"};
-                _q = new Question("2*2.7755575E-17", "5.5511150E-17", tmp, "");
-                break;
-            }
-            case 69:{
-                String[] tmp = {"2", "*", "2.7755575E-17"};
-                _q = new Question("2*2.7755575E-17", "5.5511150E-17", tmp, "");
-                break;
-            }
-            case 70:{
-                String[] tmp = {"2", "*", "-2.7755575E-17"};
-                _q = new Question("2*-2.7755575E-17", "-5.5511150E-17", tmp, "");
-                break;
-            }
-            case 71:{
-                String[] tmp = {"2", "*", "-2.7755575E-17", "*", "10000"};
-//                _q = new Question("2*-2.7755575E-17*10000", "-5.5511150E-17", tmp, "");
-                _q = new Question("2*-2.7755575E-17*10000", "-5.55111500000E-13", tmp, "");
-                break;
-            }
-            case 72:{
                 String[] tmp = {"2", "*", "*", "-55.55"};
                 _q = new Question("2**-55.55", "1.89576168201698791917337432830149664707679595283817963746741952490992844104766845703125E-17", tmp, "");
                 _q.setIsAmbiguous(true);
                 break;
             }
-//            case 72:{
-//                String[] tmp = {"2", "*", "-2.7755575E-17", "-", "99"};
-////                _q = new Question("2*-2.7755575E-17*10000", "-5.5511150E-17", tmp, "");
-//                _q = new Question("2*-2.7755575E-17-99", "-5.55111500000E-13", tmp, "");
-//                break;
-//            }
         }
 
         return _q;
@@ -1034,4 +996,70 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
         }
         return _q;
     }
+
+    public Question get_scientific_notaion(int index) {
+        Question _q = null;
+        switch (index) {
+            case 0: {
+                String[] tmp = {"1.2299848E120", "*", "2"};
+                _q = new Question("1.2299848E120*2", "2.4599696E+120", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 1: {
+                String[] tmp = {"2", "*", "1.2299848E120"};
+                _q = new Question("2*1.2299848E120", "2.4599696E+120", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            // TODO: google の 電卓では 答えは5.5511151E-17だった。この誤差が妥当なものかは調査が必要
+            case 2:{
+                String[] tmp = {"2.7755575E-17", "*", "2"};
+                _q = new Question("2.7755575E-17*2", "5.5511150E-17", tmp, "");
+
+                break;
+            }
+            case 3:{
+                String[] tmp = {"-2.7755575E-17", "*", "2"};
+                _q = new Question("-2.7755575E-17*2", "-5.5511150E-17", tmp, "");
+
+                break;
+            }
+            case 4:{
+                String[] tmp = {"2", "*", "2.7755575E-17"};
+                _q = new Question("2*2.7755575E-17", "5.5511150E-17", tmp, "");
+                break;
+            }
+            case 5:{
+                String[] tmp = {"2", "*", "2.7755575E-17"};
+                _q = new Question("2*2.7755575E-17", "5.5511150E-17", tmp, "");
+                break;
+            }
+            case 6:{
+                String[] tmp = {"2", "*", "-2.7755575E-17"};
+                _q = new Question("2*-2.7755575E-17", "-5.5511150E-17", tmp, "");
+                break;
+            }
+            case 7:{
+                String[] tmp = {"2", "*", "-2.7755575E-17", "*", "10000"};
+//                _q = new Question("2*-2.7755575E-17*10000", "-5.5511150E-17", tmp, "");
+                _q = new Question("2*-2.7755575E-17*10000", "-5.55111500000E-13", tmp, "");
+                break;
+            }
+            case 8: {
+                String[] tmp = {"-2", "*", "1.2299848E120", "*", "-3"};
+                _q = new Question("-2*1.2299848E120*-3", "7.3799088E+120", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 9: {
+                String[] tmp = {"-2", "*", "(", "1.2299848E120",")", "*", "-3"};
+                _q = new Question("-2*(1.2299848E120)*-3", "7.3799088E+120", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+        }
+        return _q;
+    }
+
 }

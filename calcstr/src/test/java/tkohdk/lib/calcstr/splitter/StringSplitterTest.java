@@ -1,11 +1,11 @@
 package tkohdk.lib.calcstr.splitter;
 
-import tkohdk.lib.calcstr.TestQuestions;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import tkohdk.lib.calcstr.TestQuestions;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,11 +18,12 @@ public class StringSplitterTest {
         StringSplitter sp = new StringSplitter();
 
         TestQuestions.TestQuestionType[] tp = {
-            TestQuestions.TestQuestionType.Basic,
-            TestQuestions.TestQuestionType.ManyOperator,
-            TestQuestions.TestQuestionType.UI,
-            TestQuestions.TestQuestionType.Comma,
-            TestQuestions.TestQuestionType.Impossible
+                TestQuestions.TestQuestionType.Basic,
+                TestQuestions.TestQuestionType.ManyOperator,
+                TestQuestions.TestQuestionType.UI,
+                TestQuestions.TestQuestionType.Comma,
+                TestQuestions.TestQuestionType.Impossible,
+                TestQuestions.TestQuestionType.ScientificNotation
         };
 
         for (TestQuestions.TestQuestionType type : tp) {
