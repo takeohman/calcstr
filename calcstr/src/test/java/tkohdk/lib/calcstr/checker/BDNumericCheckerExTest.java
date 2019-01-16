@@ -13,5 +13,6 @@ public class BDNumericCheckerExTest {
         assertEquals("1", bd.getNumericValue("--1"));
         assertEquals("-1", bd.getNumericValue("---1"));
         assertEquals("1", bd.getNumericValue("----1"));
+        assertEquals("1000", bd.getNumericValue("----1,000"));
     }
 }

@@ -13,6 +13,10 @@ import tkohdk.lib.calcstr.TokenCalculator;
 public class RPNCalculator implements TokenCalculator{
     private Calculator calculator;
 
+    /**
+     *
+     * @param mc MathContext
+     */
     public RPNCalculator(MathContext mc){
         this.calculator = new BigDecimalCalculator(mc);
     }

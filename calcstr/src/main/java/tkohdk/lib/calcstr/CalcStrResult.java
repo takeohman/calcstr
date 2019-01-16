@@ -69,7 +69,12 @@ public class CalcStrResult {
 
     /**
      * get the answer of calculation in string.
-     * @return string
+     * @return string or null
+     *
+     * The returned value can be null or an empty string.
+     *
+     * null              : expected exception has occurred.
+     * "" (empty string) : unexpected exception has occurred such as the exception caused by memory shortage.
      */
     public String getAns(){
         String ans = null;

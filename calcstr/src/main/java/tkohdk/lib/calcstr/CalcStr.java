@@ -19,6 +19,10 @@ public class CalcStr {
     private StringListTokenizer stringListTokenizer;
 
 
+    /**
+     *
+     * @param mc MathContext
+     */
     public CalcStr(MathContext mc){
         this.tokenCalculator = new RPNCalculator(mc);
         this.stringListTokenizer = new StringListTokenizer(
@@ -27,6 +31,11 @@ public class CalcStr {
         );
     }
 
+    /**
+     *
+     * @param problemStr String
+     * @return CalcStrResult
+     */
     public CalcStrResult calculate(String problemStr){
         TokenElementObject ansElm = null;
         TokenElementList pbmTokenObjList = null;

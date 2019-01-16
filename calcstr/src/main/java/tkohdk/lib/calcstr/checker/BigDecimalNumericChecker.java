@@ -14,6 +14,11 @@ public class BigDecimalNumericChecker extends NumericChecker{
         return this.getNumericValue(num) != null;
     }
 
+    /**
+     *
+     * @param num 対象の文字列
+     * @return String or null
+     */
     @Override
     public String getNumericValue(String num){
         try {
