@@ -75,7 +75,7 @@ public class TokenElement extends TokenElementObject{
      * Return Number Object if it's possible.
      * @return Number or null
      */
-    public Number getNumberObject(){
+    public BigDecimal getNumberObject(){
         if (this.numeric_str != null){
             return new BigDecimal(this.numeric_str);
         }

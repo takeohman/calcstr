@@ -3,8 +3,8 @@ package tkohdk.lib.calcstr.tokenizer;
 import java.math.BigDecimal;
 
 public class NumericTokenElement extends TokenElementObject {
-    protected Number bc;
-    public NumericTokenElement(int index, Number bc){
+    protected BigDecimal bc;
+    public NumericTokenElement(int index, BigDecimal bc){
         super(index);
         this.bc = bc;
     }
@@ -15,7 +15,7 @@ public class NumericTokenElement extends TokenElementObject {
     }
 
     @Override
-    public Number getNumberObject() {
+    public BigDecimal getNumberObject() {
         return this.bc;
     }
 

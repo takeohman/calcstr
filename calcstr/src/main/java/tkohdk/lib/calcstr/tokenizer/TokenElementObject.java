@@ -1,5 +1,7 @@
 package tkohdk.lib.calcstr.tokenizer;
 
+import java.math.BigDecimal;
+
 public abstract class TokenElementObject {
     protected Boolean isValid;
     protected int index;  // 式中のインデックス
@@ -54,7 +56,7 @@ public abstract class TokenElementObject {
      * get Number object directly
      * @return Number or null
      */
-    abstract public Number getNumberObject();
+    abstract public BigDecimal getNumberObject();
 
     /**
      *
