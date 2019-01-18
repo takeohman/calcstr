@@ -997,7 +997,7 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
         return _q;
     }
 
-    public Question get_scientific_notaion(int index) {
+    public Question get_scientific_notation(int index) {
         Question _q = null;
         switch (index) {
             case 0: {
@@ -1055,6 +1055,25 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
             case 9: {
                 String[] tmp = {"-2", "*", "(", "1.2299848E120",")", "*", "-3"};
                 _q = new Question("-2*(1.2299848E120)*-3", "7.3799088E+120", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 10: {
+                String[] tmp = {"2", "*", "100E10", "+", "7"};
+                _q = new Question("2*100E10+7", "2000000000007", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 11: {
+                String[] tmp = {"100E10", "*", "2"};
+                _q = new Question("100E10*2", "2.00E+12", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+
+            case 12: {
+                String[] tmp = {"(", "100E10" ,")", "*", "2"};
+                _q = new Question("(100E10)*2", "2.00E+12", tmp, "");
                 _q.setIsAmbiguous(true);
                 break;
             }
