@@ -1077,6 +1077,25 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q.setIsAmbiguous(true);
                 break;
             }
+            //
+            case 13: {
+                String[] tmp = {"2", "*", "100e10", "+", "7"};
+                _q = new Question("2*100e10+7", "2000000000007", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 14: {
+                String[] tmp = {"100e10", "*", "2"};
+                _q = new Question("100e10*2", "2.00E+12", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 15: {
+                String[] tmp = {"(", "100e10" ,")", "*", "2"};
+                _q = new Question("(100e10)*2", "2.00E+12", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
         }
         return _q;
     }
