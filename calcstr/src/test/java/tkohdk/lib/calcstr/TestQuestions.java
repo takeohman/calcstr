@@ -988,7 +988,7 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q = new Question("100,000 + 2,000", "102000", tmp, "");
                 break;
             }
-            case 3: {
+            case 2: {
                 String[] tmp = {"100,000.123", "+", "2,000"};
                 _q = new Question("100,000.123 + 2,000", "102000.123", tmp, "");
                 break;
@@ -1093,6 +1093,24 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
             case 15: {
                 String[] tmp = {"(", "100e10" ,")", "*", "2"};
                 _q = new Question("(100e10)*2", "2.00E+12", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 16: {
+                String[] tmp = {"2", "*", "1,000e10", "+", "7"};
+                _q = new Question("2*1,000e10+7", "20000000000007", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 17: {
+                String[] tmp = {"1,000e10", "*", "2"};
+                _q = new Question("1,000e10*2", "2.000E+13", tmp, "");
+                _q.setIsAmbiguous(true);
+                break;
+            }
+            case 18: {
+                String[] tmp = {"(", "1,000e10" ,")", "*", "2"};
+                _q = new Question("(1,000e10)*2", "2.000E+13", tmp, "");
                 _q.setIsAmbiguous(true);
                 break;
             }
