@@ -1049,71 +1049,87 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
             case 8: {
                 String[] tmp = {"-2", "*", "1.2299848E120", "*", "-3"};
                 _q = new Question("-2*1.2299848E120*-3", "7.3799088E+120", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
             case 9: {
                 String[] tmp = {"-2", "*", "(", "1.2299848E120",")", "*", "-3"};
                 _q = new Question("-2*(1.2299848E120)*-3", "7.3799088E+120", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
             case 10: {
                 String[] tmp = {"2", "*", "100E10", "+", "7"};
                 _q = new Question("2*100E10+7", "2000000000007", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
             case 11: {
                 String[] tmp = {"100E10", "*", "2"};
                 _q = new Question("100E10*2", "2.00E+12", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
 
             case 12: {
                 String[] tmp = {"(", "100E10" ,")", "*", "2"};
                 _q = new Question("(100E10)*2", "2.00E+12", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
             //
             case 13: {
                 String[] tmp = {"2", "*", "100e10", "+", "7"};
                 _q = new Question("2*100e10+7", "2000000000007", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
             case 14: {
                 String[] tmp = {"100e10", "*", "2"};
                 _q = new Question("100e10*2", "2.00E+12", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
             case 15: {
                 String[] tmp = {"(", "100e10" ,")", "*", "2"};
                 _q = new Question("(100e10)*2", "2.00E+12", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
             case 16: {
                 String[] tmp = {"2", "*", "1,000e10", "+", "7"};
                 _q = new Question("2*1,000e10+7", "20000000000007", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
             case 17: {
                 String[] tmp = {"1,000e10", "*", "2"};
                 _q = new Question("1,000e10*2", "2.000E+13", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
             case 18: {
                 String[] tmp = {"(", "1,000e10" ,")", "*", "2"};
                 _q = new Question("(1,000e10)*2", "2.000E+13", tmp, "");
-                _q.setIsAmbiguous(true);
                 break;
             }
+            case 19: {
+                String[] tmp = {"6.5,612345E114"};
+                _q = new Question("6.5,612345E114", "6.5612345E+114", tmp, "");
+                break;
+            }
+            case 20: {
+                String[] tmp = {"1","*","1.23,456E10"};
+                _q = new Question("1*1.23,456E10", "1.23456E+10", tmp, "");
+                break;
+            }
+            case 21: {
+                String[] tmp = {"1.23,456E10" ,"*", "1"};
+                _q = new Question("1.23,456E10*1", "1.23456E+10", tmp, "");
+                break;
+            }
+            case 22: {
+                String[] tmp = {"1","*","-1.23,456E10"};
+                _q = new Question("1*-1.23,456E10", "-1.23456E+10", tmp, "");
+                break;
+            }
+            case 23: {
+                String[] tmp = {"-1.23,456E10" ,"*", "1"};
+                _q = new Question("-1.23,456E10*1", "-1.23456E+10", tmp, "");
+                break;
+            }
+
+
         }
         return _q;
     }

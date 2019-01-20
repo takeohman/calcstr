@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Stack;
 
 import tkohdk.lib.calcstr.calculator.Calculator;
+import tkohdk.lib.calcstr.exception.InvalidOperatorException;
 import tkohdk.lib.calcstr.exception.NoElementException;
 import tkohdk.lib.calcstr.tokenizer.NumericTokenElement;
 import tkohdk.lib.calcstr.tokenizer.TokenElementObject;
@@ -126,6 +127,10 @@ class StackUser {
         TokenElementObject a = numericStack.pop();
 
         BigDecimal ans = this.sc.calculate(_ope.getStr(), a.getNumberObject(), b.getNumberObject());
+        if (ans == null){
+            // if ans is null, it must be caused by inputting invalid operator.
+            throw new InvalidOperatorException();
+        }
         numericStack.push(new NumericTokenElement(b.getIndex(), ans));
         return false;
     }

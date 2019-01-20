@@ -113,7 +113,8 @@ public class BigDecimalCalculator implements Calculator<BigDecimal, BigDecimal>{
     public BigDecimal calculate(String operator, BigDecimal valA, BigDecimal valB) {
         /*
             逆ポーランドの計算方法は、"operatorの場合にスタックを取り出して計算"なので
-            operatorの値は必ず演算子になるはず。それゆえ、switch文のデフォルトは"+"とまとめている。
+            operatorの値は必ず演算子になるはず。
+            case にない演算子の場合はnullを返す。
          */
         switch (operator) {
             case "^":
@@ -128,8 +129,9 @@ public class BigDecimalCalculator implements Calculator<BigDecimal, BigDecimal>{
             case "÷":
                 return this.divide(valA,valB);
             case "+":
-            default:
                 return this.add(valA,valB);
+            default:
+                return null;
         }
     }
 
