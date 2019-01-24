@@ -1128,6 +1128,18 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
                 _q = new Question("-1.23,456E10*1", "-1.23456E+10", tmp, "");
                 break;
             }
+            // case : A scientific notation value after a period(.).
+            case 24: {
+                String[] tmp = {".123,456E10" ,"*", "1"};
+                _q = new Question(".123,456E10*1", "1.23456E+9", tmp, "");
+                break;
+            }
+            // case : A scientific notation value after minus(-) and period(.) .
+            case 25: {
+                String[] tmp = {"-.123,456E10" ,"*", "1"};
+                _q = new Question("-.123,456E10*1", "-1.23456E+9", tmp, "");
+                break;
+            }
 
 
         }
