@@ -21,7 +21,7 @@ public class PriorityChecker {
 
     private static String[] p1 = {"("};
     private static String[] p3 = {"!"};
-    private static String[] p4 = {"^", "sin", "cos", "tan", "log"};
+    private static String[] p4 = {"^", "sin", "cos", "tan", "log", "E", "e"};
     private static String[] p5 = {"*", "/"};
     private static String[] p6 = {"+", "-"};
     private static String[] p7 = {")"};

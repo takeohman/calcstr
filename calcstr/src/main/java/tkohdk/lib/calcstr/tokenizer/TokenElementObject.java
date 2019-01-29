@@ -157,6 +157,8 @@ public abstract class TokenElementObject {
 
     abstract public boolean isInvolutionOperator();
 
+    abstract public boolean isEMark();
+
     abstract public boolean isBinaryOperator();
     abstract public boolean isUnaryOperator();
 }

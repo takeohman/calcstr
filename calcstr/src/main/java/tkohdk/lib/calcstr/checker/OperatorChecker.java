@@ -13,7 +13,7 @@ public class OperatorChecker implements OperatorCheckerInterface {
      * @return boolean
      */
     public boolean isOperator(String val){
-        String[] op = {"*", "/","+", "-", "×", "÷", "^", "!"};
+        String[] op = {"*", "/","+", "-", "×", "÷", "^", "!", "E", "e"};
         return Arrays.asList(op).contains(val);
     }
 
@@ -25,6 +25,7 @@ public class OperatorChecker implements OperatorCheckerInterface {
 
     @Override
     public boolean isUnaryOperator(String val) {
+        // TODO: "E", "e"
         String[] op = {"!"};
         return Arrays.asList(op).contains(val);
     }

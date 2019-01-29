@@ -18,7 +18,8 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
         SinCosTan("sin_cos_tan"),
         Log("log"),
         Comma("comma"),
-        ScientificNotation("scientific_notation");
+        ScientificNotation("scientific_notation"),
+        ScientificNotation2("scientific_notation2");
 
         String type;
         TestQuestionType(String type){
@@ -1001,142 +1002,142 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
         Question _q = null;
         switch (index) {
             case 0: {
-                String[] tmp = {"1.2299848E120", "*", "2"};
+                String[] tmp = {"1.2299848", "E", "120", "*", "2"};
                 _q = new Question("1.2299848E120*2", "2.4599696E+120", tmp, "");
                 _q.setIsAmbiguous(true);
                 break;
             }
             case 1: {
-                String[] tmp = {"2", "*", "1.2299848E120"};
+                String[] tmp = {"2", "*", "1.2299848", "E", "120"};
                 _q = new Question("2*1.2299848E120", "2.4599696E+120", tmp, "");
                 _q.setIsAmbiguous(true);
                 break;
             }
             // TODO: google の 電卓では 答えは5.5511151E-17だった。この誤差が妥当なものかは調査が必要
             case 2:{
-                String[] tmp = {"2.7755575E-17", "*", "2"};
+                String[] tmp = {"2.7755575", "E", "-", "17", "*", "2"};
                 _q = new Question("2.7755575E-17*2", "5.5511150E-17", tmp, "");
 
                 break;
             }
             case 3:{
-                String[] tmp = {"-2.7755575E-17", "*", "2"};
+                String[] tmp = {"-2.7755575","E","-","17", "*", "2"};
                 _q = new Question("-2.7755575E-17*2", "-5.5511150E-17", tmp, "");
 
                 break;
             }
             case 4:{
-                String[] tmp = {"2", "*", "2.7755575E-17"};
+                String[] tmp = {"2", "*", "2.7755575", "E", "-", "17"};
                 _q = new Question("2*2.7755575E-17", "5.5511150E-17", tmp, "");
                 break;
             }
             case 5:{
-                String[] tmp = {"2", "*", "2.7755575E-17"};
+                String[] tmp = {"2", "*", "2.7755575", "E", "-", "17"};
                 _q = new Question("2*2.7755575E-17", "5.5511150E-17", tmp, "");
                 break;
             }
             case 6:{
-                String[] tmp = {"2", "*", "-2.7755575E-17"};
+                String[] tmp = {"2", "*", "-2.7755575", "E", "-", "17"};
                 _q = new Question("2*-2.7755575E-17", "-5.5511150E-17", tmp, "");
                 break;
             }
             case 7:{
-                String[] tmp = {"2", "*", "-2.7755575E-17", "*", "10000"};
+                String[] tmp = {"2", "*", "-2.7755575", "E", "-", "17", "*", "10000"};
 //                _q = new Question("2*-2.7755575E-17*10000", "-5.5511150E-17", tmp, "");
                 _q = new Question("2*-2.7755575E-17*10000", "-5.55111500000E-13", tmp, "");
                 break;
             }
             case 8: {
-                String[] tmp = {"-2", "*", "1.2299848E120", "*", "-3"};
+                String[] tmp = {"-2", "*", "1.2299848", "E", "120", "*", "-3"};
                 _q = new Question("-2*1.2299848E120*-3", "7.3799088E+120", tmp, "");
                 break;
             }
             case 9: {
-                String[] tmp = {"-2", "*", "(", "1.2299848E120",")", "*", "-3"};
+                String[] tmp = {"-2", "*", "(", "1.2299848", "E", "120",")", "*", "-3"};
                 _q = new Question("-2*(1.2299848E120)*-3", "7.3799088E+120", tmp, "");
                 break;
             }
             case 10: {
-                String[] tmp = {"2", "*", "100E10", "+", "7"};
+                String[] tmp = {"2", "*", "100", "E", "10", "+", "7"};
                 _q = new Question("2*100E10+7", "2000000000007", tmp, "");
                 break;
             }
             case 11: {
-                String[] tmp = {"100E10", "*", "2"};
+                String[] tmp = {"100", "E", "10", "*", "2"};
                 _q = new Question("100E10*2", "2.00E+12", tmp, "");
                 break;
             }
 
             case 12: {
-                String[] tmp = {"(", "100E10" ,")", "*", "2"};
+                String[] tmp = {"(", "100", "E", "10" ,")", "*", "2"};
                 _q = new Question("(100E10)*2", "2.00E+12", tmp, "");
                 break;
             }
             //
             case 13: {
-                String[] tmp = {"2", "*", "100e10", "+", "7"};
+                String[] tmp = {"2", "*", "100", "e", "10", "+", "7"};
                 _q = new Question("2*100e10+7", "2000000000007", tmp, "");
                 break;
             }
             case 14: {
-                String[] tmp = {"100e10", "*", "2"};
+                String[] tmp = {"100", "e", "10", "*", "2"};
                 _q = new Question("100e10*2", "2.00E+12", tmp, "");
                 break;
             }
             case 15: {
-                String[] tmp = {"(", "100e10" ,")", "*", "2"};
+                String[] tmp = {"(", "100", "e", "10" ,")", "*", "2"};
                 _q = new Question("(100e10)*2", "2.00E+12", tmp, "");
                 break;
             }
             case 16: {
-                String[] tmp = {"2", "*", "1,000e10", "+", "7"};
+                String[] tmp = {"2", "*", "1,000", "e", "10", "+", "7"};
                 _q = new Question("2*1,000e10+7", "20000000000007", tmp, "");
                 break;
             }
             case 17: {
-                String[] tmp = {"1,000e10", "*", "2"};
+                String[] tmp = {"1,000", "e", "10", "*", "2"};
                 _q = new Question("1,000e10*2", "2.000E+13", tmp, "");
                 break;
             }
             case 18: {
-                String[] tmp = {"(", "1,000e10" ,")", "*", "2"};
+                String[] tmp = {"(", "1,000", "e", "10" ,")", "*", "2"};
                 _q = new Question("(1,000e10)*2", "2.000E+13", tmp, "");
                 break;
             }
             case 19: {
-                String[] tmp = {"6.5,612345E114"};
+                String[] tmp = {"6.5,612345", "E", "114"};
                 _q = new Question("6.5,612345E114", "6.5612345E+114", tmp, "");
                 break;
             }
             case 20: {
-                String[] tmp = {"1","*","1.23,456E10"};
+                String[] tmp = {"1","*","1.23,456", "E", "10"};
                 _q = new Question("1*1.23,456E10", "1.23456E+10", tmp, "");
                 break;
             }
             case 21: {
-                String[] tmp = {"1.23,456E10" ,"*", "1"};
+                String[] tmp = {"1.23,456", "E", "10" ,"*", "1"};
                 _q = new Question("1.23,456E10*1", "1.23456E+10", tmp, "");
                 break;
             }
             case 22: {
-                String[] tmp = {"1","*","-1.23,456E10"};
+                String[] tmp = {"1","*","-1.23,456", "E", "10"};
                 _q = new Question("1*-1.23,456E10", "-1.23456E+10", tmp, "");
                 break;
             }
             case 23: {
-                String[] tmp = {"-1.23,456E10" ,"*", "1"};
+                String[] tmp = {"-1.23,456", "E", "10" ,"*", "1"};
                 _q = new Question("-1.23,456E10*1", "-1.23456E+10", tmp, "");
                 break;
             }
             // case : A scientific notation value after a period(.).
             case 24: {
-                String[] tmp = {".123,456E10" ,"*", "1"};
+                String[] tmp = {".123,456", "E", "10" ,"*", "1"};
                 _q = new Question(".123,456E10*1", "1.23456E+9", tmp, "");
                 break;
             }
             // case : A scientific notation value after minus(-) and period(.) .
             case 25: {
-                String[] tmp = {"-.123,456E10" ,"*", "1"};
+                String[] tmp = {"-.123,456", "E", "10" ,"*", "1"};
                 _q = new Question("-.123,456E10*1", "-1.23456E+9", tmp, "");
                 break;
             }
@@ -1145,5 +1146,15 @@ public class TestQuestions implements Iterator<TestQuestions.Question> {
         }
         return _q;
     }
-
+    public Question get_scientific_notation2(int index) {
+        Question _q = null;
+        switch (index) {
+            case 0: {
+                String[] tmp = {"(","100","+","23", ")" + "e","4"};
+                _q = new Question("(100+23)e4", null, tmp, "");
+                break;
+            }
+        }
+        return _q;
+    }
 }

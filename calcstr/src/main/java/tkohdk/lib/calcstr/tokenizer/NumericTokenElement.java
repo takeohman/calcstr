@@ -105,6 +105,10 @@ public class NumericTokenElement extends TokenElementObject {
     public boolean isInvolutionOperator() {
         return false;
     }
+    @Override
+    public boolean isEMark(){
+        return false;
+    }
 
     @Override
     public boolean isBinaryOperator() {

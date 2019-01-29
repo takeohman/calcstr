@@ -25,7 +25,8 @@ public class CalcStrTest {
                 TestQuestions.TestQuestionType.Impossible,
                 TestQuestions.TestQuestionType.SinCosTan,
                 TestQuestions.TestQuestionType.Log,
-                TestQuestions.TestQuestionType.ScientificNotation
+                TestQuestions.TestQuestionType.ScientificNotation,
+                TestQuestions.TestQuestionType.ScientificNotation2
         };
 
         for (TestQuestions.TestQuestionType type : tp) {

@@ -185,6 +185,8 @@ public class TokenElement extends TokenElementObject{
 
     public boolean isInvolutionOperator(){return this.str.equals("^");}
 
+    public boolean isEMark(){return this.str.equals("E") || this.str.equals("e");}
+
     public boolean isBinaryOperator() {return this.ec.isBinaryOperator(this.str);}
     public boolean isUnaryOperator() {return this.ec.isUnaryOperator(this.str);}
 }
